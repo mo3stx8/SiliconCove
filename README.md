@@ -1,8 +1,9 @@
-# projectName
+# Silicon Cove 
 
 **Technologies:**
 - Composer
 - PHP
+- npm
 
 ## Installation
 
@@ -10,6 +11,7 @@
 
 ```bash
 git clone https://github.com/your-username/your-repo.git
+```bash
 cd your-repo
 composer install
 cp .env.example .env
