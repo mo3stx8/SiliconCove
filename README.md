@@ -12,7 +12,6 @@
 ```bash
 git clone https://github.com/your-username/your-repo.git
 
- markdown
 bash
 cd your-repo
 composer install
