@@ -2,7 +2,7 @@
     <div class="container">
         <!-- Brand -->
         <a class="navbar-brand" href="{{ route('index') }}">
-            <i class="fas fa-store me-2"></i> Tindahang Pinoy
+            <i class="fas fa-store me-2"></i> Silicon Cove <!-- flag -->
         </a>
 
         <!-- Mobile Toggle Button (JS-based) -->
@@ -15,8 +15,8 @@
             <div class="d-flex flex-column flex-md-row w-100 justify-content-between align-items-center">
                 <!-- Left Menu -->
                 <ul class="navbar-nav text-center text-md-start">
-                    <!-- <li class="nav-item"><a class="nav-link" href="{{ route('index') }}">Home</a></li> -->
-                    <!-- <li class="nav-item"><a class="nav-link" href="{{ route('product') }}">Product</a></li> -->
+                    <li class="nav-item"><a class="nav-link" href="{{ route('index') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('product') }}">Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}">Contact</a></li>
                 </ul>
 
@@ -37,9 +37,9 @@
                             type="button" id="userDropdown" data-bs-toggle="dropdown">
 
                             <!-- Profile Image -->
-                            <img src="{{ Auth::user()->profile_picture 
-                    ? asset('storage/profile_images/' . Auth::user()->profile_picture) 
-                    : asset('images/default-profile.jpg') }}"
+                            <img src="{{ Auth::user()->profile_picture
+                            ? asset('storage/profile_images/' . Auth::user()->profile_picture)
+                            : asset('images/default-profile.jpg') }}"
                                 class="rounded-circle me-2" width="30" height="30" alt="Profile">
                         </button>
 
@@ -64,7 +64,10 @@
                         @else
                         <!-- Login & Sign Up Buttons -->
                         <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm me-2">Log In</a>
-                        <a href="{{ route('signup') }}" class="btn btn-primary btn-sm">Sign Up</a>
+                        <a href="{{ route('signup') }}" class="btn btn-primary btn-sm">Sign Up</a> ||
+                        <a href="{{ route('admin.login') }}" class="btn btn-outline-danger btn-sm me-2">
+                            <i class="bi bi-shield-lock"></i> Admin
+                        </a>
                         @endif
                     @endif
                 </div>

@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'name' => 'Tindahang Pinoy',
-    'short_name' => 'Tindahan',
+    'name' => 'Silicon Cove',
+    'short_name' => 'SC',
     'start_url' => '/',
     'theme_color' => '#3367D6',
     'background_color' => '#ffffff',

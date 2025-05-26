@@ -12,7 +12,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-   
+
+    <!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+    
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -54,7 +57,7 @@
                     <div class="card bg-info text-white">
                         <div class="card-body">
                             <h5 class="card-title">Total Refunds</h5>
-                            <h2 class="mb-0">₱{{ number_format($totalRefunds, 2) }}</h2>
+                            <h2 class="mb-0">${{ number_format($totalRefunds, 2) }}</h2>
                             <small>Current month</small>
                         </div>
                     </div>
@@ -102,15 +105,15 @@
                                 'name' => $order->user->name,
                                 'created_at' => $order->created_at->format('Y-m-d'),
                                 'updated_at' => $order->updated_at->format('Y-m-d'),
-                                'total_amount' => '₱' . number_format($order->total_amount, 2),
+                                'total_amount' => '$' . number_format($order->total_amount, 2),
                                 'raw_status' => $order->status, // Add this line to include raw status
                                 'status' => view('partials.order-status', ['status' => $order->status])->render(),
                                 'payment_method' => ucfirst($order->payment_method),
                                 'order_id' => $order->id,
                                 'reason' => '',
                                 'refund_id' => $order->refund_no,
-                                'refund_requested_date' => $order->refund_requested_date 
-                                    ? \Carbon\Carbon::parse($order->refund_requested_date)->format('Y-m-d') 
+                                'refund_requested_date' => $order->refund_requested_date
+                                    ? \Carbon\Carbon::parse($order->refund_requested_date)->format('Y-m-d')
                                     : 'N/A',
                                 'product' => $order->product,
                                 'refund_reason' => $order->refund_reason,
@@ -149,15 +152,15 @@
                         ];
                     @endphp
 
-                    <x-data-table 
+                    <x-data-table
                         :headers="[
                             'refund_id' => 'Refund ID',
                             'order_no' => 'Order ID',
                             'name' => 'Customer',
                             'created_at' => 'Date Requested',
                             'total_amount' => 'Amount',
-                        ]" 
-                        :rows="$rows" 
+                        ]"
+                        :rows="$rows"
                         :actions="$actions"
                         route="{{ route('admin.process-refunds') }}"
                         search-key="pending_search"
@@ -167,7 +170,7 @@
                 </div>
             </div>
 
-            
+
             <!-- Recent Processed Refunds -->
             <div class="card">
                 <div class="card-header bg-success text-white">
@@ -183,13 +186,13 @@
                                 'name' => $order->user->name,
                                 'created_at' => $order->created_at->format('Y-m-d'),
                                 'updated_at' => $order->updated_at->format('Y-m-d'),
-                                'total_amount' => '₱' . number_format($order->total_amount, 2),
+                                'total_amount' => '$' . number_format($order->total_amount, 2),
                                 'raw_status' => $order->status,
                                 'status' => view('partials.order-status', ['status' => $order->status])->render(),
                                 'payment_method' => ucfirst($order->payment_method),
                                 'order_id' => $order->id,
-                                'refund_requested_date' => $order->refund_requested_date 
-                                    ? \Carbon\Carbon::parse($order->refund_requested_date)->format('Y-m-d') 
+                                'refund_requested_date' => $order->refund_requested_date
+                                    ? \Carbon\Carbon::parse($order->refund_requested_date)->format('Y-m-d')
                                     : 'N/A',
                                 'product' => $order->product,
                                 'refund_reason' => $order->refund_reason,
@@ -200,7 +203,7 @@
                             [
                                 'view' => null,
                                 'inline' => function ($row) {
-                                    $rowJson = htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8');     
+                                    $rowJson = htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8');
                                     return '<button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewRefundModal" onclick="viewRefund(' . $rowJson . ')">
                                         <i class="fa fa-eye"></i> View
                                     </button>';
@@ -209,7 +212,7 @@
                         ];
                     @endphp
 
-                    <x-data-table 
+                    <x-data-table
                         :headers="[
                             'refund_id' => 'Refund ID',
                             'order_no' => 'Order ID',
@@ -218,8 +221,8 @@
                             'updated_at' => 'Date Processed',
                             'total_amount' => 'Amount',
                             'status' => 'Status'
-                        ]" 
-                        :rows="$processedRows" 
+                        ]"
+                        :rows="$processedRows"
                         :actions="$processedActions"
                         route="{{ route('admin.process-refunds') }}"
                         search-key="processed_search"
@@ -356,12 +359,12 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            
+
             $('#pendingRefundsTable').DataTable();
             $('#processedRefundsTable').DataTable();
         });
 
-        function viewRefund(order) {    
+        function viewRefund(order) {
             console.log(order);
             // Update modal content
             $('#orderNumber').text(order.order_no);
@@ -369,14 +372,14 @@
             $('#productName').text(order.product.name);
             $('#orderDate').text(order.created_at);
             $('#paymentMethod').text(order.payment_method.toUpperCase());
-            
+
             // Format status with badge
             const statusClass = {
                 'refund_requested': 'bg-warning',
                 'refunded': 'bg-success',
                 'refund_rejected': 'bg-danger'
             }[order.raw_status] || 'bg-secondary';
-            
+
             $('#refundStatus').html(`<span class="badge ${statusClass}">${order.raw_status.replace('_', ' ').toUpperCase()}</span>`);
             $('#totalAmount').text(order.total_amount);
             $('#requestDate').text(order.refund_requested_date);
@@ -399,7 +402,7 @@
         function submitRefundAction(action) {
             if (!currentOrderId) return;
 
-            const url = action === 'approve' 
+            const url = action === 'approve'
                 ? `/admin/orders/${currentOrderId}/approve-refund`
                 : `/admin/orders/${currentOrderId}/deny-refund`;
 
@@ -410,7 +413,7 @@
                     if (response.success) {
                         // Close modal
                         $(`#${action}RefundModal`).modal('hide');
-                        
+
                         // Reload page to reflect changes
                         window.location.reload();
                     } else {

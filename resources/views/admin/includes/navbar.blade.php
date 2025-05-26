@@ -7,14 +7,6 @@
             <i class='bx bx-search icon'></i>
         </div>
     </form>
-    <!-- <a href="#" class="nav-link">
-        <i class='bx bxs-bell icon'></i>
-        <span class="badge">5</span>
-    </a> -->
-    <!-- <a href="#" class="nav-link">
-        <i class='bx bxs-message-square-dots icon'></i>
-        <span class="badge">8</span>
-    </a> -->
     <span class="divider"></span>
     <div class="profile">
         <img src="{{ (auth()->user()->profile_picture ?? '') ? asset('storage/admin_profile_images/' . auth()->user()->profile_picture) : 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyc2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60' }}" alt="">

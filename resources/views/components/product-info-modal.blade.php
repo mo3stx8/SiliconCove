@@ -13,7 +13,7 @@
                 <h4 id="modalProductName" class="fw-bold"></h4>
                 <p id="modalProductDescription" class="text-muted"></p>
                 <p id="modalProductPrice" class="text-danger fw-bold"></p>
-                 <p class="text-muted">Quantity: <span id="modalProductQuantity" class="fw-bold"></span></p>
+                <p class="text-muted">Quantity: <span id="modalProductQuantity" class="fw-bold"></span></p>
                 <p id="modalPaymentMethod" class="text-muted"></p>
                 <!-- GCash Proof of Payment Section -->
                 <div id="gcashProof" class="mt-3" style="display: none;">
@@ -47,12 +47,12 @@
 
         // Set modal content
         productImage.src = order.product?.image
-            ? `{{ asset('storage/') }}/${order.product.image}` 
+            ? `{{ asset('storage/') }}/${order.product.image}`
             : '{{ asset("storage/default-product.png") }}';
         orderNumber.textContent = `Order #: ${order.order_no}`;
         productName.textContent = 'Product: ' + order.product?.name;
         productDescription.textContent = '- ' + (order.product?.description ? order.product.description : 'No description available');
-        productPrice.textContent = `Price: ₱${parseFloat(order.product?.price).toFixed(2)}`;
+        productPrice.textContent = `Price: $${parseFloat(order.product?.price).toFixed(2)}`;
         productQuantity.textContent = order.quantity;
         paymentMethod.textContent = `Payment Method: ${order.payment_method ? order.payment_method.toUpperCase() : 'N/A'}`;
 

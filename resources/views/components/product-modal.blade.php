@@ -18,7 +18,7 @@
                         <div class="row mt-3">
                             <div class="col-6">
                                 <h6>Price:</h6>
-                                <p class="text-success">₱{{ number_format($product->product?->price, 2) }}</p>
+                                <p class="text-success">${{ number_format($product->product?->price, 2) }}</p>
                             </div>
                             <div class="col-6">
                                 <h6>Current Stock:</h6>
@@ -28,7 +28,7 @@
                         <div class="row mt-2">
                             <div class="col-6">
                                 <h6>Total Sales:</h6>
-                                <p class="text-primary">₱{{ number_format($product->total_revenue, 2) }}</p>
+                                <p class="text-primary">${{ number_format($product->total_revenue, 2) }}</p>
                             </div>
                             <div class="col-6">
                                 <h6>Units Sold:</h6>

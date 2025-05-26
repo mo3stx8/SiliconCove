@@ -14,13 +14,17 @@
                     <div class="row mt-4">
                         <!-- About Company -->
                         <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
-                            <h5 class="text-uppercase mb-4">About Tindahang Pinoy</h5>
-                            <p>
-                                Tindahang Pinoy is your trusted online marketplace for authentic Filipino products.
-                                From locally made goods to essential grocery items, we bring the best of the Philippines to your doorstep.
+                            <h5 class="text-uppercase mb-4">About Silicon Cove</h5> <!-- flag -->
+                            <p style="font-weight: bold;">
+                                Your one-stop hub for PC hardware — whether you're a gamer, developer, hacker, or
+                                everyday user.
                             </p>
                             <p>
-                                We are committed to supporting Filipino businesses and ensuring our customers receive quality products with excellent service.
+                                We provide top-quality components including processors, GPUs, motherboards,
+                                memory, storage, cooling systems, cases, peripherals, and more.
+                                From high-performance builds to essential upgrades, our store empowers individuals
+                                and companies to build, tweak, and perfect their machines. Welcome to the future of
+                                tech.
                             </p>
                         </div>
 
@@ -30,15 +34,15 @@
                             <ul class="list-unstyled">
                                 <li class="mb-3 d-flex align-items-center justify-content-center justify-content-lg-start">
                                     <i class="fas fa-map-marker-alt me-3"></i>
-                                    <span>123 Mabini St, Manila, Philippines</span>
+                                    <span>Muklla, Hadramout, Yemen</span>
                                 </li>
                                 <li class="mb-3 d-flex align-items-center justify-content-center justify-content-lg-start">
                                     <i class="fas fa-envelope me-3"></i>
-                                    <span class="text-break">support@tindahangpinoy.com</span>
+                                    <span class="text-break">mostafasa7754@gmail.com</span>
                                 </li>
                                 <li class="mb-3 d-flex align-items-center justify-content-center justify-content-lg-start">
                                     <i class="fas fa-phone me-3"></i>
-                                    <span>+63 912 345 6789</span>
+                                    <span>+967 774 316 974 </span>
                                 </li>
                                 <li class="mb-3 d-flex align-items-center justify-content-center justify-content-lg-start">
                                     <i class="fas fa-clock me-3"></i>
@@ -53,11 +57,11 @@
                             <table class="table text-center text-white">
                                 <tbody class="fw-normal">
                                     <tr>
-                                        <td>Monday - Saturday:</td>
+                                        <td>Saturday - Thrusday:</td>
                                         <td>8:00 AM - 9:00 PM</td>
                                     </tr>
                                     <tr>
-                                        <td>Sunday:</td>
+                                        <td>Friday:</td>
                                         <td>9:00 AM - 8:00 PM</td>
                                     </tr>
                                 </tbody>
@@ -75,7 +79,7 @@
 
                 <!-- Copyright -->
                 <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                    © {{ date('Y') }} Tindahang Pinoy - All Rights Reserved.
+                    © {{ date('Y') }} Silicon Cove - All Rights Reserved. <!-- flag -->
                 </div>
 
             </footer>

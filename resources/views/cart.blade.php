@@ -150,7 +150,7 @@
                             {{ $item->product->stock }}
                         </strong>
                     </td>
-                    <td data-label="Price">₱{{ number_format($item->product->price, 2) }}</td>
+                    <td data-label="Price">${{ number_format($item->product->price, 2) }}</td>
                     <td data-label="Quantity">
                         <input type="number" class="form-control quantity-input"
                             data-id="{{ $item->id }}"
@@ -160,7 +160,7 @@
                             min="1">
                     </td>
                     <td data-label="Total">
-                        <strong>₱{{ number_format($totalPrice, 2) }}</strong>
+                        <strong>${{ number_format($totalPrice, 2) }}</strong>
                     </td>
                     <td data-label="Action">
                         <button class="btn btn-danger btn-sm delete-btn"
@@ -178,7 +178,7 @@
                 <tr>
                     <td></td>
                     <td colspan="5" class="text-end"><strong id="grandTotalText">Grand Total:</strong></td>
-                    <td><strong id="grandTotalAmount">₱{{ number_format($grandTotal, 2) }}</strong></td>
+                    <td><strong id="grandTotalAmount">${{ number_format($grandTotal, 2) }}</strong></td>
                     <!-- Cart Page -->
                     <td>
                         <form id="buyNowForm" action="{{ route('cart.buy-now') }}" method="POST">
@@ -284,7 +284,7 @@
             anyChecked = true;
         });
 
-        $('#grandTotalAmount').text('₱' + total.toFixed(2).toLocaleString()); // Update grand total display
+        $('#grandTotalAmount').text('$' + total.toFixed(2).toLocaleString()); // Update grand total display
         $('#selectedItemsInput').val(selectedItems.join(',')); // Store selected items
 
         if (anyChecked) {
@@ -350,7 +350,7 @@
         // Update total price for the row
         let pricePerUnit = parseFloat($(this).data('price'));
         let totalPrice = newQuantity * pricePerUnit;
-        $(this).closest('tr').find('td:nth-child(7) strong').text('₱' + totalPrice.toFixed(2));
+        $(this).closest('tr').find('td:nth-child(7) strong').text('$' + totalPrice.toFixed(2));
 
         // Update grand total
         updateTotal();
@@ -370,7 +370,7 @@
             }
         });
 
-        $('#grandTotalAmount').text('₱' + grandTotal.toFixed(2));
+        $('#grandTotalAmount').text('$' + grandTotal.toFixed(2));
     }
 
     // Initial computation and stock check on page load

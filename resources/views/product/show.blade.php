@@ -6,10 +6,10 @@
         <!-- Product Image -->
         <div class="col-md-6 d-flex justify-content-center">
             <div class="p-3 w-100">
-                <img src="{{ asset('storage/' . $product->image) }}" 
-                     class="img-fluid rounded shadow-lg" 
-                     alt="{{ $product->name }}" 
-                     style="width: 100%; height: 400px; object-fit: cover;">
+                <img src="{{ asset('storage/' . $product->image) }}"
+                    class="img-fluid rounded shadow-lg"
+                    alt="{{ $product->name }}"
+                    style="width: 100%; height: 400px; object-fit: cover;">
             </div>
         </div>
 
@@ -18,7 +18,7 @@
             <div class="card shadow-sm p-4">
                 <h2 class="fw-bold">{{ $product->name }}</h2>
                 <p class="text-muted">{{ $product->description }}</p>
-                <h4 class="text-danger fw-bold">₱{{ number_format($product->price, 2) }}</h4>
+                <h4 class="text-danger fw-bold">${{ number_format($product->price, 2) }}</h4>
 
                 <!-- Stock Status -->
                 <p class="mt-3">
@@ -31,7 +31,7 @@
                 <!-- Quantity Input -->
                 <div class="mb-3">
                     <label for="quantity" class="form-label fw-bold">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" 
+                    <input type="number" id="quantity" name="quantity"
                            class="form-control" value="1" min="1" max="{{ $product->stock }}">
                 </div>
 

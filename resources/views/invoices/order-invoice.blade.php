@@ -81,13 +81,13 @@
                     <td>{{ $order->product->name }}</td>
                     <td>{{ $order->product->description }}</td>
                     <td>{{ $order->quantity }}</td>
-                    <td>₱{{ number_format($order->product->price, 2) }}</td>
-                    <td>₱{{ number_format($order->total_amount, 2) }}</td>
+                    <td>${{ number_format($order->product->price, 2) }}</td>
+                    <td>${{ number_format($order->total_amount, 2) }}</td>
                 </tr>
             </tbody>
         </table>
 
-        <p class="total">Grand Total: ₱{{ number_format($order->total_amount, 2) }}</p>
+        <p class="total">Grand Total: ${{ number_format($order->total_amount, 2) }}</p>
     </div>
 </body>
 </html>

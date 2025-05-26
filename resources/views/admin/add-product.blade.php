@@ -7,13 +7,18 @@
     <title>Add Products</title>
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -69,20 +74,20 @@
                             <label class="form-label">Restock Level</label>
                             <input type="number" name="restock_level" class="form-control" required>
                         </div>
-                        
+
                         <!-- category selections -->
                         <div class="mb-3">
                             <label class="form-label">Category</label>
                             <select name="category" class="form-select" required>
                                 <option value="" disabled selected>Select Category</option>
-                                    <option value="meal">meal</option>
-                                    <option value="snacks">snacks</option>
-                                    <option value="drinks">drinks</option>
-                                    <option value="desserts">desserts</option>
-                                    <option value="vegetables">vegetables</option>
-                                    <option value="fruits">fruits</option>
-                                    <option value="meat">meat</option>
-                                    <option value="others">others</option>
+                                    <option value="Processors">Processors</option>
+                                    <option value="Motherboards">Motherboards</option>
+                                    <option value="Graphics Cards">Graphics Cards</option>
+                                    <option value="Memory & Storage">Memory & Storage</option>
+                                    <option value="Power & Cooling">Power & Cooling</option>
+                                    <option value="Peripherals & Accessories">Peripherals & Accessories</option>
+                                    <option value="Cases & Builds">Cases & Builds</option>
+                                    <option value="Mod Zone">Mod Zone</option>
                             </select>
                         </div>
                         <div class="mb-3">

@@ -15,6 +15,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -48,7 +50,7 @@
                     <div class="card bg-primary text-white">
                         <div class="card-body">
                             <h5 class="card-title">Total Sales</h5>
-                            <h2 class="mb-0">₱{{ number_format($currentMonthSales, 2) }}</h2>
+                            <h2 class="mb-0">${{ number_format($currentMonthSales, 2) }}</h2>
                             <small>Current month</small>
                         </div>
                     </div>
@@ -66,7 +68,7 @@
                     <div class="card bg-info text-white">
                         <div class="card-body">
                             <h5 class="card-title">Average Order</h5>
-                            <h2 class="mb-0">₱{{ number_format($averageOrderValue, 2) }}</h2>
+                            <h2 class="mb-0">${{ number_format($averageOrderValue, 2) }}</h2>
                             <small>Current month</small>
                         </div>
                     </div>
@@ -165,7 +167,7 @@
                                     </div>
                                     <div>
                                         <span class="badge bg-primary rounded-pill me-2">
-                                            ₱{{ number_format($customer->total_spent, 2) }}
+                                            ${{ number_format($customer->total_spent, 2) }}
                                         </span>
                                         <button class="btn btn-primary btn-sm"
                                             data-bs-toggle="modal"
@@ -208,7 +210,7 @@
                                     </div>
                                     <div>
                                         <span class="badge bg-success rounded-pill me-2">
-                                            ₱{{ number_format($product->total_revenue, 2) }}
+                                            ${{ number_format($product->total_revenue, 2) }}
                                         </span>
                                         <button class="btn btn-primary btn-sm"
                                             data-bs-toggle="modal"
@@ -306,7 +308,7 @@
                 tooltip: {
                     y: {
                         formatter: function(val) {
-                            return "₱" + val.toLocaleString();
+                            return "$" + val.toLocaleString();
                         }
                     }
                 },

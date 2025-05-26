@@ -9,9 +9,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->enum('category', ['meal', 'snacks', 'drinks', 'desserts', 'vegetables', 'fruits', 'meat', 'others'])
-                  ->after('image')
-                  ->default('others');
+            $table->enum('category',
+            [
+                'Processors',
+                'Motherboards',
+                'Graphics Cards',
+                'Memory & Storage',
+                'Power & Cooling',
+                'Peripherals & Accessories',
+                'Cases & Builds',
+                'Mod Zone'
+            ])
+                ->after('image')
+                ->default('Mod Zone`')
+                ->change();
         });
     }
 

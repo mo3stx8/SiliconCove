@@ -7,13 +7,18 @@
     <title>Pending Orders</title>
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -100,7 +105,7 @@
                                 'order_no' => $order->order_no,
                                 'name' => $order->user->name,
                                 'created_at' => $order->created_at->format('Y-m-d'),
-                                'total_amount' => '₱' . number_format($order->total_amount, 2),
+                                'total_amount' => '$' . number_format($order->total_amount, 2),
                                 'raw_status' => $order->status, // Add this line to include raw status
                                 'status' => view('partials.order-status', ['status' => $order->status])->render(),
                                 'waiting_time' => $order->created_at->diffForHumans(),
@@ -285,7 +290,7 @@
                         </div>
                     `;
                     document.querySelector('.pending-orders').insertAdjacentHTML('afterbegin', alertHtml);
-                    
+
                     // Reload page after delay
                     setTimeout(() => {
                         window.location.reload();
@@ -352,7 +357,7 @@
                         </div>
                     `;
                     document.querySelector('.pending-orders').insertAdjacentHTML('afterbegin', alertHtml);
-                    
+
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000);

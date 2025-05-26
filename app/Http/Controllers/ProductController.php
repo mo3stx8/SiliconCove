@@ -24,6 +24,7 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:1',
             'restock_level' => 'nullable|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240', // 10MB limit
+            'category' => 'required|in:Processors,Motherboards,Graphics Cards,Memory & Storage,Power & Cooling,Peripherals & Accessories,Cases & Builds,Mod Zone'
         ]);
 
         $imagePath = $request->hasFile('image')
@@ -52,6 +53,7 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:1',
             'restock_level' => 'nullable|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240', // 10MB limit
+            'category' => 'required|in:Processors,Motherboards,Graphics Cards,Memory & Storage,Power & Cooling,Peripherals & Accessories,Cases & Builds,Mod Zone'
         ]);
 
         $product = Product::findOrFail($id);
@@ -141,7 +143,7 @@ class ProductController extends Controller
     ]);
 
         $product = Product::findOrFail($request->product_id);
-        
+
         // Record inventory history
         InventoryHistory::create([
             'product_id' => $product->id,

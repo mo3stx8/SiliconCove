@@ -12,6 +12,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+<link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+
+<title>
+    Silicon Cove
+</title>
 
 <style>
     .pos-wrapper {
@@ -244,7 +249,7 @@
             font-size: 0.8rem;
         }
 
-         .modal-dialog {
+        .modal-dialog {
             margin: 0;
             max-width: 100%;
             height: 100vh;
@@ -304,11 +309,11 @@
                     </div>
                 </div>
                 <div class="col-md-4 d-none d-md-block text-center">
-                    <h4 class="mb-0">TindahangPinoy</h4>
+                    <h4 class="mb-0">Silicon Cove</h4>
                 </div>
                 <div class="col-md-4 col-6 text-end">
-                    <a 
-                        href="javascript:void(0);" 
+                    <a
+                        href="javascript:void(0);"
                         class="text-decoration-none"
                         style="{{ auth()->guard('admin')->check() ? 'pointer-events: none; cursor: default; color: #6c757d; text-decoration: none;' : 'cursor: pointer' }}"
                     >
@@ -330,29 +335,29 @@
                 <button class="category-item active" onclick="performSearch('')">
                     <i class="fas fa-box-open me-2"></i> All Items
                 </button>
-                <button class="category-item" onclick="performSearch('meal')">
-                    <i class="fas fa-utensils me-2"></i> Meal
+                <button class="category-item" onclick="performSearch('Processors')">
+                    <i class="fas fa-microchip"></i> Processors
                 </button>
-                <button class="category-item" onclick="performSearch('snacks')">
-                    <i class="fas fa-cookie-bite me-2"></i> Snacks
+                <button class="category-item" onclick="performSearch('Motherboards')">
+                    <i class="fas fa-project-diagram"></i> Motherboards
                 </button>
-                <button class="category-item" onclick="performSearch('drinks')">
-                    <i class="fas fa-glass-martini-alt me-2"></i> Drinks
+                <button class="category-item" onclick="performSearch('Graphics Cards')">
+                    <i class="fas fa-desktop"></i> Graphics Cards
                 </button>
-                <button class="category-item" onclick="performSearch('desserts')">
-                    <i class="fas fa-ice-cream me-2"></i> Desserts
+                <button class="category-item" onclick="performSearch('Memory & Storage')">
+                    <i class="fas fa-memory"></i> Memory & Storage
                 </button>
-                <button class="category-item" onclick="performSearch('vegetables')">
-                    <i class="fas fa-carrot me-2"></i> Vegetables
+                <button class="category-item" onclick="performSearch('Power & Cooling')">
+                    <i class="fas fa-fan"></i> Power & Cooling
                 </button>
-                <button class="category-item" onclick="performSearch('fruits')">
-                    <i class="fas fa-apple-alt me-2"></i> Fruits
+                <button class="category-item" onclick="performSearch('Peripherals & Accessories')">
+                    <i class="fas fa-keyboard"></i> Peripherals & Accessories
                 </button>
-                <button class="category-item" onclick="performSearch('meat')">
-                    <i class="fas fa-drumstick-bite me-2"></i> Meat
+                <button class="category-item" onclick="performSearch('Cases & Builds')">
+                    <i class="fas fa-server"></i> Cases & Builds
                 </button>
-                <button class="category-item" onclick="performSearch('others')">
-                    <i class="fas fa-ellipsis-h me-2"></i> Others
+                <button class="category-item" onclick="performSearch('Mod Zone')">
+                    <i class="fas fa-tools"></i> Mod Zone
                 </button>
                 {{-- @foreach($latestProducts as $latest) --}}
                 {{-- <button class="category-item">{{ $latest->name }}</button> --}}
@@ -372,7 +377,7 @@
                 <div class="product-info">
                     <div style="height: 4rem;">
                         <h5 class="product-name">{{ $product->name }}</h5>
-                        <div class="product-price">₱{{ number_format($product->price, 2) }}</div>
+                        <div class="product-price">${{ number_format($product->price, 2) }}</div>
                     </div>
                     <button class="btn btn-primary btn-add-cart mt-3 {{ $product->stock <= 0 ? 'disabled' : '' }}"
                         data-bs-toggle="modal"
@@ -406,7 +411,7 @@
             <div class="cart-footer">
                 <div class="cart-total">
                     <span>Total:</span>
-                    <span class="price" id="cartTotal">₱0.00</span>
+                    <span class="price" id="cartTotal">$0.00</span>
                 </div>
                 <form id="buyNowForm" method="POST">
                     @csrf
@@ -420,13 +425,13 @@
         </div>
     </div>
 
-    
+
     <nav data-total-pages="{{ $products->lastPage() }}">
     <ul class="pagination justify-content-center">
         {{-- Previous Page Link --}}
-        <!-- <li class="page-item prev {{ $products->onFirstPage() ? 'disabled' : '' }}">
+        <li class="page-item prev {{ $products->onFirstPage() ? 'disabled' : '' }}">
             <a class="page-link" href="#" data-page="{{ $products->currentPage() - 1 }}" tabindex="-1">Previous</a>
-        </li> -->
+        </li>
 
         {{-- Page Links --}}
         @for ($page = 1; $page <= $products->lastPage(); $page++)
@@ -436,9 +441,9 @@
         @endfor
 
         {{-- Next Page Link --}}
-        <!-- <li class="page-item next {{ $products->currentPage() == $products->lastPage() ? 'disabled' : '' }}">
+        <li class="page-item next {{ $products->currentPage() == $products->lastPage() ? 'disabled' : '' }}">
             <a class="page-link" href="#" data-page="{{ $products->currentPage() + 1 }}">Next</a>
-        </li> -->
+        </li>
     </ul>
 </nav>
 
@@ -522,7 +527,7 @@
                         <div class="border-top mt-3 pt-3">
                             <h5 class="d-flex justify-content-between">
                                 <span>Total Amount:</span>
-                                <span class="text-primary" id="modalTotalAmount">₱0.00</span>
+                                <span class="text-primary" id="modalTotalAmount">$0.00</span>
                             </h5>
                         </div>
                     </div>
@@ -533,21 +538,21 @@
                         <div class="mb-3">
                             <label class="form-label">Amount Due</label>
                             <div class="input-group">
-                                <span class="input-group-text">₱</span>
+                                <span class="input-group-text">$</span>
                                 <input type="text" class="form-control" id="amountDue" readonly>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Cash Received</label>
                             <div class="input-group">
-                                <span class="input-group-text">₱</span>
+                                <span class="input-group-text">$</span>
                                 <input type="number" class="form-control" id="cashReceived" onInput="calculateChange()">
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Change</label>
                             <div class="input-group">
-                                <span class="input-group-text">₱</span>
+                                <span class="input-group-text">$</span>
                                 <input type="text" class="form-control" id="changeAmount" readonly>
                             </div>
                         </div>
@@ -574,16 +579,16 @@
 <div id="receiptTemplate" style="display: none;">
     <div class="receipt-container" style="width: 300px; padding: 20px; font-family: 'Courier New', Courier, monospace;">
         <div style="text-align: center; margin-bottom: 20px;">
-            <h3>TindahangPinoy</h3>
+            <h3>Silicon Cove</h3>
             <p>Official Receipt</p>
             <p>Date: <span id="receiptDate"></span></p>
             <p>Transaction #: <span id="receiptTransactionNo"></span></p>
         </div>
         <div id="receiptItems" style="margin-bottom: 20px;"></div>
         <div style="border-top: 1px dashed #000; padding-top: 10px;">
-            <p><strong>Total Amount:</strong> ₱<span id="receiptTotal"></span></p>
-            <p><strong>Cash Received:</strong> ₱<span id="receiptCashReceived"></span></p>
-            <p><strong>Change:</strong> ₱<span id="receiptChange"></span></p>
+            <p><strong>Total Amount:</strong> $<span id="receiptTotal"></span></p>
+            <p><strong>Cash Received:</strong> $<span id="receiptCashReceived"></span></p>
+            <p><strong>Change:</strong> $<span id="receiptChange"></span></p>
         </div>
         <div style="text-align: center; margin-top: 20px;">
             <p>Thank you for shopping!</p>
@@ -669,7 +674,7 @@
             // Set modal content
             document.getElementById("modalProductImage").src = productImage;
             document.getElementById("modalProductName").textContent = productName;
-            document.getElementById("modalProductPrice").textContent = "Price: ₱" + productPrice.toFixed(2);
+            document.getElementById("modalProductPrice").textContent = "Price: $" + productPrice.toFixed(2);
             document.getElementById("modalProductStock").textContent = "Stock: " + stock;
             document.getElementById("modalProductId").value = productId;
             document.getElementById("modalQuantity").value = "1";
@@ -770,11 +775,11 @@
                 <div>
                     <h6 class="mb-0">${item.name}</h6>
                     <small class="text-muted">
-                        ${item.quantity} × ₱${parseFloat(item.price).toFixed(2)}
+                        ${item.quantity} × $${parseFloat(item.price).toFixed(2)}
                     </small>
                 </div>
                 <div class="d-flex align-items-center">
-                    <span class="me-3">₱${parseFloat(item.total).toFixed(2)}</span>
+                    <span class="me-3">$${parseFloat(item.total).toFixed(2)}</span>
                     <button class="btn btn-sm btn-danger" onclick="removeFromCart('${item.id}')">
                         <i class="fa fa-trash"></i>
                     </button>
@@ -784,7 +789,7 @@
     `).join('') || '<div class="text-center text-muted py-3">Cart is empty</div>';
 
         // Update total with proper formatting
-        document.getElementById('cartTotal').textContent = `₱${total.toFixed(2)}`;
+        document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
 
         // Toggle checkout button
         document.getElementById('checkoutBtn').disabled = cartItems.length === 0;
@@ -857,7 +862,7 @@
             // Update modal content
             document.getElementById('modalProductImage').src = data.image;
             document.getElementById('modalProductName').textContent = data.name;
-            document.getElementById('modalProductPrice').textContent = `Price: ₱${parseFloat(data.price).toFixed(2)}`;
+            document.getElementById('modalProductPrice').textContent = `Price: $${parseFloat(data.price).toFixed(2)}`;
             document.getElementById('modalProductStock').textContent = `Stock: ${data.stock}`;
             document.getElementById('modalProductId').value = data.id;
             document.getElementById('modalQuantity').value = "1";
@@ -1016,7 +1021,7 @@
                 const data = this.dataset;
                 document.getElementById('modalProductImage').src = data.image;
                 document.getElementById('modalProductName').textContent = data.name;
-                document.getElementById('modalProductPrice').textContent = `Price: ₱${parseFloat(data.price).toFixed(2)}`;
+                document.getElementById('modalProductPrice').textContent = `Price: $${parseFloat(data.price).toFixed(2)}`;
                 document.getElementById('modalProductStock').textContent = `Stock: ${tempStocks.get(data.id) || data.stock}`;
                 document.getElementById('modalProductId').value = data.id;
                 document.getElementById('modalQuantity').value = "1";
@@ -1115,21 +1120,20 @@
         <div class="d-flex justify-content-between align-items-center mb-2">
             <div>
                 <h6 class="mb-0">${item.name}</h6>
-                <small class="text-muted">${item.quantity} × ₱${parseFloat(item.price).toFixed(2)}</small>
+                <small class="text-muted">${item.quantity} × $${parseFloat(item.price).toFixed(2)}</small>
             </div>
-            <span class="text-end">₱${parseFloat(item.total).toFixed(2)}</span>
+            <span class="text-end">$${parseFloat(item.total).toFixed(2)}</span>
         </div>
     `).join('');
 
         // Set initial values
-        document.getElementById('modalTotalAmount').textContent = `₱${total.toFixed(2)}`;
+        document.getElementById('modalTotalAmount').textContent = `$${total.toFixed(2)}`;
         document.getElementById('amountDue').value = total.toFixed(2);
         document.getElementById('cashReceived').value = '';
         document.getElementById('changeAmount').value = '';
 
         adminCheckoutModal.show();
     }
-
     function calculateChange() {
         const amountDue = parseFloat(document.getElementById('amountDue').value);
         const cashReceived = parseFloat(document.getElementById('cashReceived').value) || 0;
@@ -1169,8 +1173,8 @@
         const itemsHtml = cartItems.map(item => `
         <div style="margin-bottom: 10px;">
             <div>${item.name}</div>
-            <div>${item.quantity} × ₱${parseFloat(item.price).toFixed(2)}</div>
-            <div style="text-align: right;">₱${parseFloat(item.total).toFixed(2)}</div>
+            <div>${item.quantity} × $${parseFloat(item.price).toFixed(2)}</div>
+            <div style="text-align: right;">$${parseFloat(item.total).toFixed(2)}</div>
         </div>
     `).join('');
         document.getElementById('receiptItems').innerHTML = itemsHtml;
@@ -1279,7 +1283,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close sidebars when clicking outside
     document.addEventListener('click', (e) => {
-        if (!categorySidebar.contains(e.target) && 
+        if (!categorySidebar.contains(e.target) &&
             !cartSidebar.contains(e.target) &&
             !e.target.matches('#categoryToggle') &&
             !e.target.matches('.cart-toggle')) {

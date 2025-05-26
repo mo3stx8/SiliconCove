@@ -87,10 +87,10 @@
                     <!-- GCash Payment Section -->
                     <div id="gcashSection" class="d-none">
                         <div class="text-center mb-3">
-                            <img src="{{ asset('images/gcash-qr.jpg') }}" 
-                                 alt="GCash QR Code" class="img-fluid" width="200" height="200">
+                            <img src="{{ asset('images/gcash-qr.jpg') }}"
+                                alt="GCash QR Code" class="img-fluid" width="200" height="200">
                             <p class="mt-2">GCash Number: 09959958045</p>
-                            <p>Amount to Pay: ₱{{ number_format($grandTotal, 2) }}</p>
+                            <p>Amount to Pay: ${{ number_format($grandTotal, 2) }}</p>
                         </div>
 
                         <div class="mb-3">
@@ -142,14 +142,14 @@
                             <td><img src="{{ asset('storage/' . $item->product->image) }}" class="img-thumbnail" width="50"></td>
                             <td>{{ $item->product->name }}</td>
                             <td>{{ $item->quantity }}</td>
-                            <td>₱{{ number_format($totalPrice, 2) }}</td>
+                            <td>${{ number_format($totalPrice, 2) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot class="table-dark">
                     <tr>
                         <td colspan="3" class="text-end"><strong>Total Amount:</strong></td>
-                        <td><strong>₱{{ number_format($grandTotal, 2) }}</strong></td>
+                        <td><strong>${{ number_format($grandTotal, 2) }}</strong></td>
                     </tr>
                 </tfoot>
             </table>

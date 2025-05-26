@@ -85,7 +85,7 @@
                                         {{ $statusLabel }}
                                     </span>
                                 </td>
-                                <td>₱{{ number_format($order->total_amount, 2) }}</td>
+                                <td>${{ number_format($order->total_amount, 2) }}</td>
                                 <td>
                                     <div class="btn-group gap-1">
                                         <button class="btn btn-primary btn-sm"
@@ -168,7 +168,7 @@
                     <!-- Refund Reason -->
                     <div class="mb-3">
                         <label for="refundReason" class="form-label fw-bold">Reason for Refund</label>
-                        <textarea class="form-control" id="refundReason" name="refund_reason" 
+                        <textarea class="form-control" id="refundReason" name="refund_reason"
                                   rows="4" required minlength="10"
                                   placeholder="Please provide a detailed explanation for your refund request..."></textarea>
                         <div class="invalid-feedback">
@@ -208,7 +208,7 @@
         document.getElementById('refundOrderId').value = order.id;
         document.getElementById('refundOrderNo').textContent = order.order_no;
         document.getElementById('refundOrderDate').textContent = new Date(order.created_at).toLocaleDateString();
-        document.getElementById('refundOrderAmount').textContent = '₱' + parseFloat(order.total_amount).toLocaleString(undefined, {
+        document.getElementById('refundOrderAmount').textContent = '$' + parseFloat(order.total_amount).toLocaleString(undefined, {
             minimumFractionDigits: 2
         });
         document.getElementById('refundPaymentMethod').textContent = order.payment_method.toUpperCase();

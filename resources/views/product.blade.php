@@ -5,6 +5,10 @@
 <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/contacts/contact-1/assets/css/contact-1.css">
 
 
+<link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+
+<title>Silicon Cove</title>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -56,25 +60,25 @@
             <div class="card h-100 shadow-sm">
                 <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}">
                 <div class="card-body">
-    <h5 class="card-title">{{ $product->name }}</h5>
-    <p class="card-text">{{ $product->description }}</p>
-    <p class="text-muted">Stock: <strong>{{ $product->stock }}</strong></p> <!-- Display stock -->
+                    <h5 class="card-title">{{ $product->name }}</h5>
+                    <p class="card-text">{{ $product->description }}</p>
+                    <p class="text-muted">Stock: <strong>{{ $product->stock }}</strong></p> <!-- Display stock -->
 
-    <div class="d-flex justify-content-between align-items-center">
-        <span class="h5 mb-0">₱{{ number_format($product->price, 2) }}</span>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="h5 mb-0">${{ number_format($product->price, 2) }}</span>
 
-        <button class="btn btn-outline-primary add-to-cart-btn"
-            data-bs-toggle="modal"
-            data-bs-target="#addToCartModal"
-            data-id="{{ $product->id }}"
-            data-name="{{ $product->name }}"
-            data-price="{{ $product->price }}"
-            data-stock="{{ $product->stock }}"   
-            data-image="{{ asset('storage/' . $product->image) }}">
-            <i class="bi bi-cart-plus"></i> Add to Cart
-        </button>
-    </div>
-</div>
+                        <button class="btn btn-outline-primary add-to-cart-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addToCartModal"
+                            data-id="{{ $product->id }}"
+                            data-name="{{ $product->name }}"
+                            data-price="{{ $product->price }}"
+                            data-stock="{{ $product->stock }}"
+                            data-image="{{ asset('storage/' . $product->image) }}">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -132,7 +136,7 @@
 
                productImage.src = this.getAttribute("data-image");
                productName.textContent = this.getAttribute("data-name");
-               productPrice.textContent = "Price: ₱" + parseFloat(this.getAttribute("data-price")).toFixed(2);
+               productPrice.textContent = "Price: $" + parseFloat(this.getAttribute("data-price")).toFixed(2);
                productStock.textContent = "Stock: " + stock;
                productId.value = this.getAttribute("data-id");
 

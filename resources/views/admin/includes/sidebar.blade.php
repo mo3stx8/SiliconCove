@@ -1,7 +1,7 @@
 <!-- SIDEBAR -->
 <section id="sidebar">
     <a href="/" class="brand text-decoration-none">
-        <i class="fas fa-store me-2"></i> Tindahang Pinoy
+        <i class="fas fa-store me-2"></i> Silicon Cove 
     </a>
     <ul class="side-menu">
         <!-- Add 'active' class if the current route is 'admin.dashboard' -->

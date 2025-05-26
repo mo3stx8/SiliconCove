@@ -21,6 +21,7 @@
                         <div class="carousel-caption bg-dark bg-opacity-50 rounded p-2">
                             <h5 class="text-white fw-bold">Authentic Filipino Products</h5>
                         </div>
+                        Not Found
                     </div>
                     <div class="carousel-item">
                         <img src="https://th.bing.com/th/id/OIP.zDkf2YykFtKkmgtm8RbMUAHaEx?w=298&h=191&c=7&r=0&o=5&dpr=1.3&pid=1.7"
@@ -64,9 +65,9 @@
         </div>
 
         <!-- Welcome Message -->
-        <h1 class="jumbotron-heading text-primary fw-bold">Welcome to Tindahang Pinoy</h1>
+        <h1 class="jumbotron-heading text-primary fw-bold">Welcome to Silicon Cove</h1>
         <p class="lead text-muted">
-            Welcome to <strong>Tindahang Pinoy</strong> – your one-stop shop for authentic Filipino products! 🇵🇭
+            Welcome to <strong>Silicon Cove</strong> – your one-stop shop for authentic Filipino products! 🇵🇭
             From delicious local delicacies to must-have essentials, we bring the best of the Philippines straight to your doorstep.
             Shop with confidence and enjoy fast, secure, and hassle-free shopping.
             <strong>Maraming salamat sa iyong pagtangkilik!</strong> 🛒✨

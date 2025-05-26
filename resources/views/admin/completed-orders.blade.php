@@ -7,11 +7,16 @@
     <title>Completed Orders</title>
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-   
+
+    <!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -57,7 +62,7 @@
                                 'name' => $order->user->name ?? '(in_person)',
                                 'created_at' => $order->created_at->format('Y-m-d'),
                                 'completed_at' => $order->updated_at->format('Y-m-d'),
-                                'total_amount' => '₱' . number_format($order->total_amount, 2),
+                                'total_amount' => '$' . number_format($order->total_amount, 2),
                                 'payment_method' => strtoupper($order->payment_method),
                                 'product' => $order->product, // Pass product data
                                 'proof_of_payment' => $order->proof_of_payment,
@@ -74,7 +79,7 @@
                                                     </button>';
 
                                     $invoiceBtn = '<a href="' . route('admin.orders.invoice', $row['order_no']) . '" class="btn btn-secondary btn-sm invoice-btn" onclick="handleInvoiceClick(event, this)">
-                                                        <i class="fa fa-file-pdf invoice-icon"></i> 
+                                                        <i class="fa fa-file-pdf invoice-icon"></i>
                                                         <span class="invoice-text">Invoice</span>
                                                         <span class="loading-spinner d-none">
                                                             <i class="fas fa-spinner fa-spin"></i>
@@ -87,7 +92,7 @@
                         ];
                     @endphp
 
-                    <x-data-table 
+                    <x-data-table
                         :headers="[
                             'id' => '#',
                             'order_no' => 'Order ID',
@@ -149,7 +154,7 @@
 
     <!-- ApexCharts JS -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    
+
     <!-- Chart Initialization -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -195,27 +200,27 @@
             chart.render();
         });
     </script>
-    
+
     <!-- Add this script before the closing body tag -->
     <script>
     function handleInvoiceClick(event, button) {
         // Prevent default action
         event.preventDefault();
-        
+
         // Disable button
         button.classList.add('disabled');
-        
+
         // Hide invoice icon and text, show spinner
         button.querySelector('.invoice-icon').classList.add('d-none');
         button.querySelector('.invoice-text').classList.add('d-none');
         button.querySelector('.loading-spinner').classList.remove('d-none');
-        
+
         // Get the href
         const url = button.getAttribute('href');
-        
+
         // Navigate to the invoice URL
         window.location.href = url;
-        
+
         // Reset button after a short delay (for cases where the page might not navigate)
         setTimeout(() => {
             button.classList.remove('disabled');

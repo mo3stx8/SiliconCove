@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -46,7 +48,7 @@
                     <h3 class="card-title">Product List</h3>
                 </div>
                 <div class="card-body">
-                    <x-data-table 
+                    <x-data-table
                         :headers="[
                             'id' => '#',
                             'image' => 'Image',
@@ -54,8 +56,8 @@
                             'description' => 'Description',
                             'price' => 'Price',
                             'stock' => 'Stock'
-                        ]" 
-                        :rows="$rows" 
+                        ]"
+                        :rows="$rows"
                         :actions="$actions"
                         route="{{ route('admin.view-products') }}"
                     />
@@ -101,14 +103,14 @@
                                     <label class="form-label">Category</label>
                                     <select name="category" class="form-select" id="editProductCategory" required>
                                         <option value="" disabled selected>Select Category</option>
-                                            <option value="meal">meal</option>
-                                            <option value="snacks">snacks</option>
-                                            <option value="drinks">drinks</option>
-                                            <option value="desserts">desserts</option>
-                                            <option value="vegetables">vegetables</option>
-                                            <option value="fruits">fruits</option>
-                                            <option value="meat">meat</option>
-                                            <option value="others">others</option>
+                                            <option value="Processors">Processors</option>
+                                            <option value="Motherboards">Motherboards</option>
+                                            <option value="Graphics Cards">Graphics Cards</option>
+                                            <option value="Memory & Storage">Memory & Storage</option>
+                                            <option value="Power & Cooling">Power & Cooling</option>
+                                            <option value="Peripherals & Accessories">Peripherals & Accessories</option>
+                                            <option value="Cases & Builds">Cases & Builds</option>
+                                            <option value="Mod Zone">Mod Zone</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -195,7 +197,7 @@
             }
         });
     </script>
- 
+
 <!-- Include jQuery & DataTables JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>

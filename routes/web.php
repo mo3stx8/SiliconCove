@@ -21,7 +21,7 @@ use App\Http\Middleware\UserAdmin;
 //     return view('index');
 // })->name('index');
 
-// 🔹 Other Pages 
+// 🔹 Other Pages
 Route::get('/product', [ProductController::class, 'index'])->name('product');
 Route::view('/contact', 'contact')->name('contact');
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/my-account/addresses/storeOrUpdate', [AccountController::class, 'storeOrUpdateAddress'])->name('addresses.storeOrUpdate');
 });
 
-// 🔹 User Authentication
+//  🔹 User Authentication
 Route::get('/signup', [AuthController::class, 'showSignup'])->name('signup');
 Route::post('/signup', [AuthController::class, 'signup'])->name('signup.submit');
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

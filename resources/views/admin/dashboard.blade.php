@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tindahang Pinoy - Dashboard</title>
+    <title>Silicon Cove - Dashboard</title>
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     <!-- Bootstrap 5 -->
@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- Chart.js for Data Visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 </head>
 <body>
     @include('admin.includes.sidebar')
@@ -40,7 +42,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Total Products -->
                 <div class="col-6 col-md-2 mb-3" style="cursor: pointer;" onclick="window.location='{{ route('admin.view-products') }}'">
                     <div class="card text-white bg-info h-100">
@@ -51,12 +53,12 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Total Sales -->
                 <div class="col-12 col-md-3 mb-3">
                     <div class="card text-white bg-success h-100">
                         <div class="card-body">
-                            <h2 class="card-title">₱{{ number_format($totalSales, 2) }}</h2>
+                            <h2 class="card-title">${{ number_format($totalSales, 2) }}</h2>
                             <p class="card-text">Total Sales</p>
                             <i class="fa fa-shopping-cart fa-2x"></i>
                         </div>
@@ -73,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Low Stock Alert -->
                 <div class="col-6 col-md-2 mb-3">
                     <div class="card text-white bg-danger h-100" style="cursor:pointer;" onclick="scrollToDailySalesDetail()">
@@ -154,7 +156,7 @@
                                             <td>{{ $order->order_no }}</td>
                                             <td>{{ $order->product ? $order->product->name : 'N/A' }}</td>
                                             <td>{{ $order->quantity }}</td>
-                                            <td>₱{{ number_format($order->total_amount, 2) }}</td>
+                                            <td>${{ number_format($order->total_amount, 2) }}</td>
                                             <td>{{ ucfirst($order->payment_method) }}</td>
                                             <td>{{ ucfirst($order->status) }}</td>
                                         </tr>
@@ -267,8 +269,8 @@
                                         <tr>
                                             <td>{{ $transaction->order_no }}</td>
                                             <td>{{ $transaction->product->name }}</td>
-                                            <td>₱{{ number_format($transaction->product->price, 2) }}</td>
-                                            <td>₱{{ number_format($transaction->total_amount) }}</td>
+                                            <td>${{ number_format($transaction->product->price, 2) }}</td>
+                                            <td>${{ number_format($transaction->total_amount) }}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -309,8 +311,8 @@
                                             <td>{{ ucfirst($history->type) }}</td>
                                             <td>{{ $history->quantity_before }}</td>
                                             <td>{{ $history->quantity_after }}</td>
-                                            <td>₱{{ number_format($history->purchase_price_before, 2) }}</td>
-                                            <td>₱{{ number_format($history->purchase_price_after, 2) }}</td>
+                                            <td>${{ number_format($history->purchase_price_before, 2) }}</td>
+                                            <td>${{ number_format($history->purchase_price_after, 2) }}</td>
                                             <td>{{ $history->notes }}</td>
                                         </tr>
                                         @endforeach
@@ -328,7 +330,7 @@
     </section>
     <!-- NAVBAR -->
     <!-- MAIN -->
-    
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -354,7 +356,7 @@
                         <div class="mb-3">
                             <label class="form-label">Purchase Price</label>
                             <div class="input-group">
-                                <span class="input-group-text">₱</span>
+                                <span class="input-group-text">$</span>
                                 <input placeholder="leave empty same price before ..." type="number" name="purchase_price" class="form-control" step="0.01">
                             </div>
                         </div>
@@ -404,7 +406,7 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return '₱' + value.toLocaleString();
+                                return '$' + value.toLocaleString();
                             }
                         }
                     }
@@ -431,7 +433,7 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return '₱' + value.toLocaleString();
+                                return '$' + value.toLocaleString();
                             }
                         }
                     }
@@ -485,7 +487,7 @@
             new bootstrap.Modal(document.getElementById('restockModal')).show();
         };
 
-    
+
 
     function getMonthName(monthNumber) {
         return new Date(2000, monthNumber - 1).toLocaleString('default', { month: 'long' });

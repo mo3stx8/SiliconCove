@@ -15,6 +15,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -48,7 +50,7 @@
                     <div class="card bg-primary text-white">
                         <div class="card-body">
                             <h5 class="card-title">Total Sales</h5>
-                            <h2 class="mb-0">₱{{ number_format($currentMonthSales, 2) }}</h2>
+                            <h2 class="mb-0">${{ number_format($currentMonthSales, 2) }}</h2>
                             <small>Current month</small>
                         </div>
                     </div>
@@ -66,7 +68,7 @@
                     <div class="card bg-info text-white">
                         <div class="card-body">
                             <h5 class="card-title">Average Order</h5>
-                            <h2 class="mb-0">₱{{ number_format($averageOrderValue, 2) }}</h2>
+                            <h2 class="mb-0">${{ number_format($averageOrderValue, 2) }}</h2>
                             <small>Current month</small>
                         </div>
                     </div>
@@ -232,7 +234,7 @@
                 tooltip: {
                     y: {
                         formatter: function(val) {
-                            return "₱" + val.toLocaleString();
+                            return "$" + val.toLocaleString();
                         }
                     }
                 },
@@ -288,7 +290,7 @@
                             <strong>${customer.user.name}</strong>
                             <div class="text-muted small">${customer.purchase_count} purchases</div>
                         </div>
-                        <span class="badge bg-primary rounded-pill">₱${Number(customer.total_spent).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                        <span class="badge bg-primary rounded-pill">$${Number(customer.total_spent).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
                     </li>
                 `).join('') :
                 `<li class="list-group-item text-center">No customer data available</li>`;

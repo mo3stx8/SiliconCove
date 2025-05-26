@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div class="mx-auto mb-3" style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%;">
                     <img src="{{ ($customer->user->profile_picture ?? '')
-                        ? asset('storage/profile_images/' . $customer->user->profile_picture) 
+                        ? asset('storage/profile_images/' . $customer->user->profile_picture)
                         : asset('images/default-profile.jpg') }}"
                         class="w-100 h-100" style="object-fit: cover;" alt="Profile Picture">
                 </div>
@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <span><i class="fas fa-coins me-2"></i>Total Spent:</span>
-                                    <strong class="text-primary">₱{{ number_format($customer->total_spent, 2) }}</strong>
+                                    <strong class="text-primary">${{ number_format($customer->total_spent, 2) }}</strong>
                                 </div>
                             </div>
                         </div>

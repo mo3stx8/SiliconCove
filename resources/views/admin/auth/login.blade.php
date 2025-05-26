@@ -2,7 +2,7 @@
 
 @section('title', 'Admin Login')
 
-@section('content') 
+@section('content')
 
 <!-- Centered Container -->
 <div class="d-flex justify-content-center align-items-center vh-100">
