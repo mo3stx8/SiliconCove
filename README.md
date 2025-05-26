@@ -12,5 +12,4 @@
 ```bash
 git clone https://github.com/mo3stx7/SiliconCove.git
 ```
-```
-cd repo-name
+```cd repo-name```
