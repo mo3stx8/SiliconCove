@@ -11,7 +11,6 @@
 
 ```bash
 git clone https://github.com/your-username/your-repo.git
-```bash
 cd your-repo
 composer install
 cp .env.example .env
