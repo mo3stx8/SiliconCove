@@ -11,7 +11,4 @@
 
 ```bash
 git clone https://github.com/username/repo-name.git
-
-
-
-j
+cd repo-name
