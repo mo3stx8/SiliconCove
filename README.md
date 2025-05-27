@@ -76,4 +76,4 @@ php artisan serve
 
 ## 📝 Contributing:
 
-If you have any ideas to make it more interesting, [please send a DM me at](mailto:mostafasa7754@gmail.com) or Call me:+967774316974.
+If you have any ideas to make it more interesting, [please send a DM me at mostafasa7754@gmail.com](mailto:mostafasa7754@gmail.com) or Call me:+967774316974.
