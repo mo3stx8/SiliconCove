@@ -41,11 +41,11 @@ class AccountController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'phone' => ['required', 'string', 'regex:/^09\d{9}$/', 'size:11'],
+            'phone' => ['required', 'string', 'regex:/^7\d{8}$/', 'size:9'],
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
-            'phone.regex' => 'The phone number must start with 09 and contain 11 digits.',
-            'phone.size' => 'The phone number must be exactly 11 digits.',
+            'phone.regex' => 'The phone number must start with 7 and contain 9 digits.',
+            'phone.size' => 'The phone number must be exactly 9 digits.',
         ]);
 
         if ($request->hasFile('profile_picture')) {
