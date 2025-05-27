@@ -1,11 +1,19 @@
-# Silicon Cove 
+## ✨Silicon Cove 
 
-**Technologies:**
+E-commerce build with Laravel 12 and MySql.
+![Screenshot from 2025-05-27 09-36-51](https://github.com/user-attachments/assets/39734a6b-74f6-48a9-b887-99c89d3ea57b)
+
+## 😎Technologies:
 - Composer
 - PHP (Laravel X12)
 - npm
+- JavaScript
+- Blade
+- Bootstrap
+- Vite
+- MySQL
 
-## Installation
+## 🚀 Installation
 
 1. Clone the repository:
 
@@ -16,7 +24,7 @@ git clone https://github.com/mo3stx7/SiliconCove.git
 2. Go to the repository 
 
 ```bash
-cd repo-name
+cd SiliconCove
 ```
 
 3. Install Packages
@@ -39,7 +47,7 @@ php artisan key:generate
 
 6. Setting up your database credentials in your `.env` file.
 
-7. Create the Database after 
+7. Create the Database after set up the `.env` file
 
 8. Seed Database: 
 
@@ -55,6 +63,7 @@ php artisan storage:link
 
 10. Install NPM dependencies 
 
+
 ```bash
 npm install && npm run dev
 ```
@@ -64,3 +73,7 @@ npm install && npm run dev
 ```bash
 php artisan serve
 ```
+
+## 📝 Contributing:
+
+If you have any ideas to make it more interesting, [please send a DM me at](mailto:mostafasa7754@gmail.com) or Call me:+967774316974.
