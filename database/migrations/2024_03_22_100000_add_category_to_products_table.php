@@ -21,8 +21,7 @@ return new class extends Migration
                 'Mod Zone'
             ])
                 ->after('image')
-                ->default('Mod Zone`')
-                ->change();
+                ->default('Mod Zone');
         });
     }
 

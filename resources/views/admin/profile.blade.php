@@ -11,9 +11,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -33,6 +34,7 @@
                 @csrf
                 <div class="col-md-4 text-center">
                     <div class="mb-3">
+                        {{-- @php dd($admin->profile_picture); @endphp --}}
                         <img src="{{ $admin->profile_picture ? asset('storage/admin_profile_images/' . $admin->profile_picture) : 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyc2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60' }}"
                             class="rounded-circle img-thumbnail" width="150" height="150" alt="Profile Picture">
                     </div>

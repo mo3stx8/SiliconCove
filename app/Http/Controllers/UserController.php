@@ -17,7 +17,7 @@ class UserController extends Controller
             $search = $request->get('search');
             $query->where(function($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('email', 'like', '%' . $search . '%');
+                ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
 
@@ -41,7 +41,7 @@ class UserController extends Controller
             [
                 'view' => null,
                 'inline' => function ($row) {
-                    return '<button class="btn btn-danger btn-sm" data-bs-toggle="modal" 
+                    return '<button class="btn btn-danger btn-sm" data-bs-toggle="modal"
                             data-bs-target="#deleteUserModal" onclick="setDeleteUser(' . $row['user_id'] . ')">
                             <i class="fa fa-trash"></i> Delete
                         </button>';
@@ -52,7 +52,7 @@ class UserController extends Controller
         return view('admin.all-users', compact('users', 'rows', 'actions'));
     }
 
-    public function destroy($id) 
+    public function destroy($id)
     {
         $user = User::findOrFail($id);
         $user->delete();

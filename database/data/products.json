@@ -1,0 +1,114 @@
+[
+    {
+        "name": "Intel Core i9-13900K",
+        "description": "13th Gen Intel Core i9 processor, 24 cores (8P+16E), up to 5.8GHz, unlocked for overclocking, ideal for high-end gaming and content creation.",
+        "price": 589.99,
+        "category": "Processors",
+        "stock": 100
+    },
+    {
+        "name": "AMD Ryzen 9 7950X",
+        "description": "AMD Ryzen 7000 series, 16 cores / 32 threads, 4.5GHz base clock up to 5.7GHz boost, optimized for gaming and professional workloads.",
+        "price": 699.99,
+        "category": "Processors",
+        "stock": 100
+    },
+    {
+        "name": "ASUS ROG Strix Z790-E",
+        "description": "Premium Intel Z790 motherboard, supports DDR5 memory, PCIe 5.0, advanced cooling and networking for high-performance builds.",
+        "price": 449.99,
+        "category": "Motherboards",
+        "stock": 100
+    },
+    {
+        "name": "MSI B650 Tomahawk",
+        "description": "AMD B650 motherboard with robust power delivery, DDR5 support, PCIe 4.0 slots, and high-quality audio for gaming builds.",
+        "price": 229.99,
+        "category": "Motherboards",
+        "stock": 100
+    },
+    {
+        "name": "NVIDIA GeForce RTX 4090",
+        "description": "Flagship GPU from NVIDIA, 24GB GDDR6X, ultimate 4K and AI performance for gaming and creative workloads.",
+        "price": 1599.99,
+        "category": "Graphics Cards",
+        "stock": 100
+    },
+    {
+        "name": "AMD Radeon RX 7900 XTX",
+        "description": "Top-end AMD GPU, 24GB GDDR6, excellent 4K gaming performance, ray tracing and AI-enhanced graphics support.",
+        "price": 999.99,
+        "category": "Graphics Cards",
+        "stock": 100
+    },
+    {
+        "name": "Corsair Vengeance DDR5 32GB (2x16GB) 6000MHz",
+        "description": "High-speed DDR5 memory kit optimized for gaming and multitasking, low latency and reliable performance.",
+        "price": 179.99,
+        "category": "Memory & Storage",
+        "stock": 100
+    },
+    {
+        "name": "Samsung 980 Pro 2TB NVMe SSD",
+        "description": "Ultra-fast PCIe Gen4 NVMe SSD, 2TB capacity, high durability and read/write speeds for gaming and content creation.",
+        "price": 249.99,
+        "category": "Memory & Storage",
+        "stock": 100
+    },
+    {
+        "name": "Corsair RM1000x 1000W PSU",
+        "description": "High-efficiency 80+ Gold power supply, fully modular, quiet operation, designed for high-end gaming and workstation builds.",
+        "price": 239.99,
+        "category": "Power & Cooling",
+        "stock": 100
+    },
+    {
+        "name": "Noctua NH-D15 CPU Cooler",
+        "description": "Premium air cooler, dual tower design, excellent thermal performance, quiet operation for overclocked CPUs.",
+        "price": 109.99,
+        "category": "Power & Cooling",
+        "stock": 100
+    },
+    {
+        "name": "Logitech G502 HERO Gaming Mouse",
+        "description": "High-performance wired gaming mouse with 16000 DPI sensor, customizable buttons, and RGB lighting.",
+        "price": 49.99,
+        "category": "Peripherals & Accessories",
+        "stock": 100
+    },
+    {
+        "name": "Razer BlackWidow V3 Keyboard",
+        "description": "Mechanical gaming keyboard with Razer Green switches, customizable RGB lighting, and durable design.",
+        "price": 139.99,
+        "category": "Peripherals & Accessories",
+        "stock": 100
+    },
+    {
+        "name": "NZXT H510 Elite Case",
+        "description": "Premium mid-tower case with tempered glass, optimized airflow, and modern cable management for custom builds.",
+        "price": 149.99,
+        "category": "Cases & Builds",
+        "stock": 100
+    },
+    {
+        "name": "Phanteks Eclipse P500A",
+        "description": "High airflow ATX case with mesh front panel, versatile interior for water cooling, and RGB options.",
+        "price": 129.99,
+        "category": "Cases & Builds",
+        "stock": 100
+    },
+    {
+        "name": "SiliconCove Gamer Build",
+        "description": "Custom gaming build with Intel Core i7, NVIDIA RTX 4070, 16GB DDR5, 1TB NVMe SSD, fully tested and ready to play.",
+        "price": 1799.99,
+        "category": "Mod Zone",
+        "stock": 100
+    },
+    {
+        "name": "SiliconCove Creator Build",
+        "description": "Workstation build for creators with AMD Ryzen 9, NVIDIA RTX 4080, 32GB RAM, 2TB NVMe, optimized for video editing and 3D rendering.",
+        "price": 2499.99,
+        "category": "Mod Zone",
+        "stock": 100
+    }
+]

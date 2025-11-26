@@ -21,7 +21,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:1',
+            'stock' => 'required|integer|min:0',
             'restock_level' => 'nullable|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240', // 10MB limit
             'category' => 'required|in:Processors,Motherboards,Graphics Cards,Memory & Storage,Power & Cooling,Peripherals & Accessories,Cases & Builds,Mod Zone'
