@@ -64,7 +64,7 @@
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/mo3stx7/SiliconCove.git
+git clone https://github.com/mo3stx8/SiliconCove.git
 ```
 
 2. **Go to the repository** 
@@ -124,8 +124,5 @@ php artisan serve
 
 If you have any ideas to make it more interesting, [please send a DM me at mostafasa7754@gmail.com](mailto:mostafasa7754@gmail.com) or Call me:+967774316974.
 
-## 🤝Team Member:
+## 🤝Developed By:
 - **Aogolo**
-- **Autimd**
-- **Ahmed**
-- **Abdullah**
