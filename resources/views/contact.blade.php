@@ -13,8 +13,6 @@
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
 @include('includes.navbar');
-
-
 <div class="container">
     <div class="row">
         <div class="col">
