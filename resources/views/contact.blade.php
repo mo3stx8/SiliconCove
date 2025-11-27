@@ -6,7 +6,6 @@
 <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 
 <title>Silicon Cove</title>
-
 <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/contacts/contact-1/assets/css/contact-1.css">
 <meta name="csrf-token" content="{{ csrf_token() }}">
