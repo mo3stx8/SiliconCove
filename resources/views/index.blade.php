@@ -268,7 +268,7 @@
 </style>
 
 @include('includes.navbar')
-{{-- @include('includes.introduction') --}}
+@include('includes.introduction')
 
 <!-- ✅ Breadcrumb -->
 <div class="container d-none">

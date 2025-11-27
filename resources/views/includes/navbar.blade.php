@@ -103,30 +103,6 @@
 <!-- Bootstrap JS (Ensure it's included) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // $(document).on('click', '.add-to-cart-btn', function(e) {
-    //     e.preventDefault();
-
-    //     let productId = $(this).data('id'); // Get product ID
-
-    //     $.ajax({
-    //         url: "{{ route('cart.add') }}",
-    //         method: "POST",
-    //         data: {
-    //             product_id: productId,
-    //             _token: "{{ csrf_token() }}"
-    //         },
-    //         success: function(response) {
-    //             if (response.success) {
-    //                 $(".cart-count").text(response.cart_count); // Update cart count to show unique products
-    //                 alert(response.message);
-    //             }
-    //         },
-    //         error: function() {
-    //             alert("Error adding to cart.");
-    //         }
-    //     });
-    // });
-
     // Custom JS toggle for mobile navbar
     document.addEventListener('DOMContentLoaded', function() {
         var toggler = document.getElementById('customNavbarToggler');

@@ -1,7 +1,8 @@
 @extends('layouts.layout')
 
 @section('title', 'Sign Up')
-
+<!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 @section('content')
 <!-- Breadcrumb -->
 <div class="row">

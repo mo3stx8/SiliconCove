@@ -1,3 +1,5 @@
+<!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 <div class="modal fade" id="viewCustomerModal{{ $customer->user->id ?? '' }}" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

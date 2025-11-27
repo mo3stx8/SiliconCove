@@ -1,7 +1,8 @@
 @extends('layouts.layout')
 
 @section('title', 'Login')
-
+<!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 @section('content')
 
 <!-- Breadcrumb -->
@@ -124,7 +125,7 @@
             if (errorModal) {
                 var bsErrorModal = new bootstrap.Modal(errorModal);
                 var errorMessage = document.getElementById('errorMessage');
-                
+
                 @if(session('error'))
                     errorMessage.innerText = "{{ session('error') }}";
                 @elseif($errors->has('email'))
@@ -134,7 +135,7 @@
                 @else
                     errorMessage.innerText = "Login failed. Please try again.";
                 @endif
-                
+
                 bsErrorModal.show();
             }
         @endif

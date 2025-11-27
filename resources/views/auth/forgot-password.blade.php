@@ -1,7 +1,8 @@
 @extends('layouts.layout')
 
 @section('title', 'Forgot Password')
-
+<!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

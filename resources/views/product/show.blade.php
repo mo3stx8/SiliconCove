@@ -1,5 +1,6 @@
 @extends('layouts.layout')
-
+<!-- website icon -->
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 @section('content')
 <div class="container py-5">  <!-- Added padding top and bottom -->
     <div class="row align-items-center">

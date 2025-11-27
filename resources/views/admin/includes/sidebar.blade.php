@@ -1,7 +1,7 @@
 <!-- SIDEBAR -->
 <section id="sidebar">
     <a href="/" class="brand text-decoration-none">
-        <i class="fas fa-store me-2"></i> Silicon Cove 
+        <i class="fas fa-store me-5"></i>SiliconCove
     </a>
     <ul class="side-menu">
         <!-- Add 'active' class if the current route is 'admin.dashboard' -->
