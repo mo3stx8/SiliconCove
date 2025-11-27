@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/contacts/contact-1/assets/css/contact-1.css">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-
+{{-- navbar --}}
 @include('includes.navbar');
 <div class="container">
     <div class="row">
