@@ -1,0 +1,78 @@
+@keyframes arrow-bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.highlight {
+    border: 2px solid red;
+    animation: arrow-bounce 1s infinite;
+}
+
+.arrow {
+    display: inline-block;
+    font-size: 20px;
+    color: red;
+    animation: arrow-bounce 1s infinite;
+}
+
+/* 🔹 Center align payment section */
+.payment-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* 🔹 Add spacing between sections */
+.section-spacing {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Center content for the entire page */
+.checkout-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Order summary section */
+.order-summary {
+    margin: 30px auto;
+}
+
+/* Add some card styling */
+.address-card,
+.payment-card {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.address-card {
+    min-height: 200px;
+}
+
+.address-details {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.address-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
