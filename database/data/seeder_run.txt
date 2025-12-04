@@ -1,0 +1,2 @@
+**this command used to upload json files that contains products ether new or od to update**
+php artisan db:seed --class=ProductsSeeder

@@ -1,0 +1,130 @@
+[
+    {
+        "name": "Intel Core i7-13700K",
+        "description": "13th Gen Intel Core i7 processor, 16 cores (8P+8E), up to 5.4GHz, ideal for high-performance gaming and multitasking.",
+        "price": 429.99,
+        "category": "Processors",
+        "stock": 100,
+        "image": "products/intel_i7_13700k.jpg"
+    },
+    {
+        "name": "AMD Ryzen 7 7800X",
+        "description": "AMD Ryzen 7000 series processor, 8 cores / 16 threads, up to 5.0GHz boost clock, optimized for gaming and content creation.",
+        "price": 399.99,
+        "category": "Processors",
+        "stock": 100,
+        "image": "products/amd_ryzen_7800x.jpg"
+    },
+    {
+        "name": "Gigabyte Z790 AORUS Elite",
+        "description": "High-performance Intel Z790 motherboard with DDR5 support, PCIe 5.0, advanced thermal design and enhanced connectivity.",
+        "price": 349.99,
+        "category": "Motherboards",
+        "stock": 100,
+        "image": "products/gigabyte_z790_aorus_elite.jpg"
+    },
+    {
+        "name": "ASRock B650M Steel Legend",
+        "description": "Durable AMD B650 motherboard, DDR5 ready, PCIe 4.0, excellent power design and audio quality for gaming builds.",
+        "price": 219.99,
+        "category": "Motherboards",
+        "stock": 100,
+        "image": "products/asrock_b650m_steel_legend.jpg"
+    },
+    {
+        "name": "NVIDIA GeForce RTX 4080",
+        "description": "High-end GPU with 16GB GDDR6X memory, top-notch 4K performance and ray tracing capabilities for gaming and creation.",
+        "price": 1199.99,
+        "category": "Graphics Cards",
+        "stock": 100,
+        "image": "products/rtx_4080.jpg"
+    },
+    {
+        "name": "AMD Radeon RX 7800 XT",
+        "description": "Powerful AMD GPU with 16GB GDDR6, excellent 1440p and 4K performance, perfect for gaming and multimedia work.",
+        "price": 699.99,
+        "category": "Graphics Cards",
+        "stock": 100,
+        "image": "products/rx_7800_xt.jpg"
+    },
+    {
+        "name": "Corsair Vengeance DDR5 32GB 5600MHz",
+        "description": "Fast DDR5 memory kit optimized for gaming and multitasking, low latency, reliable and stylish design.",
+        "price": 159.99,
+        "category": "Memory & Storage",
+        "stock": 100,
+        "image": "products/corsair_ddr5_32gb.jpg"
+    },
+    {
+        "name": "Crucial P5 Plus 1TB NVMe SSD",
+        "description": "High-speed PCIe Gen4 NVMe SSD with 1TB capacity, durable and optimized for fast booting and gaming load times.",
+        "price": 129.99,
+        "category": "Memory & Storage",
+        "stock": 100,
+        "image": "products/crucial_p5_plus_1tb.jpg"
+    },
+    {
+        "name": "EVGA SuperNOVA 850 G5 PSU",
+        "description": "Fully modular 80+ Gold PSU, 850W, quiet operation, stable power delivery for high-end gaming and workstation builds.",
+        "price": 169.99,
+        "category": "Power & Cooling",
+        "stock": 100,
+        "image": "products/evga_850w_psu.jpg"
+    },
+    {
+        "name": "be quiet! Dark Rock Pro 4 Cooler",
+        "description": "High-performance air cooler, silent operation, excellent thermal design for overclocked CPUs.",
+        "price": 89.99,
+        "category": "Power & Cooling",
+        "stock": 100,
+        "image": "products/dark_rock_pro_4.jpg"
+    },
+    {
+        "name": "Logitech G Pro X Superlight Mouse",
+        "description": "Ultra-lightweight wireless gaming mouse, HERO 25K sensor, perfect for esports and fast-paced games.",
+        "price": 149.99,
+        "category": "Peripherals & Accessories",
+        "stock": 100,
+        "image": "products/logitech_g_pro_x.jpg"
+    },
+    {
+        "name": "SteelSeries Apex Pro Keyboard",
+        "description": "Mechanical gaming keyboard with customizable OmniPoint switches, RGB lighting, and durable aluminum frame.",
+        "price": 199.99,
+        "category": "Peripherals & Accessories",
+        "stock": 100,
+        "image": "products/steelseries_apex_pro.jpg"
+    },
+    {
+        "name": "Lian Li PC-O11 Dynamic Case",
+        "description": "Mid-tower case with tempered glass, excellent airflow, modular interior, perfect for custom water-cooled builds.",
+        "price": 139.99,
+        "category": "Cases & Builds",
+        "stock": 100,
+        "image": "products/lian_li_pc_o11.jpg"
+    },
+    {
+        "name": "Fractal Design Meshify C",
+        "description": "Compact mid-tower case with high airflow, mesh front panel, easy cable management, ideal for gaming setups.",
+        "price": 109.99,
+        "category": "Cases & Builds",
+        "stock": 100,
+        "image": "products/meshify_c.jpg"
+    },
+    {
+        "name": "SiliconCove Ultimate Gamer Build",
+        "description": "High-end gaming PC with Intel i7-13700K, RTX 4080, 32GB DDR5, 1TB NVMe, fully tested and ready for 4K gaming.",
+        "price": 2199.99,
+        "category": "Mod Zone",
+        "stock": 100,
+        "image": "products/ultimate_gamer_build.jpg"
+    },
+    {
+        "name": "SiliconCove Creator Pro Build",
+        "description": "Workstation for professionals with AMD Ryzen 9 7800X, RTX 4080, 64GB RAM, 2TB NVMe, optimized for video editing and 3D rendering.",
+        "price": 2999.99,
+        "category": "Mod Zone",
+        "stock": 100,
+        "image": "products/creator_pro_build.jpg"
+    }
+]
