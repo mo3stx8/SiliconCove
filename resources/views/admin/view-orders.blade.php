@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- website icon -->
-    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -96,7 +96,7 @@
                                 'id' => $orders->firstItem() + $index,
                                 'order_no' => $order->order_no,
                                 'order_id' => $order->id,
-                                'name' => $order->user->name ?? '(in person)',
+                                'name' => $order->user->name ?? '(Admin)',
                                 'created_at' => $order->created_at->format('Y-m-d'),
                                 'total_amount' => '$' . number_format($order->total_amount, 2),
                                 'status' => view('partials.order-status', ['status' => $order->status])->render(),

@@ -7,9 +7,10 @@
 <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/contacts/contact-1/assets/css/contact-1.css">
 
 
-<link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+<!-- website icon -->
+    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 
-<title>Silicon Cove</title>
+<title>Silicon Cove - Products</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet">

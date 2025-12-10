@@ -2,10 +2,10 @@
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-{{-- website icon --}}
-<link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+<!-- website icon -->
+    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 
-<title>Silicon Cove</title>
+<title>Silicon Cove - Contact</title>
 <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/contacts/contact-1/assets/css/contact-1.css">
 <meta name="csrf-token" content="{{ csrf_token() }}">

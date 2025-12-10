@@ -2,7 +2,7 @@
 
 @section('title', 'Admin Login')
 <!-- website icon -->
-    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 @section('content')
 
 <!-- Centered Container -->

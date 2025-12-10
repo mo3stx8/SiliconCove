@@ -23,4 +23,26 @@ class ForgotPasswordController extends Controller
             ? back()->with(['success' => __($status)])
             : back()->withErrors(['email' => __($status)]);
     }
+
+    public function reset(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => bcrypt($password),
+                ])->save();
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? redirect()->route('login')->with('success', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
+    }
 }

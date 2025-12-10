@@ -13,7 +13,7 @@
     <!-- Chart.js for Data Visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- website icon -->
-    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 </head>
 <body>
     @include('admin.includes.sidebar')

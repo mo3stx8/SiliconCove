@@ -61,6 +61,19 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
+// عرض صفحة إعادة تعيين كلمة المرور
+Route::get('/reset-password/{token}', function ($token) {
+    return view('auth.reset-password', [
+        'token' => $token,
+        'email' => request()->query('email'), // pass the email as well
+    ]);
+})->name('password.reset');
+
+// تنفيذ عملية إعادة تعيين كلمة المرور
+Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])
+    ->name('password.update');
+
+
 // 🔹 Cart Routes (Protected for Logged-in Users)
 Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

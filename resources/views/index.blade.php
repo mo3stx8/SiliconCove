@@ -10,7 +10,8 @@
 <!-- Laravel Assets -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-<link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+<!-- website icon -->
+    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 
 
 <title>
