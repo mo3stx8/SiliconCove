@@ -11,8 +11,8 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 <!-- website icon -->
-    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
-
+<link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/png">
+<link rel="shortcut icon" href="{{ asset('images/siliconcovelogo.png') }}">
 
 <title>
     Silicon Cove
@@ -34,19 +34,19 @@
 <div class="pos-wrapper" style="margin-top:3rem;">
     <div class="container mt-3">
         @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fa fa-check-circle me-2"></i>
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fa fa-check-circle me-2"></i>
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         @endif
 
         @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fa fa-exclamation-circle me-2"></i>
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fa fa-exclamation-circle me-2"></i>
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         @endif
     </div>
     <!-- Top Navigation -->
@@ -55,19 +55,18 @@
             <div class="row align-items-center">
                 <div class="col-md-4 col-6">
                     <div class="input-group">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Search products..." value="{{ request('query') }}">
-                        <button class="btn btn-light" type="button" id="searchButton"><i class="fa fa-search"></i></button>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search products..."
+                            value="{{ request('query') }}">
+                        <button class="btn btn-light" type="button" id="searchButton"><i
+                                class="fa fa-search"></i></button>
                     </div>
                 </div>
                 <div class="col-md-4 d-none d-md-block text-center">
                     <h4 class="mb-0">Silicon Cove</h4>
                 </div>
                 <div class="col-md-4 col-6 text-end">
-                    <a
-                        href="javascript:void(0);"
-                        class="text-decoration-none"
-                        style="{{ auth()->guard('admin')->check() ? 'pointer-events: none; cursor: default; color: #6c757d; text-decoration: none;' : 'cursor: pointer' }}"
-                    >
+                    <a href="javascript:void(0);" class="text-decoration-none"
+                        style="{{ auth()->guard('admin')->check() ? 'pointer-events: none; cursor: default; color: #6c757d; text-decoration: none;' : 'cursor: pointer' }}">
                         <button class="btn btn-primary cart-toggle">
                             <i class="fa fa-shopping-cart"></i>
                             <span class="badge bg-danger">0</span>
@@ -110,7 +109,7 @@
                 <button class="category-item" onclick="performSearch('Mod Zone')">
                     <i class="fas fa-tools"></i> Mod Zone
                 </button>
-                {{-- @foreach($latestProducts as $latest) --}}
+                {{-- @foreach ($latestProducts as $latest) --}}
                 {{-- <button class="category-item">{{ $latest->name }}</button> --}}
                 {{-- @endforeach --}}
             </div>
@@ -118,35 +117,31 @@
         <!-- Products Grid -->
         <div class="products-grid">
             @forelse($products as $product)
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
-                    <div class="stock-badge {{ $product->stock > 0 ? 'in-stock' : 'out-stock' }}">
-                        {{ $product->stock > 0 ? $product->stock . ' left' : 'Out of Stock' }}
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                        <div class="stock-badge {{ $product->stock > 0 ? 'in-stock' : 'out-stock' }}">
+                            {{ $product->stock > 0 ? $product->stock . ' left' : 'Out of Stock' }}
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div style="height: 4rem;">
+                            <h5 class="product-name">{{ $product->name }}</h5>
+                            <div class="product-price">${{ number_format($product->price, 2) }}</div>
+                        </div>
+                        <button class="btn btn-primary btn-add-cart mt-3 {{ $product->stock <= 0 ? 'disabled' : '' }}"
+                            data-bs-toggle="modal" data-bs-target="#addToCartModal" data-id="{{ $product->id }}"
+                            data-name="{{ $product->name }}" data-image="{{ asset('storage/' . $product->image) }}"
+                            data-price="{{ $product->price }}" data-stock="{{ $product->stock }}">
+                            <i class="fa fa-plus"></i> Add to Cart
+                        </button>
                     </div>
                 </div>
-                <div class="product-info">
-                    <div style="height: 4rem;">
-                        <h5 class="product-name">{{ $product->name }}</h5>
-                        <div class="product-price">${{ number_format($product->price, 2) }}</div>
-                    </div>
-                    <button class="btn btn-primary btn-add-cart mt-3 {{ $product->stock <= 0 ? 'disabled' : '' }}"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addToCartModal"
-                        data-id="{{ $product->id }}"
-                        data-name="{{ $product->name }}"
-                        data-image="{{ asset('storage/' . $product->image) }}"
-                        data-price="{{ $product->price }}"
-                        data-stock="{{ $product->stock }}">
-                        <i class="fa fa-plus"></i> Add to Cart
-                    </button>
-                </div>
-            </div>
             @empty
-            <div class="no-products">
-                <i class="fa fa-exclamation-circle"></i>
-                <p>No products found</p>
-            </div>
+                <div class="no-products">
+                    <i class="fa fa-exclamation-circle"></i>
+                    <p>No products found</p>
+                </div>
             @endforelse
         </div>
 
@@ -168,7 +163,8 @@
                     @csrf
                     <input type="hidden" name="selected_product_items" id="selectedItemsInput">
                     <input type="hidden" name="selected_product_quantities" id="quantitiesInput">
-                    <button type="button" class="btn btn-success btn-lg w-100" id="checkoutBtn" onclick="handleCheckoutClick()">
+                    <button type="button" class="btn btn-success btn-lg w-100" id="checkoutBtn"
+                        onclick="handleCheckoutClick()">
                         <i class="fa fa-check-circle me-2"></i>Place Order
                     </button>
                 </form>
@@ -178,31 +174,33 @@
 
 
     <nav data-total-pages="{{ $products->lastPage() }}">
-    <ul class="pagination justify-content-center">
-        {{-- Previous Page Link --}}
-        <li class="page-item prev {{ $products->onFirstPage() ? 'disabled' : '' }}">
-            <a class="page-link" href="#" data-page="{{ $products->currentPage() - 1 }}" tabindex="-1">Previous</a>
-        </li>
-
-        {{-- Page Links --}}
-        @for ($page = 1; $page <= $products->lastPage(); $page++)
-            <li class="page-item {{ $products->currentPage() == $page ? 'active' : '' }}">
-                <a class="page-link" href="#" data-page="{{ $page }}">{{ $page }}</a>
+        <ul class="pagination justify-content-center">
+            {{-- Previous Page Link --}}
+            <li class="page-item prev {{ $products->onFirstPage() ? 'disabled' : '' }}">
+                <a class="page-link" href="#" data-page="{{ $products->currentPage() - 1 }}"
+                    tabindex="-1">Previous</a>
             </li>
-        @endfor
 
-        {{-- Next Page Link --}}
-        <li class="page-item next {{ $products->currentPage() == $products->lastPage() ? 'disabled' : '' }}">
-            <a class="page-link" href="#" data-page="{{ $products->currentPage() + 1 }}">Next</a>
-        </li>
-    </ul>
-</nav>
+            {{-- Page Links --}}
+            @for ($page = 1; $page <= $products->lastPage(); $page++)
+                <li class="page-item {{ $products->currentPage() == $page ? 'active' : '' }}">
+                    <a class="page-link" href="#" data-page="{{ $page }}">{{ $page }}</a>
+                </li>
+            @endfor
+
+            {{-- Next Page Link --}}
+            <li class="page-item next {{ $products->currentPage() == $products->lastPage() ? 'disabled' : '' }}">
+                <a class="page-link" href="#" data-page="{{ $products->currentPage() + 1 }}">Next</a>
+            </li>
+        </ul>
+    </nav>
 
 
 </div>
 
 <!-- Add to Cart Modal -->
-<div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+<div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -223,7 +221,8 @@
 
                     <div class="mb-3">
                         <label for="quantity" class="form-label">Quantity</label>
-                        <input type="number" name="quantity" id="modalQuantity" class="form-control" value="1" min="1" required>
+                        <input type="number" name="quantity" id="modalQuantity" class="form-control"
+                            value="1" min="1" required>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">Add to Cart</button>
@@ -297,7 +296,8 @@
                             <label class="form-label">Cash Received</label>
                             <div class="input-group">
                                 <span class="input-group-text">$</span>
-                                <input type="number" class="form-control" id="cashReceived" onInput="calculateChange()">
+                                <input type="number" class="form-control" id="cashReceived"
+                                    onInput="calculateChange()">
                             </div>
                         </div>
                         <div class="mb-3">
@@ -328,7 +328,8 @@
 
 <!-- Add hidden receipt template -->
 <div id="receiptTemplate" style="display: none;">
-    <div class="receipt-container" style="width: 300px; padding: 20px; font-family: 'Courier New', Courier, monospace;">
+    <div class="receipt-container"
+        style="width: 300px; padding: 20px; font-family: 'Courier New', Courier, monospace;">
         <div style="text-align: center; margin-bottom: 20px;">
             <h3>Silicon Cove</h3>
             <p>Official Receipt</p>
@@ -425,7 +426,8 @@
             // Set modal content
             document.getElementById("modalProductImage").src = productImage;
             document.getElementById("modalProductName").textContent = productName;
-            document.getElementById("modalProductPrice").textContent = "Price: $" + productPrice.toFixed(2);
+            document.getElementById("modalProductPrice").textContent = "Price: $" + productPrice
+                .toFixed(2);
             document.getElementById("modalProductStock").textContent = "Stock: " + stock;
             document.getElementById("modalProductId").value = productId;
             document.getElementById("modalQuantity").value = "1";
@@ -613,7 +615,8 @@
             // Update modal content
             document.getElementById('modalProductImage').src = data.image;
             document.getElementById('modalProductName').textContent = data.name;
-            document.getElementById('modalProductPrice').textContent = `Price: $${parseFloat(data.price).toFixed(2)}`;
+            document.getElementById('modalProductPrice').textContent =
+                `Price: $${parseFloat(data.price).toFixed(2)}`;
             document.getElementById('modalProductStock').textContent = `Stock: ${data.stock}`;
             document.getElementById('modalProductId').value = data.id;
             document.getElementById('modalQuantity').value = "1";
@@ -772,8 +775,10 @@
                 const data = this.dataset;
                 document.getElementById('modalProductImage').src = data.image;
                 document.getElementById('modalProductName').textContent = data.name;
-                document.getElementById('modalProductPrice').textContent = `Price: $${parseFloat(data.price).toFixed(2)}`;
-                document.getElementById('modalProductStock').textContent = `Stock: ${tempStocks.get(data.id) || data.stock}`;
+                document.getElementById('modalProductPrice').textContent =
+                    `Price: $${parseFloat(data.price).toFixed(2)}`;
+                document.getElementById('modalProductStock').textContent =
+                    `Stock: ${tempStocks.get(data.id) || data.stock}`;
                 document.getElementById('modalProductId').value = data.id;
                 document.getElementById('modalQuantity').value = "1";
 
@@ -783,11 +788,11 @@
         });
     }
 
-    const handlePaginationClick = function (e) {
+    const handlePaginationClick = function(e) {
         e.preventDefault();
-                // Get total pages from a hidden span or nav
-            const totalPagesEl = document.querySelector('[data-total-pages]');
-            const totalPages = Number(totalPagesEl?.getAttribute('data-total-pages')) || 1;
+        // Get total pages from a hidden span or nav
+        const totalPagesEl = document.querySelector('[data-total-pages]');
+        const totalPages = Number(totalPagesEl?.getAttribute('data-total-pages')) || 1;
 
         const clickedPage = Number(this.getAttribute('data-page'));
         if (isNaN(clickedPage) || this.closest('li').classList.contains('disabled')) return;
@@ -830,9 +835,15 @@
 <script>
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+</script>
 
 <!-- Add this before the closing body tag -->
 <template id="loadingTemplate">
@@ -854,10 +865,10 @@
             return;
         }
 
-        @if(Auth::guard('admin')->check())
-        showAdminCheckoutModal();
+        @if (Auth::guard('admin')->check())
+            showAdminCheckoutModal();
         @else
-        showCheckoutModal();
+            showCheckoutModal();
         @endif
     }
 
@@ -885,6 +896,7 @@
 
         adminCheckoutModal.show();
     }
+
     function calculateChange() {
         const amountDue = parseFloat(document.getElementById('amountDue').value);
         const cashReceived = parseFloat(document.getElementById('cashReceived').value) || 0;
@@ -1002,55 +1014,55 @@
 <div class="sidebar-backdrop"></div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const categoryToggle = document.getElementById('categoryToggle');
-    const cartToggles = document.querySelectorAll('.cart-toggle');
-    const categorySidebar = document.querySelector('.categories-sidebar');
-    const cartSidebar = document.querySelector('.cart-sidebar');
-    const backdrop = document.querySelector('.sidebar-backdrop');
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryToggle = document.getElementById('categoryToggle');
+        const cartToggles = document.querySelectorAll('.cart-toggle');
+        const categorySidebar = document.querySelector('.categories-sidebar');
+        const cartSidebar = document.querySelector('.cart-sidebar');
+        const backdrop = document.querySelector('.sidebar-backdrop');
 
-    // Category sidebar toggle
-    categoryToggle.addEventListener('click', () => {
-        categorySidebar.classList.toggle('active');
-        backdrop.classList.toggle('active');
-        cartSidebar.classList.remove('active');
-    });
-
-    // Cart sidebar toggle
-    cartToggles.forEach(toggle => {
-        toggle.addEventListener('click', () => {
-            cartSidebar.classList.toggle('active');
+        // Category sidebar toggle
+        categoryToggle.addEventListener('click', () => {
+            categorySidebar.classList.toggle('active');
             backdrop.classList.toggle('active');
+            cartSidebar.classList.remove('active');
+        });
+
+        // Cart sidebar toggle
+        cartToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                cartSidebar.classList.toggle('active');
+                backdrop.classList.toggle('active');
+                categorySidebar.classList.remove('active');
+            });
+        });
+
+        // Close sidebars when clicking backdrop
+        backdrop.addEventListener('click', () => {
             categorySidebar.classList.remove('active');
+            cartSidebar.classList.remove('active');
+            backdrop.classList.remove('active');
+        });
+
+        // Close sidebars when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!categorySidebar.contains(e.target) &&
+                !cartSidebar.contains(e.target) &&
+                !e.target.matches('#categoryToggle') &&
+                !e.target.matches('.cart-toggle')) {
+                categorySidebar.classList.remove('active');
+                cartSidebar.classList.remove('active');
+                backdrop.classList.remove('active');
+            }
+        });
+
+        // Close sidebars on window resize to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                categorySidebar.classList.remove('active');
+                cartSidebar.classList.remove('active');
+                backdrop.classList.remove('active');
+            }
         });
     });
-
-    // Close sidebars when clicking backdrop
-    backdrop.addEventListener('click', () => {
-        categorySidebar.classList.remove('active');
-        cartSidebar.classList.remove('active');
-        backdrop.classList.remove('active');
-    });
-
-    // Close sidebars when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!categorySidebar.contains(e.target) &&
-            !cartSidebar.contains(e.target) &&
-            !e.target.matches('#categoryToggle') &&
-            !e.target.matches('.cart-toggle')) {
-            categorySidebar.classList.remove('active');
-            cartSidebar.classList.remove('active');
-            backdrop.classList.remove('active');
-        }
-    });
-
-    // Close sidebars on window resize to desktop
-    window.addEventListener('resize', () => {
-        if (window.innerWidth >= 768) {
-            categorySidebar.classList.remove('active');
-            cartSidebar.classList.remove('active');
-            backdrop.classList.remove('active');
-        }
-    });
-});
 </script>
