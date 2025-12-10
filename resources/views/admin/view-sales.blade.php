@@ -16,7 +16,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- website icon -->
-    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -103,7 +103,7 @@
                                 <option value="gcash" {{ request('paymentMethod') == 'gcash' ? 'selected' : '' }}>GCASH (QR CODE)</option>
                             </select>
                         </div>
-                        <!-- <div class="col-md-3">
+                        {{-- <div class="col-md-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" id="status" name="status">
                                 <option value="">All Statuses</option>
@@ -111,7 +111,7 @@
                                 <option value="pending">Pending</option>
                                 <option value="refunded">Refunded</option>
                             </select>
-                        </div> -->
+                        </div> --}}
                         <div class="col-md-2">
                             <label class="form-label">&nbsp;</label>
                             <button type="submit" class="btn btn-primary w-100">Apply Filters</button>

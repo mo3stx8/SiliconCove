@@ -7,7 +7,8 @@
             </div>
             <div class="modal-body">
                 <div class="text-center mb-4">
-                    <img id="modalProductImage" src="" class="img-fluid rounded" style="max-height: 300px;" alt="Product Image">
+                    <img id="modalProductImage" src="" class="img-fluid rounded" style="max-height: 300px;"
+                        alt="Product Image">
                 </div>
                 <h5 id="modalOrderNumber" class="text-muted">Order #: </h5>
                 <h4 id="modalProductName" class="fw-bold"></h4>
@@ -18,14 +19,21 @@
                 <!-- GCash Proof of Payment Section -->
                 <div id="gcashProof" class="mt-3" style="display: none;">
                     <p class="text-muted">Proof of Payment:</p>
-                    <img id="gcashProofImage" src="" class="img-fluid rounded" alt="Proof of Payment" style="max-height: auto;width: 100%;">
+                    <img id="gcashProofImage" src="" class="img-fluid rounded" alt="Proof of Payment"
+                        style="max-height: auto;width: 100%;">
                 </div>
 
                 <!-- Customer Info Section -->
                 <div id="customerInfoSection" style="display: none;">
                     <div class="card mt-3">
                         <div class="card-body">
-                            <p><i class="fas fa-shipping-fast me-2"></i><b>Ship to:</b> <span id="modalCustomerAddress"></span></p>
+                            <p>
+                                <i class="fas fa-shipping-fast me-2"></i>
+                                <b>Ship to:</b>
+                                <span
+                                    id="modalCustomerAddress">
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -46,15 +54,17 @@
         const paymentMethod = document.getElementById('modalPaymentMethod');
 
         // Set modal content
-        productImage.src = order.product?.image
-            ? `{{ asset('storage/') }}/${order.product.image}`
-            : '{{ asset("storage/default-product.png") }}';
+        productImage.src = order.product?.image ?
+            `{{ asset('storage/') }}/${order.product.image}` :
+            '{{ asset('storage/default-product.png') }}';
         orderNumber.textContent = `Order #: ${order.order_no}`;
         productName.textContent = 'Product: ' + order.product?.name;
-        productDescription.textContent = '- ' + (order.product?.description ? order.product.description : 'No description available');
+        productDescription.textContent = '- ' + (order.product?.description ? order.product.description :
+            'No description available');
         productPrice.textContent = `Price: $${parseFloat(order.product?.price).toFixed(2)}`;
         productQuantity.textContent = order.quantity;
-        paymentMethod.textContent = `Payment Method: ${order.payment_method ? order.payment_method.toUpperCase() : 'N/A'}`;
+        paymentMethod.textContent =
+            `Payment Method: ${order.payment_method ? order.payment_method.toUpperCase() : 'N/A'}`;
 
         // Handle GCash proof of payment
         const gcashProofSection = document.getElementById('gcashProof');
@@ -70,7 +80,9 @@
         const customerInfoSection = document.getElementById('customerInfoSection');
         if (showCustomerInfo && order?.address) {
             customerInfoSection.style.display = 'block';
-            document.getElementById('modalCustomerAddress').textContent = order?.address ? `${order?.address?.address}, ${order?.address?.city}, ${order?.address?.state}, ${order?.address?.zip_code}` : 'N/A';
+            document.getElementById('modalCustomerAddress').textContent = order?.address ?
+                `${order?.address?.address}, ${order?.address?.city}, ${order?.address?.state}, ${order?.address?.zip_code}` :
+                'N/A';
         } else {
             customerInfoSection.style.display = 'none';
         }

@@ -2,7 +2,7 @@
 
 @section('title', 'Login')
 <!-- website icon -->
-    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 @section('content')
 
 <!-- Breadcrumb -->
@@ -51,6 +51,12 @@
                         <input type="checkbox" class="form-check-input" id="remember" name="remember">
                         <label class="form-check-label" for="remember">Remember Me</label>
                     </div>
+
+                    <div class="mb-3">
+                        <a href="{{ route('password.request') }}">Forgot your password?</a>
+                    </div>
+
+                    {{-- <a href="{{ route('password.request') }}">Forgot your password?</a> --}}
 
                     <button type="submit" class="btn btn-primary w-100">Login</button>
                 </form>

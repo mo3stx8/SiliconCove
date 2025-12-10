@@ -1,5 +1,9 @@
 <!-- website icon -->
-    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+<link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
+
+@section('title')
+    Silicon Cove - Customer Details
+@endsection
 <div class="modal fade" id="viewCustomerModal{{ $customer->user->id ?? '' }}" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -9,7 +13,7 @@
             </div>
             <div class="modal-body">
                 <div class="mx-auto mb-3" style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%;">
-                    <img src="{{ ($customer->user->profile_picture ?? '')
+                    <img src="{{ $customer->user->profile_picture ?? ''
                         ? asset('storage/profile_images/' . $customer->user->profile_picture)
                         : asset('images/default-profile.jpg') }}"
                         class="w-100 h-100" style="object-fit: cover;" alt="Profile Picture">
@@ -31,7 +35,8 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <span><i class="fas fa-coins me-2"></i>Total Spent:</span>
-                                    <strong class="text-primary">${{ number_format($customer->total_spent, 2) }}</strong>
+                                    <strong
+                                        class="text-primary">${{ number_format($customer->total_spent, 2) }}</strong>
                                 </div>
                             </div>
                         </div>

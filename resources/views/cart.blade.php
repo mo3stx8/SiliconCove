@@ -1,6 +1,11 @@
 @extends('layouts.layout')
 <!-- website icon -->
-<link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
+
+@section('title')
+    Silicon Cove - cart
+@endsection
+
 @push('styles')
     <!-- Include DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">

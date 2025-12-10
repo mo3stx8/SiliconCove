@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Support\Str;
 use Dompdf\Dompdf;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -33,9 +33,9 @@ class OrderController extends Controller
             if ($isInstantOrder) {
                 // the cart item ID is product ID
                 $product = Product::find($cartItemId);
-                    if ($product && $product->stock < $selectedProductQuantities[$index]) {
-                        $productNameErrors[] = $product->name;
-                    }
+                if ($product && $product->stock < $selectedProductQuantities[$index]) {
+                    $productNameErrors[] = $product->name;
+                }
             } else {
                 // the cart item ID is order ID
                 $cartItem = Cart::find($cartItemId);
@@ -45,11 +45,11 @@ class OrderController extends Controller
                         $productNameErrors[] = $product->name;
                     }
                 }
-            }   
+            }
         }
 
-        if (!empty($productNameErrors)) {
-            return redirect()->route('cart.index')->with('error', 'Cannot place order. Insufficient stock for: ' . implode(', ', $productNameErrors));
+        if (! empty($productNameErrors)) {
+            return redirect()->route('cart.index')->with('error', 'Cannot place order. Insufficient stock for: '.implode(', ', $productNameErrors));
         }
 
         $proofOfPaymentPath = null;
@@ -59,7 +59,7 @@ class OrderController extends Controller
         }
 
         foreach ($selectedCartItems as $index => $cartItemId) {
-            if ($isInstantOrder) {  
+            if ($isInstantOrder) {
                 Order::create([
                     'user_id' => Auth::id(),
                     'order_no' => $orderNo,
@@ -70,7 +70,7 @@ class OrderController extends Controller
                     'total_amount' => Product::find($cartItemId)->price * $selectedProductQuantities[$index],
                     'status' => 'pending',
                 ]);
-                 
+
                 // the cart item ID is product ID
                 $product = Product::find($cartItemId);
                 if ($product) {
@@ -100,10 +100,10 @@ class OrderController extends Controller
             }
         }
 
-        if (!$isInstantOrder) {
+        if (! $isInstantOrder) {
             Cart::where('user_id', Auth::id())
-            ->whereIn('id', $selectedCartItems)
-            ->delete();
+                ->whereIn('id', $selectedCartItems)
+                ->delete();
         }
 
         return redirect()->route('cart.index')->with('success', 'Order placed successfully!');
@@ -158,7 +158,7 @@ class OrderController extends Controller
         $html = view('invoices.order-invoice', compact('order'))->render();
 
         // Initialize Dompdf
-        $dompdf = new Dompdf();
+        $dompdf = new Dompdf;
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait'); // Set paper size and orientation
         $dompdf->render();
@@ -166,7 +166,7 @@ class OrderController extends Controller
         // Return the generated PDF as a download
         return response($dompdf->output(), 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="invoice-' . $order->order_no . '.pdf"',
+            'Content-Disposition' => 'attachment; filename="invoice-'.$order->order_no.'.pdf"',
         ]);
     }
 
@@ -191,7 +191,7 @@ class OrderController extends Controller
     {
         try {
             $order = Order::where('id', $id)->firstOrFail();
-            
+
             // Update to approved status
             $order->update(['status' => 'approved']);
 
@@ -201,12 +201,12 @@ class OrderController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Order approved successfully'
+                'message' => 'Order approved successfully',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error approving order'
+                'message' => 'Error approving order',
             ], 500);
         }
     }
@@ -215,27 +215,27 @@ class OrderController extends Controller
     {
         try {
             $order = Order::where('id', $id)->where('status', 'in progress')->firstOrFail();
-            
+
             // Update to delivered status
             $order->update([
                 'status' => 'delivered',
                 'tracking_number' => request('tracking_number'),
-                'completion_notes' => request('completion_notes')
+                'completion_notes' => request('completion_notes'),
             ]);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Order marked as complete successfully'
+                'message' => 'Order marked as complete successfully',
             ]);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Order not found or cannot be completed'
+                'message' => 'Order not found or cannot be completed',
             ], 404);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error completing order'
+                'message' => 'Error completing order',
             ], 500);
         }
     }
@@ -252,10 +252,10 @@ class OrderController extends Controller
             $startDate = \Carbon\Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
             $endDate = \Carbon\Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();
         }
-        
+
         // Base query
         $query = Order::where('status', 'delivered')
-                     ->whereBetween('updated_at', [$startDate, $endDate]);
+            ->whereBetween('updated_at', [$startDate, $endDate]);
 
         // Apply payment method filter
         if ($request->filled('paymentMethod')) {
@@ -264,7 +264,7 @@ class OrderController extends Controller
 
         // Get orders for calculations
         $orders = $query->get();
-        
+
         // Calculate metrics using filtered data
         $currentMonthSales = $orders->sum('total_amount');
         $monthlyOrderCount = $orders->count();
@@ -275,16 +275,16 @@ class OrderController extends Controller
         $previousStartDate = clone $startDate;
         $previousEndDate = clone $endDate;
         $daysDifference = $startDate->diffInDays($endDate);
-        
+
         $previousStartDate->subDays($daysDifference + 1);
         $previousEndDate->subDays($daysDifference + 1);
-        
+
         $previousPeriodSales = Order::where('status', 'delivered')
             ->whereBetween('updated_at', [$previousStartDate, $previousEndDate])
             ->sum('total_amount');
 
-        $revenueGrowth = $previousPeriodSales > 0 
-            ? (($currentMonthSales - $previousPeriodSales) / $previousPeriodSales) * 100 
+        $revenueGrowth = $previousPeriodSales > 0
+            ? (($currentMonthSales - $previousPeriodSales) / $previousPeriodSales) * 100
             : 0;
 
         // Use same query conditions for sales trend
@@ -302,18 +302,36 @@ class OrderController extends Controller
             ->pluck('count', 'payment_method')
             ->toArray();
 
-        // Ensure both payment methods exist in distribution
-        if (empty($paymentDistribution)) {
-            $paymentDistribution = ['cod' => 0, 'gcash' => 0];
-        } else {
-            if (!isset($paymentDistribution['cod'])) $paymentDistribution['cod'] = 0;
-            if (!isset($paymentDistribution['gcash'])) $paymentDistribution['gcash'] = 0;
+        // Normalize distribution to include all expected methods
+        $expectedMethods = ['cod', 'Kuraimi Bank USD', 'Kuraimi Bank SR' , 'cash'];
+        foreach ($expectedMethods as $method) {
+            if (! isset($paymentDistribution[$method])) {
+                $paymentDistribution[$method] = 0;
+            }
         }
+
+        // Optionally re-order keys to a preferred order (cod, Kuraimi Bank USD, Kuraimi Bank SR, cash)
+        $paymentDistribution = array_merge(
+            array_intersect_key(array_flip($expectedMethods), $paymentDistribution),
+            $paymentDistribution
+        );
+
+        // Ensure both payment methods exist in distribution
+        // if (empty($paymentDistribution)) {
+        //     $paymentDistribution = ['cod' => 0, 'gcash' => 0];
+        // } else {
+        //     if (! isset($paymentDistribution['cod'])) {
+        //         $paymentDistribution['cod'] = 0;
+        //     }
+        //     if (! isset($paymentDistribution['gcash'])) {
+        //         $paymentDistribution['gcash'] = 0;
+        //     }
+        // }
 
         // Use same query conditions for top customers with payment method filter
         $topCustomers = clone $query;
         $topCustomers = $topCustomers->with('user')
-            ->when($request->filled('paymentMethod'), function($q) use ($request) {
+            ->when($request->filled('paymentMethod'), function ($q) use ($request) {
                 $q->where('payment_method', strtolower($request->paymentMethod));
             })
             ->select('user_id', DB::raw('COUNT(*) as purchase_count'), DB::raw('SUM(total_amount) as total_spent'))
@@ -325,7 +343,7 @@ class OrderController extends Controller
         // Add top products query with payment method filter
         $topProducts = Order::where('status', 'delivered')
             ->whereBetween('updated_at', [$startDate, $endDate])
-            ->when($request->filled('paymentMethod'), function($q) use ($request) {
+            ->when($request->filled('paymentMethod'), function ($q) use ($request) {
                 $q->where('payment_method', strtolower($request->paymentMethod));
             })
             ->select(
@@ -361,7 +379,7 @@ class OrderController extends Controller
         // Get entries for both tables
         $pendingEntries = $request->get('pending_entries', 5);
         $processedEntries = $request->get('processed_entries', 5);
-        
+
         $query = $this->applySearchFilters(Order::with('user')->orderBy('id', 'desc'), $request, 'pending_search');
         $processedQuery = $this->applySearchFilters(Order::with('user')->orderBy('id', 'desc'), $request, 'processed_search');
 
@@ -379,8 +397,8 @@ class OrderController extends Controller
 
         // Calculate refund rate
         $totalOrders = Order::whereMonth('created_at', $currentMonth->month)->count();
-        $refundRate = $totalOrders > 0 
-            ? ($processedRefunds / $totalOrders) * 100 
+        $refundRate = $totalOrders > 0
+            ? ($processedRefunds / $totalOrders) * 100
             : 0;
 
         // Get pending refund requests with its own page parameter
@@ -401,31 +419,31 @@ class OrderController extends Controller
             'refundRate'
         ));
     }
-    
+
     public function approveRefund($id)
     {
         try {
             $order = Order::findOrFail($id);
-            
+
             if ($order->status !== 'refund_requested') {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Order is not in refund requested status'
+                    'message' => 'Order is not in refund requested status',
                 ], 400);
             }
-            
+
             $order->update([
-                'status' => 'refunded'
+                'status' => 'refunded',
             ]);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Refund approved successfully'
+                'message' => 'Refund approved successfully',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error approving refund'
+                'message' => 'Error approving refund',
             ], 500);
         }
     }
@@ -434,24 +452,24 @@ class OrderController extends Controller
     {
         try {
             $order = Order::findOrFail($id);
-            
+
             if ($order->status !== 'refund_requested') {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Order is not in refund requested status'
+                    'message' => 'Order is not in refund requested status',
                 ], 400);
             }
-            
+
             $order->update(['status' => 'refund_rejected']);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Refund denied successfully'
+                'message' => 'Refund denied successfully',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error denying refund'
+                'message' => 'Error denying refund',
             ], 500);
         }
     }
@@ -476,17 +494,17 @@ class OrderController extends Controller
             }
 
             // Generate refund number
-            $refundNo = 'RFN-' . strtoupper(Str::random(10));
+            $refundNo = 'RFN-'.strtoupper(Str::random(10));
 
             // Update order with refund details
             $order->update([
                 'refund_no' => $refundNo,
                 'refund_requested_date' => now(),
                 'refund_reason' => $request->refund_reason,
-                'status' => 'refund_requested'
+                'status' => 'refund_requested',
             ]);
 
-            return redirect()->back()->with('success', 'Refund request submitted successfully! Your refund ID is: ' . $refundNo);
+            return redirect()->back()->with('success', 'Refund request submitted successfully! Your refund ID is: '.$refundNo);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Error submitting refund request. Please try again.');
         }
@@ -495,8 +513,7 @@ class OrderController extends Controller
     /**
      * Apply search filters to the query.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     private function applySearchFilters($query, Request $request, $searchKey = 'search')
@@ -504,13 +521,13 @@ class OrderController extends Controller
         if ($request->has($searchKey) && $request->get($searchKey) != '') {
             $search = $request->get($searchKey);
             $query->where(function ($q) use ($search) {
-                $q->where('order_no', 'like', '%' . $search . '%')
-                  ->orWhere('created_at', 'like', '%' . $search . '%')
-                  ->orWhere('total_amount', 'like', '%' . $search . '%')
-                  ->orWhere('status', 'like', '%' . $search . '%')
-                  ->orWhereHas('user', function ($userQuery) use ($search) {
-                      $userQuery->where('name', 'like', '%' . $search . '%');
-                  });
+                $q->where('order_no', 'like', '%'.$search.'%')
+                    ->orWhere('created_at', 'like', '%'.$search.'%')
+                    ->orWhere('total_amount', 'like', '%'.$search.'%')
+                    ->orWhere('status', 'like', '%'.$search.'%')
+                    ->orWhereHas('user', function ($userQuery) use ($search) {
+                        $userQuery->where('name', 'like', '%'.$search.'%');
+                    });
             });
         }
 

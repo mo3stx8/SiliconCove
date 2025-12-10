@@ -16,7 +16,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- website icon -->
-    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -38,10 +38,10 @@
                 </ol>
             </div>
 
-            @if(session('success'))
-            <div id="successMessage" class="alert alert-success">
-                {{ session('success') }}
-            </div>
+            @if (session('success'))
+                <div id="successMessage" class="alert alert-success">
+                    {{ session('success') }}
+                </div>
             @endif
 
             <!-- Sales Summary -->
@@ -77,7 +77,8 @@
                     <div class="card bg-warning text-dark">
                         <div class="card-body">
                             <h5 class="card-title">Revenue Growth</h5>
-                            <h2 class="mb-0">{{ $revenueGrowth >= 0 ? '+' : '' }}{{ number_format($revenueGrowth, 1) }}%</h2>
+                            <h2 class="mb-0">
+                                {{ $revenueGrowth >= 0 ? '+' : '' }}{{ number_format($revenueGrowth, 1) }}%</h2>
                             <small>vs last month</small>
                         </div>
                     </div>
@@ -99,21 +100,28 @@
                             <label for="paymentMethod" class="form-label">Payment Method</label>
                             <select class="form-select" id="paymentMethod" name="paymentMethod">
                                 <option value="">All Methods</option>
-                                <option value="cod" {{ request('paymentMethod') == 'cod' ? 'selected' : '' }}>COD (CASH ON DELIVERY)</option>
-                                <option value="gcash" {{ request('paymentMethod') == 'gcash' ? 'selected' : '' }}>GCASH (QR CODE)</option>
-                                <!-- cash -->
-                                <option value="cash" {{ request('paymentMethod') == 'cash' ? 'selected' : '' }}>CASH</option>
+                                <option value="cod" {{ request('paymentMethod') == 'cod' ? 'selected' : '' }}>COD
+                                    (CASH ON DELIVERY)</option>
+                                <option value="Kuraimi Bank USD" {{ request('paymentMethod') == 'Kuraimi Bank USD' ? 'selected' : '' }}>Kuraimi Bank USD
+                                    </option>
+                                <option value="Kuraimi Bank SR" {{ request('paymentMethod') == 'Kuraimi Bank SR' ? 'selected' : '' }}>Kuraimi Bank SR
+                                    </option>
+                                <option value="cash" {{ request('paymentMethod') == 'cash' ? 'selected' : '' }}>CASH
+                                </option>
+                                {{-- <option value="gcash" {{ request('paymentMethod') == 'gcash' ? 'selected' : '' }}>GCASH --}}
+                                </option>
                             </select>
                         </div>
-                        <!-- <div class="col-md-3">
+                        {{-- <div class="col-md-3">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" id="status" name="status">
                                 <option value="">All Statuses</option>
                                 <option value="completed">Completed</option>
                                 <option value="pending">Pending</option>
+                                <option value="canceled">Canceled</option>
                                 <option value="refunded">Refunded</option>
                             </select>
-                        </div> -->
+                        </div> --}}
                         <div class="col-md-2">
                             <label class="form-label">&nbsp;</label>
                             <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
@@ -157,31 +165,30 @@
                         <div class="card-body">
                             <div class="list-group">
                                 @forelse($topCustomers as $customer)
-                                <div class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h6 class="mb-1">{{ $customer->user->name ?? '' }}</h6>
-                                        <small class="text-muted">
-                                            <i class="fas fa-shopping-bag me-1"></i>
-                                            {{ $customer->purchase_count }} orders
-                                        </small>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">{{ $customer->user->name ?? '' }}</h6>
+                                            <small class="text-muted">
+                                                <i class="fas fa-shopping-bag me-1"></i>
+                                                {{ $customer->purchase_count }} orders
+                                            </small>
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-primary rounded-pill me-2">
+                                                ${{ number_format($customer->total_spent, 2) }}
+                                            </span>
+                                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#viewCustomerModal{{ $customer->user->id ?? '' }}">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span class="badge bg-primary rounded-pill me-2">
-                                            ${{ number_format($customer->total_spent, 2) }}
-                                        </span>
-                                        <button class="btn btn-primary btn-sm"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#viewCustomerModal{{ $customer->user->id ?? '' }}">
-                                            <i class="fa fa-eye"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                @include('components.customer-modal', ['customer' => $customer])
+                                    @include('components.customer-modal', ['customer' => $customer])
                                 @empty
-                                <div class="text-center text-muted">
-                                    <i class="fas fa-info-circle me-1"></i>
-                                    No customer data available
-                                </div>
+                                    <div class="text-center text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        No customer data available
+                                    </div>
                                 @endforelse
                             </div>
                         </div>
@@ -199,29 +206,28 @@
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
                                 @forelse($topProducts as $product)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <strong>{{ $product->product?->name }}</strong>
-                                        <div class="text-muted small">
-                                            Sold: {{ $product->total_quantity }} units
-                                            <span class="mx-1">•</span>
-                                            Orders: {{ $product->order_count }}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ $product->product?->name }}</strong>
+                                            <div class="text-muted small">
+                                                Sold: {{ $product->total_quantity }} units
+                                                <span class="mx-1">•</span>
+                                                Orders: {{ $product->order_count }}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <span class="badge bg-success rounded-pill me-2">
-                                            ${{ number_format($product->total_revenue, 2) }}
-                                        </span>
-                                        <button class="btn btn-primary btn-sm"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#viewProductModal{{ $product->product_id }}">
-                                            <i class="fa fa-eye"></i>
-                                        </button>
-                                    </div>
-                                </li>
-                                @include('components.product-modal', ['product' => $product])
+                                        <div>
+                                            <span class="badge bg-success rounded-pill me-2">
+                                                ${{ number_format($product->total_revenue, 2) }}
+                                            </span>
+                                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#viewProductModal{{ $product->product_id }}">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                    @include('components.product-modal', ['product' => $product])
                                 @empty
-                                <li class="list-group-item text-center">No product data available</li>
+                                    <li class="list-group-item text-center">No product data available</li>
                                 @endforelse
                             </ul>
                         </div>
@@ -249,8 +255,8 @@
     <script>
         $(document).ready(function() {
             // Initialize DateRangePicker with saved values or defaults
-            const startDate = '{!! $startDate->format("m/d/Y") !!}';
-            const endDate = '{!! $endDate->format("m/d/Y") !!}';
+            const startDate = '{!! $startDate->format('m/d/Y') !!}';
+            const endDate = '{!! $endDate->format('m/d/Y') !!}';
 
             $('#dateRange').daterangepicker({
                 startDate: startDate,
@@ -261,7 +267,8 @@
                     'Last 7 Days': [moment().subtract(6, 'days'), moment()],
                     'Last 30 Days': [moment().subtract(29, 'days'), moment()],
                     'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                        'month').endOf('month')]
                 }
             });
 
@@ -339,8 +346,11 @@
                         case 'cod':
                             label = `Cash on Delivery (COD) - ${percentage}%`;
                             break;
-                        case 'gcash':
-                            label = `GCASH (QR) - ${percentage}%`;
+                        case 'Kuraimi Bank USD':
+                            label = `Kuraimi Bank USD - ${percentage}%`;
+                            break;
+                        case 'Kuraimi Bank SR':
+                            label = `Kuraimi Bank SR - ${percentage}%`;
                             break;
                         case 'cash':
                             label = `${method.toUpperCase()} - ${percentage}%`;
@@ -353,7 +363,7 @@
                     type: 'pie',
                     height: 350
                 },
-                colors: ['#0d6efd', '#198754', '#6c757d'],
+                colors: ['#0d6efd', '#198754', '#ffc107', '#6c757d'],
                 responsive: [{
                     breakpoint: 480,
                     options: {
@@ -374,7 +384,8 @@
                 }
             };
 
-            var paymentMethodChart = new ApexCharts(document.querySelector("#paymentMethodChart"), paymentMethodOptions);
+            var paymentMethodChart = new ApexCharts(document.querySelector("#paymentMethodChart"),
+                paymentMethodOptions);
             paymentMethodChart.render();
         });
     </script>
