@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -15,9 +14,9 @@ class UserController extends Controller
         // Apply search if provided
         if ($request->has('search') && $request->get('search') != '') {
             $search = $request->get('search');
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%'.$search.'%')
+                    ->orWhere('email', 'like', '%'.$search.'%');
             });
         }
 
@@ -33,7 +32,7 @@ class UserController extends Controller
                 'id' => $users->firstItem() + $index,
                 'name' => $user->name,
                 'email' => $user->email,
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ];
         });
 
@@ -42,11 +41,11 @@ class UserController extends Controller
                 'view' => null,
                 'inline' => function ($row) {
                     return '<button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#deleteUserModal" onclick="setDeleteUser(' . $row['user_id'] . ')">
+                            data-bs-target="#deleteUserModal" onclick="setDeleteUser('.$row['user_id'].')">
                             <i class="fa fa-trash"></i> Delete
                         </button>';
-                }
-            ]
+                },
+            ],
         ];
 
         return view('admin.all-users', compact('users', 'rows', 'actions'));

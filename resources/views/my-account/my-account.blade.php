@@ -30,18 +30,35 @@
             <!-- Orders Table -->
             <div class="col-lg-9">
                 <div class="main-container">
-                    <div class="d-flex justify-content-end pb-3">
+                    <form method="GET" action="{{ route('account.index') }}" class="d-flex justify-content-end pb-3">
                         <label class="text-muted me-2" for="order-sort">Sort Orders</label>
-                        <select class="form-select w-auto" id="order-sort">
-                            <option>All</option>
-                            <option value="approved">Approved</option>
-                            <option value="pending">Pending</option>
-                            <option value="in progress">In Progress</option>
-                            <option value="delivered">Delivered</option>
-                            <option value="rejected">Rejected</option>
-                            <option value="canceled">Canceled</option>
+                        <select name="status" class="form-select w-auto" id="order-sort" onchange="this.form.submit()">
+                            <option value=""
+                                {{ request('status') === null || request('status') === '' ? 'selected' : '' }}>All
+                            </option>
+                            <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Approved
+                            </option>
+                            <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending
+                            </option>
+                            <option value="in progress" {{ request('status') === 'in progress' ? 'selected' : '' }}>In
+                                Progress</option>
+                            <option value="delivered" {{ request('status') === 'delivered' ? 'selected' : '' }}>
+                                Delivered</option>
+                            <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Rejected
+                            </option>
+                            <option value="canceled" {{ request('status') === 'canceled' ? 'selected' : '' }}>Canceled
+                            </option>
+                            <option value="refunded" {{ request('status') === 'refunded' ? 'selected' : '' }}>Refunded
+                            </option>
+                            <option value="refund_requested"
+                                {{ request('status') === 'refund_requested' ? 'selected' : '' }}>Refund Requested
+                            </option>
+                            <option value="refund_rejected"
+                                {{ request('status') === 'refund_rejected' ? 'selected' : '' }}>Refund Rejected
+                            </option>
                         </select>
-                    </div>
+                    </form>
+
 
                     @include('components.product-info-modal')
 
