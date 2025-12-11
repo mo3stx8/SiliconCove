@@ -12,8 +12,8 @@ class Address extends Model
     protected $fillable = [
         'user_id', // 🔥 Add this line
         'address',
-        'city',
-        'state',
-        'zip_code',
+        'area',
+        'region',
+        // 'zip_code',
     ];
 }

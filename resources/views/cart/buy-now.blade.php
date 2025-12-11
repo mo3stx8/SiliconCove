@@ -40,9 +40,9 @@
                     @if ($address)
                         <div class="address-details">
                             <p><strong>Address:</strong> {{ $address->address }}</p>
-                            <p><strong>City:</strong> {{ $address->city }}</p>
-                            <p><strong>State:</strong> {{ $address->state }}</p>
-                            <p><strong>Zip Code:</strong> {{ $address->zip_code }}</p>
+                            <p><strong>Area:</strong> {{ $address->area }}</p>
+                            <p><strong>Region:</strong> {{ $address->region }}</p>
+                            {{-- <p><strong>Zip Code:</strong> {{ $address->zip_code }}</p> --}}
                         </div>
                         <div class="address-actions">
                             <a href="{{ route('account.addresses') }}" class="btn btn-primary">Edit Address</a>

@@ -40,10 +40,10 @@
                 </ol>
             </div>
 
-            @if(session('success'))
-            <div id="successMessage" class="alert alert-success">
-                {{ session('success') }}
-            </div>
+            @if (session('success'))
+                <div id="successMessage" class="alert alert-success">
+                    {{ session('success') }}
+                </div>
             @endif
 
             @include('components.product-info-modal')
@@ -74,11 +74,17 @@
                         $actions = [
                             [
                                 'inline' => function ($row) {
-                                    $viewProductBtn = '<button class="btn btn-primary btn-sm me-1" onclick="showProductInfoModal(' . htmlspecialchars(json_encode($row)) . ')">
+                                    $viewProductBtn =
+                                        '<button class="btn btn-primary btn-sm me-1" onclick="showProductInfoModal(' .
+                                        htmlspecialchars(json_encode($row)) .
+                                        ')">
                                                         <i class="fa fa-eye"></i> View
                                                     </button>';
 
-                                    $invoiceBtn = '<a href="' . route('admin.orders.invoice', $row['order_no']) . '" class="btn btn-secondary btn-sm invoice-btn" onclick="handleInvoiceClick(event, this)">
+                                    $invoiceBtn =
+                                        '<a href="' .
+                                        route('admin.orders.invoice', $row['order_no']) .
+                                        '" class="btn btn-secondary btn-sm invoice-btn" onclick="handleInvoiceClick(event, this)">
                                                         <i class="fa fa-file-pdf invoice-icon"></i>
                                                         <span class="invoice-text">Invoice</span>
                                                         <span class="loading-spinner d-none">
@@ -92,20 +98,16 @@
                         ];
                     @endphp
 
-                    <x-data-table
-                        :headers="[
-                            'id' => '#',
-                            'order_no' => 'Order ID',
-                            'name' => 'Customer',
-                            'created_at' => 'Order Date',
-                            'completed_at' => 'Completion Date',
-                            'total_amount' => 'Total',
-                            'payment_method' => 'Payment Method',
-                        ]"
-                        :rows="$rows"
-                        :actions="$actions"
-                        route="{{ route('admin.completed-orders') }}"
-                    />
+                    <x-data-table :headers="[
+                        'id' => '#',
+                        'order_no' => 'Order ID',
+                        'name' => 'Customer',
+                        'created_at' => 'Order Date',
+                        'completed_at' => 'Completion Date',
+                        'total_amount' => 'Total',
+                        'payment_method' => 'Payment Method',
+                    ]" :rows="$rows" :actions="$actions"
+                        route="{{ route('admin.completed-orders') }}" />
                 </div>
             </div>
 
@@ -203,32 +205,32 @@
 
     <!-- Add this script before the closing body tag -->
     <script>
-    function handleInvoiceClick(event, button) {
-        // Prevent default action
-        event.preventDefault();
+        function handleInvoiceClick(event, button) {
+            // Prevent default action
+            event.preventDefault();
 
-        // Disable button
-        button.classList.add('disabled');
+            // Disable button
+            button.classList.add('disabled');
 
-        // Hide invoice icon and text, show spinner
-        button.querySelector('.invoice-icon').classList.add('d-none');
-        button.querySelector('.invoice-text').classList.add('d-none');
-        button.querySelector('.loading-spinner').classList.remove('d-none');
+            // Hide invoice icon and text, show spinner
+            button.querySelector('.invoice-icon').classList.add('d-none');
+            button.querySelector('.invoice-text').classList.add('d-none');
+            button.querySelector('.loading-spinner').classList.remove('d-none');
 
-        // Get the href
-        const url = button.getAttribute('href');
+            // Get the href
+            const url = button.getAttribute('href');
 
-        // Navigate to the invoice URL
-        window.location.href = url;
+            // Navigate to the invoice URL
+            window.location.href = url;
 
-        // Reset button after a short delay (for cases where the page might not navigate)
-        setTimeout(() => {
-            button.classList.remove('disabled');
-            button.querySelector('.invoice-icon').classList.remove('d-none');
-            button.querySelector('.invoice-text').classList.remove('d-none');
-            button.querySelector('.loading-spinner').classList.add('d-none');
-        }, 3000);
-    }
+            // Reset button after a short delay (for cases where the page might not navigate)
+            setTimeout(() => {
+                button.classList.remove('disabled');
+                button.querySelector('.invoice-icon').classList.remove('d-none');
+                button.querySelector('.invoice-text').classList.remove('d-none');
+                button.querySelector('.loading-spinner').classList.add('d-none');
+            }, 3000);
+        }
     </script>
 
     <!-- Bootstrap JS -->

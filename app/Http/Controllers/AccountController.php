@@ -84,14 +84,14 @@ class AccountController extends Controller
     {
         $request->validate([
             'address' => 'required|string|max:255',
-            'city' => 'required|string|max:100',
-            'state' => 'required|string|max:100',
-            'zip_code' => 'required|string|max:20',
+            'area' => 'required|string|max:100',
+            'region' => 'required|string|max:100',
+            // 'zip_code' => 'required|string|max:20',
         ]);
 
         $address = Address::updateOrCreate(
             ['user_id' => Auth::id()],
-            $request->only(['address', 'city', 'state', 'zip_code'])
+            $request->only(['address', 'area', 'region']) //, 'zip_code'
         );
 
         return back()->with('success', $address->wasRecentlyCreated ? 'Address saved successfully!' : 'Address updated successfully!');
