@@ -303,7 +303,7 @@ class OrderController extends Controller
             ->toArray();
 
         // Normalize distribution to include all expected methods
-        $expectedMethods = ['cod', 'Kuraimi Bank USD', 'Kuraimi Bank SR' , 'cash'];
+        $expectedMethods = ['cod', 'Kuraimi Bank USD', 'Kuraimi Bank SR', 'cash'];
         foreach ($expectedMethods as $method) {
             if (! isset($paymentDistribution[$method])) {
                 $paymentDistribution[$method] = 0;

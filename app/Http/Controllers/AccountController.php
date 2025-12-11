@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Address;
 use App\Models\Order;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AccountController extends Controller
 {
@@ -40,7 +40,7 @@ class AccountController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,'.$user->id,
             'phone' => ['required', 'string', 'regex:/^7\d{8}$/', 'size:9'],
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
@@ -50,7 +50,7 @@ class AccountController extends Controller
 
         if ($request->hasFile('profile_picture')) {
             if ($user->profile_picture) {
-                Storage::disk('public')->delete('profile_images/' . $user->profile_picture);
+                Storage::disk('public')->delete('profile_images/'.$user->profile_picture);
             }
             $path = $request->file('profile_picture')->store('profile_images', 'public');
             $user->profile_picture = basename($path);
@@ -66,9 +66,10 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         if ($user->profile_picture) {
-            Storage::disk('public')->delete('profile_images/' . $user->profile_picture);
+            Storage::disk('public')->delete('profile_images/'.$user->profile_picture);
             $user->update(['profile_picture' => null]);
         }
+
         return back()->with('success', 'Profile picture removed successfully.');
     }
 
@@ -76,6 +77,7 @@ class AccountController extends Controller
     public function addresses()
     {
         $address = Address::where('user_id', Auth::id())->first();
+
         return view('my-account.addresses', compact('address'));
     }
 
@@ -91,7 +93,7 @@ class AccountController extends Controller
 
         $address = Address::updateOrCreate(
             ['user_id' => Auth::id()],
-            $request->only(['address', 'area', 'region']) //, 'zip_code'
+            $request->only(['address', 'area', 'region']) // , 'zip_code'
         );
 
         return back()->with('success', $address->wasRecentlyCreated ? 'Address saved successfully!' : 'Address updated successfully!');

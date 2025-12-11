@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Product;
 use App\Models\InventoryHistory;
+use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -12,6 +12,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::orderBy('created_at', 'desc')->paginate(8);
+
         return view('product', compact('products'));
     }
 
@@ -24,7 +25,7 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:0',
             'restock_level' => 'nullable|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240', // 10MB limit
-            'category' => 'required|in:Processors,Motherboards,Graphics Cards,Memory & Storage,Power & Cooling,Peripherals & Accessories,Cases & Builds,Mod Zone'
+            'category' => 'required|in:Processors,Motherboards,Graphics Cards,Memory & Storage,Power & Cooling,Peripherals & Accessories,Cases & Builds,Mod Zone',
         ]);
 
         $imagePath = $request->hasFile('image')
@@ -53,7 +54,7 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:1',
             'restock_level' => 'nullable|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240', // 10MB limit
-            'category' => 'required|in:Processors,Motherboards,Graphics Cards,Memory & Storage,Power & Cooling,Peripherals & Accessories,Cases & Builds,Mod Zone'
+            'category' => 'required|in:Processors,Motherboards,Graphics Cards,Memory & Storage,Power & Cooling,Peripherals & Accessories,Cases & Builds,Mod Zone',
         ]);
 
         $product = Product::findOrFail($id);
@@ -66,7 +67,7 @@ class ProductController extends Controller
             'category' => $request->category,
             'image' => $request->hasFile('image')
                 ? $request->file('image')->store('products', 'public')
-                : $product->image
+                : $product->image,
         ]);
 
         return redirect()->back()->with('success', 'Product updated successfully!');
@@ -76,12 +77,12 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
-        if (!$product) {
+        if (! $product) {
             return redirect()->back()->with('error', 'Product not found.');
         }
 
         // Convert the stored path to the correct storage path
-        $imagePath = 'public/' . $product->image;
+        $imagePath = 'public/'.$product->image;
 
         // Delete the image file if it exists
         if (Storage::exists($imagePath)) {
@@ -98,7 +99,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
-        if (!$product) {
+        if (! $product) {
             return redirect()->route('product')->with('error', 'Product not found.');
         }
 
@@ -110,17 +111,17 @@ class ProductController extends Controller
         $query = Product::query();
 
         // Filter by category if provided
-        if (!empty($request->input('category'))) {
+        if (! empty($request->input('category'))) {
             $query->where('category', 'LIKE', "%{$request->input('category')}%");
         }
 
         // Apply search filters if a query is provided
-        if (!empty($request->input('query'))) {
+        if (! empty($request->input('query'))) {
             $searchTerm = $request->input('query');
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('name', 'LIKE', "%{$searchTerm}%")
-                ->orWhere('description', 'LIKE', "%{$searchTerm}%")
-                ->orWhere('price', 'LIKE', "%{$searchTerm}%");
+                    ->orWhere('description', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('price', 'LIKE', "%{$searchTerm}%");
             });
         }
 
@@ -139,8 +140,8 @@ class ProductController extends Controller
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
             'purchase_price' => 'nullable|numeric|min:0',
-            'notes' => 'nullable|string'
-    ]);
+            'notes' => 'nullable|string',
+        ]);
 
         $product = Product::findOrFail($request->product_id);
 
@@ -152,7 +153,7 @@ class ProductController extends Controller
             'purchase_price_before' => $product->price,
             'purchase_price_after' => $request->purchase_price ?? $product->price,
             'type' => 'restock',
-            'notes' => $request->notes
+            'notes' => $request->notes,
         ]);
 
         // Update product stock and purchase price
