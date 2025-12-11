@@ -81,7 +81,7 @@
         if (showCustomerInfo && order?.address) {
             customerInfoSection.style.display = 'block';
             document.getElementById('modalCustomerAddress').textContent = order?.address ?
-                `${order?.address?.address}, ${order?.address?.city}, ${order?.address?.state}, ${order?.address?.zip_code}` :
+                `${order?.address?.address}, ${order?.address?.area}, ${order?.address?.region}` : //, ${order?.address?.zip_code}
                 'N/A';
         } else {
             customerInfoSection.style.display = 'none';

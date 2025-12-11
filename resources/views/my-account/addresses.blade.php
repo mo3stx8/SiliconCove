@@ -21,7 +21,6 @@
 
             @include('my-account.includes.sidebar')
 
-
             <!-- Addresses Form -->
             <div class="col-md-9 main-container">
                 <h2 class="mb-4">My Addresses</h2>
@@ -42,22 +41,23 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">City</label>
-                        <input type="text" name="city" class="form-control" placeholder="Enter city"
-                            value="{{ old('city', $address->city ?? '') }}" required>
+                        <label class="form-label">Area</label>
+                        <input type="text" name="area" class="form-control" placeholder="Enter area"
+                            value="{{ old('area', $address->area ?? '') }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">State</label>
-                        <input type="text" name="state" class="form-control" placeholder="Enter state"
-                            value="{{ old('state', $address->state ?? '') }}" required>
+                        <label class="form-label">Region</label>
+                        <input type="text" name="region" class="form-control" placeholder="Enter region"
+                            value="{{ old('region', $address->region ?? '') }}" required>
                     </div>
 
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label class="form-label">Zip Code</label>
                         <input type="text" name="zip_code" class="form-control" placeholder="Enter zip code"
                             value="{{ old('zip_code', $address->zip_code ?? '') }}" required>
-                    </div>
+                    </div> --}}
+                    {{-- the zip code is commeted to be as feature working on it later when moving to international shipping --}}
 
                     <button type="submit"
                         class="btn btn-success w-100">{{ $address ? 'Update Address' : 'Save Address' }}</button>
