@@ -209,7 +209,7 @@
             </div>
             <div class="modal-body">
                 <div class="text-center">
-                    <img id="modalProductImage" src="" class="img-fluid mb-3" style="max-height: 200px;">
+                    <img id="modalProductImage" alt="product preview" src="" class="img-fluid mb-3" style="max-height: 200px;">
                 </div>
                 <h5 id="modalProductName"></h5>
                 <p id="modalProductPrice" class="text-muted"></p>
