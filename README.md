@@ -122,7 +122,29 @@ php artisan serve
 
 ## 📝 Contributing:
 
+Contributions are welcome! 💙
+
+To contribute:
+
+Fork the repo
+
+Create a feature branch:
+```sh
+git checkout -b feat/awesome-feature
+```
+Commit and push your work
+
+Open a Pull Request
+
+Please ensure your code is clean, documented, and tested.
+
 If you have any ideas to make it more interesting, [please send a DM me at mostafasa7754@gmail.com](mailto:mostafasa7754@gmail.com) or Call me:+967774316974.
+
+## 📄 License:
+
+This project is licensed under the MIT License, a permissive and developer-friendly license.
+Thanks for exploring LaTech!
+Build fast. Build clean. Build beautifully. 🚀
 
 ## 🤝Developed By:
 - **Aogolo**
