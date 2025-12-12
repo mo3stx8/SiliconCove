@@ -59,7 +59,6 @@
                         </select>
                     </form>
 
-
                     @include('components.product-info-modal')
 
                     <div class="table-responsive">
