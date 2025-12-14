@@ -15,8 +15,8 @@ class Product extends Model
     // Automatically return full URL for image
     public function getImageUrlAttribute()
     {
-        return $this->image 
-            ? Storage::url($this->image) 
+        return $this->image
+            ? Storage::url($this->image)
             : 'https://dummyimage.com/600x400/55595c/fff';
     }
 

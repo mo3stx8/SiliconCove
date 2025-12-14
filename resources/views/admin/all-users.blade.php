@@ -39,12 +39,11 @@
                 </ol>
             </div>
 
-            @if(session('success'))
-            <div id="successMessage" class="alert alert-success">
-                {{ session('success') }}
-            </div>
+            @if (session('success'))
+                <div id="successMessage" class="alert alert-success">
+                    {{ session('success') }}
+                </div>
             @endif
-
 
             <!-- Users Table -->
             <div class="card">
@@ -52,16 +51,12 @@
                     <h3 class="card-title">User List</h3>
                 </div>
                 <div class="card-body">
-                    <x-data-table
-                        :headers="[
-                            'id' => '#',
-                            'name' => 'Name',
-                            'email' => 'Email'
-                        ]"
-                        :rows="$rows"
-                        :actions="$actions"
-                        route="{{ route('admin.all-users') }}"
-                    />
+                    <x-data-table :headers="[
+                        'id' => '#',
+                        'name' => 'Name',
+                        'email' => 'Email',
+                    ]" :rows="$rows" :actions="$actions"
+                        route="{{ route('admin.all-users') }}" />
                 </div>
             </div>
 
@@ -69,7 +64,8 @@
     </section>
 
     <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
@@ -92,23 +88,7 @@
     </div>
 
     <!-- JavaScript to Set Form Action -->
-    <script>
-        function setDeleteUser(userId) {
-            document.getElementById('deleteUserForm').action = "/admin/all-users/" + userId;
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            let alertBox = document.getElementById("successMessage");
-
-            if (alertBox) {
-                setTimeout(function() {
-                    alertBox.style.transition = "opacity 1s ease-out";
-                    alertBox.style.opacity = "0";
-                    setTimeout(() => alertBox.remove(), 1000); // Remove from DOM after fade out
-                }, 2000); // Show for 2 seconds before fading
-            }
-        });
-    </script>
+    @vite(['resources/js/admin/all-users.js'])
 
     <!-- Include jQuery & DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

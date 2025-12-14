@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\OrderActivity;
 use App\Models\Product;
 use Dompdf\Dompdf;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -122,15 +123,42 @@ class OrderController extends Controller
     public function pendingOrders(Request $request)
     {
         $entries = $request->get('entries', 5);
-        $query = $this->applySearchFilters(Order::with(['user', 'user.address'])->orderBy('id', 'desc'), $request);
 
-        $orders = $query->whereNotIn('status', ['delivered', 'refunded', 'refund_requested', 'refund_rejected'])->paginate($entries);
+        $query = $this->applySearchFilters(
+            Order::with(['user', 'user.address'])->orderBy('id', 'desc'),
+            $request
+        );
+
+        $orders = $query
+            ->whereNotIn('status', [
+                'delivered',
+                'refunded',
+                'refund_requested',
+                'refund_rejected',
+            ])
+            ->paginate($entries);
+
         $newOrdersCount = Order::where('status', 'pending')->count();
         $aprovedOrdersCount = Order::where('status', 'approved')->count();
         $readyToShipOrdersCount = Order::where('status', 'in progress')->count();
         $shippedOrdersCount = Order::where('status', 'delivered')->count();
 
-        return view('admin.pending-orders', compact('orders', 'newOrdersCount', 'aprovedOrdersCount', 'readyToShipOrdersCount', 'shippedOrdersCount'));
+        //  FETCH RECENT ORDER ACTIVITY
+        $recentActivities = OrderActivity::latest()
+            ->take(5)
+            ->get();
+
+        return view(
+            'admin.pending-orders',
+            compact(
+                'orders',
+                'recentActivities', // 👈 IMPORTANT
+                'newOrdersCount',
+                'aprovedOrdersCount',
+                'readyToShipOrdersCount',
+                'shippedOrdersCount'
+            )
+        );
     }
 
     public function completedOrders(Request $request)
@@ -190,12 +218,19 @@ class OrderController extends Controller
     public function approveOrder($id)
     {
         try {
-            $order = Order::where('id', $id)->firstOrFail();
+            $order = Order::findOrFail($id);
 
-            // Update to approved status
+            // Step 1: Approve order
             $order->update(['status' => 'approved']);
 
-            // Schedule status change to 'in progress' after 1 second
+            // Log activity: approved
+            OrderActivity::create([
+                'order_id' => $order->id,
+                'description' => "Order #{$order->order_no} was approved by Admin",
+                'icon' => 'fa-check-circle text-success',
+            ]);
+
+            // Step 2: Move to in progress (optional delay)
             sleep(1);
             $order->update(['status' => 'in progress']);
 
@@ -214,7 +249,9 @@ class OrderController extends Controller
     public function completeOrder($id)
     {
         try {
-            $order = Order::where('id', $id)->where('status', 'in progress')->firstOrFail();
+            $order = Order::where('id', $id)
+                ->where('status', 'in progress')
+                ->firstOrFail();
 
             // Update to delivered status
             $order->update([
@@ -223,9 +260,16 @@ class OrderController extends Controller
                 'completion_notes' => request('completion_notes'),
             ]);
 
+            // ✅ Log activity: completed
+            OrderActivity::create([
+                'order_id' => $order->id,
+                'description' => "Order #{$order->order_no} was delivered",
+                'icon' => 'fa fa-truck text-primary',
+            ]);
+
             return response()->json([
                 'success' => true,
-                'message' => 'Order marked as complete successfully',
+                'message' => 'Order delivered successfully',
             ]);
         } catch (ModelNotFoundException $e) {
             return response()->json([

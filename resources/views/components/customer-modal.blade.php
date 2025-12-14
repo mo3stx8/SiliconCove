@@ -20,10 +20,10 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <h4 class="text-center mb-3">{{ $customer->user->name ?? '' }}</h4>
+                        <h4 class="text-center mb-3">{{ $customer->user->name ?? 'Admin' }}</h4>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <p><i class="fas fa-envelope me-2"></i>{{ $customer->user->email ?? '' }}</p>
+                                <p><i class="fas fa-envelope me-2"></i>{{ $customer->user->email ?? 'Admin' }}</p>
                                 <p><i class="fas fa-phone me-2"></i>{{ $customer->user->phone ?? 'N/A' }}</p>
                             </div>
                         </div>

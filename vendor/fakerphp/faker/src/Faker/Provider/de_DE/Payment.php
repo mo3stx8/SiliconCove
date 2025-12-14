@@ -31,7 +31,7 @@ class Payment extends \Faker\Provider\Payment
      * @see https://de.wikipedia.org/wiki/Liste_der_Sparkassen_in_Deutschland
      */
     protected static $banks = [
-        'Kuraimi Bank USD Saar', 'Bayerische Landesbank', 'BBBank', 'Berliner Sparkasse', 'Berliner Volksbank', 'Braunschweigische Landessparkasse',
+        'Bank 1 Saar', 'Bayerische Landesbank', 'BBBank', 'Berliner Sparkasse', 'Berliner Volksbank', 'Braunschweigische Landessparkasse',
         'Commerzbank',
         'DekaBank Deutsche Girozentrale', 'Deutsche Apotheker- und Ärztebank', 'Deutsche Bank', 'Deutsche Kreditbank', 'Deutsche Pfandbriefbank', 'Dortmunder Volksbank', 'DZ Bank',
         'Erzgebirgssparkasse',

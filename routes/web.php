@@ -1,20 +1,19 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Admin\Auth\AdminAuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\DashboardController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AccountController;
-use App\Models\Order;
+use App\Http\Controllers\Admin\Auth\AdminAuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\UserAdmin;
-
+use App\Models\Order;
+use Illuminate\Support\Facades\Route;
 
 // 🔹 Home Page
 // Route::get('/', function () {
@@ -73,7 +72,6 @@ Route::get('/reset-password/{token}', function ($token) {
 Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])
     ->name('password.update');
 
-
 // 🔹 Cart Routes (Protected for Logged-in Users)
 Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -117,11 +115,11 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/pending-orders', [OrderController::class, 'pendingOrders'])->name('admin.pending-orders');
 
-        Route::get('/completed-orders',  [OrderController::class, 'completedOrders'])->name('admin.completed-orders');
+        Route::get('/completed-orders', [OrderController::class, 'completedOrders'])->name('admin.completed-orders');
 
-        Route::get('/process-refunds',  [OrderController::class, 'processRefunds'])->name('admin.process-refunds');
+        Route::get('/process-refunds', [OrderController::class, 'processRefunds'])->name('admin.process-refunds');
 
-        Route::get('/analytics',  [OrderController::class, 'viewSales'])->name('admin.analytics');
+        Route::get('/analytics', [OrderController::class, 'viewSales'])->name('admin.analytics');
 
         Route::delete('/orders/{id}/delete', [OrderController::class, 'deleteOrder'])->name('admin.orders.delete');
         Route::get('/orders/{orderNo}/invoice', [OrderController::class, 'generateInvoice'])->name('admin.orders.invoice');
@@ -133,5 +131,9 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/profile', [AdminAuthController::class, 'profile'])->name('admin.profile');
         Route::post('/profile/update', [AdminAuthController::class, 'updateProfile'])->name('admin.profile.update');
+
+        // 🔹 Search page
+        Route::get('/search', [\App\Http\Controllers\Admin\GlobalSearchController::class, 'search'])
+            ->name('admin.search');
     });
 });

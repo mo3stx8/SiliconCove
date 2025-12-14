@@ -240,11 +240,19 @@ nav .form-group input:focus {
 	box-shadow: 0 0 0 1px var(--blue), 0 0 0 4px var(--light-blue);
 }
 nav .form-group .icon {
+	font-size: 18px;
+	color: var(--dark-grey);
+}
+nav .form-group button {
 	position: absolute;
 	top: 50%;
-	transform: translateY(-50%);
 	right: 16px;
-	color: var(--dark-grey);
+	transform: translateY(-50%);
+	background: transparent;
+	border: none;
+	padding: 0;
+	line-height: 1;
+	cursor: pointer;
 }
 nav .nav-link {
 	position: relative;
