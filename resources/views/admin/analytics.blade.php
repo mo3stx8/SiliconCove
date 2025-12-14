@@ -102,10 +102,14 @@
                                 <option value="">All Methods</option>
                                 <option value="cod" {{ request('paymentMethod') == 'cod' ? 'selected' : '' }}>COD
                                     (CASH ON DELIVERY)</option>
-                                <option value="Kuraimi Bank USD" {{ request('paymentMethod') == 'Kuraimi Bank USD' ? 'selected' : '' }}>Kuraimi Bank USD
-                                    </option>
-                                <option value="Kuraimi Bank SR" {{ request('paymentMethod') == 'Kuraimi Bank SR' ? 'selected' : '' }}>Kuraimi Bank SR
-                                    </option>
+                                <option value="Kuraimi Bank USD"
+                                    {{ request('paymentMethod') == 'Kuraimi Bank USD' ? 'selected' : '' }}>Kuraimi Bank
+                                    USD
+                                </option>
+                                <option value="Kuraimi Bank SR"
+                                    {{ request('paymentMethod') == 'Kuraimi Bank SR' ? 'selected' : '' }}>Kuraimi Bank
+                                    SR
+                                </option>
                                 <option value="cash" {{ request('paymentMethod') == 'cash' ? 'selected' : '' }}>CASH
                                 </option>
                                 {{-- <option value="gcash" {{ request('paymentMethod') == 'gcash' ? 'selected' : '' }}>GCASH --}}
@@ -252,143 +256,18 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <!-- Initialize DataTable & DateRangePicker -->
+    <!-- tiny inline config (keeps Blade values available to module) -->
     <script>
-        $(document).ready(function() {
-            // Initialize DateRangePicker with saved values or defaults
-            const startDate = '{!! $startDate->format('m/d/Y') !!}';
-            const endDate = '{!! $endDate->format('m/d/Y') !!}';
-
-            $('#dateRange').daterangepicker({
-                startDate: startDate,
-                endDate: endDate,
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
-                        'month').endOf('month')]
-                }
-            });
-
-            // Auto-submit form when date range changes
-            $('#dateRange').on('apply.daterangepicker', function(ev, picker) {
-                $('#salesFilterForm').submit();
-            });
-
-            // Handle success message fade out
-            let alertBox = document.getElementById("successMessage");
-            if (alertBox) {
-                setTimeout(function() {
-                    alertBox.style.transition = "opacity 1s ease-out";
-                    alertBox.style.opacity = "0";
-                    setTimeout(() => alertBox.remove(), 1000);
-                }, 2000);
-            }
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            // Sales Chart Data
-            var monthlySales = @json($monthlySales);
-            var salesChartOptions = {
-                series: [{
-                    name: 'Sales',
-                    data: Object.values(monthlySales)
-                }],
-                chart: {
-                    height: 300,
-                    type: 'area',
-                    toolbar: {
-                        show: false
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'smooth'
-                },
-                xaxis: {
-                    categories: Object.keys(monthlySales)
-                },
-                tooltip: {
-                    y: {
-                        formatter: function(val) {
-                            return "$" + val.toLocaleString();
-                        }
-                    }
-                },
-                colors: ['#0d6efd'],
-                noData: {
-                    text: 'No sales data available',
-                    align: 'center',
-                    verticalAlign: 'middle',
-                    style: {
-                        fontSize: '16px'
-                    }
-                }
-            };
-
-            var salesChart = new ApexCharts(document.querySelector("#salesChart"), salesChartOptions);
-            salesChart.render();
-
-            // Payment Method Chart
-            var paymentData = @json($paymentDistribution);
-            var totalPayment = Object.values(paymentData).reduce((a, b) => a + b, 0);
-            var paymentMethodOptions = {
-                series: Object.values(paymentData),
-                labels: Object.entries(paymentData).map(([method, value]) => {
-                    let percentage = totalPayment === 0 ? 0 : ((value / totalPayment) * 100).toFixed(1);
-                    let label = '';
-
-                    switch (method) {
-                        case 'cod':
-                            label = `Cash on Delivery (COD) - ${percentage}%`;
-                            break;
-                        case 'Kuraimi Bank USD':
-                            label = `Kuraimi Bank USD - ${percentage}%`;
-                            break;
-                        case 'Kuraimi Bank SR':
-                            label = `Kuraimi Bank SR - ${percentage}%`;
-                            break;
-                        case 'cash':
-                            label = `${method.toUpperCase()} - ${percentage}%`;
-                            break;
-                    }
-
-                    return label;
-                }),
-                chart: {
-                    type: 'pie',
-                    height: 350
-                },
-                colors: ['#0d6efd', '#198754', '#ffc107', '#6c757d'],
-                responsive: [{
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            height: 280
-                        },
-                        legend: {
-                            position: 'bottom',
-                            offsetY: 5
-                        }
-                    }
-                }],
-                legend: {
-                    position: 'bottom',
-                    horizontalAlign: 'center',
-                    floating: false,
-                    offsetY: 5
-                }
-            };
-
-            var paymentMethodChart = new ApexCharts(document.querySelector("#paymentMethodChart"),
-                paymentMethodOptions);
-            paymentMethodChart.render();
-        });
+        window.salesConfig = {
+            startDate: {!! json_encode($startDate->format('m/d/Y')) !!},
+            endDate: {!! json_encode($endDate->format('m/d/Y')) !!},
+            monthlySales: {!! json_encode($monthlySales) !!},
+            paymentDistribution: {!! json_encode($paymentDistribution) !!}
+        };
     </script>
+
+    <!-- Vite-managed module (moved inline JS lives here) -->
+    @vite('resources/js/admin/analytics.js')
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

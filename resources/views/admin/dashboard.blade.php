@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
     <!-- website icon -->
     <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 </head>
+
 <body>
     @include('admin.includes.sidebar')
     <!-- NAVBAR -->
@@ -33,7 +35,8 @@
             <!-- Info Cards -->
             <div class="row">
                 <!-- Total Users -->
-                <div class="col-6 col-md-2 mb-3" style="cursor: pointer;" onclick="window.location='{{ route('admin.all-users') }}'">
+                <div class="col-6 col-md-2 mb-3" style="cursor: pointer;"
+                    onclick="window.location='{{ route('admin.all-users') }}'">
                     <div class="card text-white bg-primary h-100">
                         <div class="card-body">
                             <h2 class="card-title">{{ $totalUsers }}</h2>
@@ -44,7 +47,8 @@
                 </div>
 
                 <!-- Total Products -->
-                <div class="col-6 col-md-2 mb-3" style="cursor: pointer;" onclick="window.location='{{ route('admin.view-products') }}'">
+                <div class="col-6 col-md-2 mb-3" style="cursor: pointer;"
+                    onclick="window.location='{{ route('admin.view-products') }}'">
                     <div class="card text-white bg-info h-100">
                         <div class="card-body">
                             <h2 class="card-title">{{ $totalProducts }}</h2>
@@ -67,7 +71,8 @@
 
                 <!-- Order Request -->
                 <div class="col-6 col-md-2 mb-3">
-                    <div class="card text-white bg-warning h-100" style="cursor:pointer;" onclick="window.location='{{ route('admin.pending-orders') }}'">
+                    <div class="card text-white bg-warning h-100" style="cursor:pointer;"
+                        onclick="window.location='{{ route('admin.pending-orders') }}'">
                         <div class="card-body">
                             <h2 class="card-title">{{ $pendingOrders }}</h2>
                             <p class="card-text">Pending Orders</p>
@@ -78,7 +83,8 @@
 
                 <!-- Low Stock Alert -->
                 <div class="col-6 col-md-2 mb-3">
-                    <div class="card text-white bg-danger h-100" style="cursor:pointer;" onclick="scrollToDailySalesDetail()">
+                    <div class="card text-white bg-danger h-100" style="cursor:pointer;"
+                        onclick="scrollToDailySalesDetail()">
                         <div class="card-body">
                             <h2 class="card-title">{{ $lowStockProducts->count() }}</h2>
                             <p class="card-text">Low Stock Items</p>
@@ -93,14 +99,19 @@
                 <!-- Sales Charts -->
                 <div class="col-md-8">
                     <div class="card h-100">
-                        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                        <div
+                            class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                             <div>
                                 <h5 class="card-title mb-3">Sales Report</h5>
                                 <div class="btn-group btn-group-sm mt-2 mt-md-0">
-                                    <button class="btn btn-outline-primary" onclick="updateChart('daily')">Daily</button>
-                                    <button class="btn btn-outline-primary" onclick="updateChart('monthly')">Monthly</button>
-                                    <button class="btn btn-outline-primary" onclick="updateChart('yearly')">Yearly</button>
-                                    <button class="btn btn-outline-secondary" onclick="showComparisonModal()">Compare</button>
+                                    <button class="btn btn-outline-primary"
+                                        onclick="updateChart('daily')">Daily</button>
+                                    <button class="btn btn-outline-primary"
+                                        onclick="updateChart('monthly')">Monthly</button>
+                                    <button class="btn btn-outline-primary"
+                                        onclick="updateChart('yearly')">Yearly</button>
+                                    <button class="btn btn-outline-secondary"
+                                        onclick="showComparisonModal()">Compare</button>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +144,8 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Daily Sales Detail ({{ \Carbon\Carbon::today()->format('Y-m-d') }})</h5>
+                            <h5 class="card-title mb-0">Daily Sales Detail
+                                ({{ \Carbon\Carbon::today()->format('Y-m-d') }})</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -151,19 +163,20 @@
                                     </thead>
                                     <tbody>
                                         @forelse($dailyOrders as $order)
-                                        <tr>
-                                            <td>{{ \Carbon\Carbon::parse($order->created_at)->format('H:i') }}</td>
-                                            <td>{{ $order->order_no }}</td>
-                                            <td>{{ $order->product ? $order->product->name : 'N/A' }}</td>
-                                            <td>{{ $order->quantity }}</td>
-                                            <td>${{ number_format($order->total_amount, 2) }}</td>
-                                            <td>{{ ucfirst($order->payment_method) }}</td>
-                                            <td>{{ ucfirst($order->status) }}</td>
-                                        </tr>
+                                            <tr>
+                                                <td>{{ \Carbon\Carbon::parse($order->created_at)->format('H:i') }}</td>
+                                                <td>{{ $order->order_no }}</td>
+                                                <td>{{ $order->product ? $order->product->name : 'N/A' }}</td>
+                                                <td>{{ $order->quantity }}</td>
+                                                <td>${{ number_format($order->total_amount, 2) }}</td>
+                                                <td>{{ ucfirst($order->payment_method) }}</td>
+                                                <td>{{ ucfirst($order->status) }}</td>
+                                            </tr>
                                         @empty
-                                        <tr>
-                                            <td colspan="7" class="text-center text-muted">No sales for today.</td>
-                                        </tr>
+                                            <tr>
+                                                <td colspan="7" class="text-center text-muted">No sales for today.
+                                                </td>
+                                            </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
@@ -184,13 +197,18 @@
                         <div class="modal-body">
                             <ul class="nav nav-tabs mb-3" id="comparisonTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="compare-daily-tab" data-bs-toggle="tab" data-bs-target="#compare-daily" type="button" role="tab">Daily</button>
+                                    <button class="nav-link active" id="compare-daily-tab" data-bs-toggle="tab"
+                                        data-bs-target="#compare-daily" type="button" role="tab">Daily</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="compare-monthly-tab" data-bs-toggle="tab" data-bs-target="#compare-monthly" type="button" role="tab">Monthly</button>
+                                    <button class="nav-link" id="compare-monthly-tab" data-bs-toggle="tab"
+                                        data-bs-target="#compare-monthly" type="button"
+                                        role="tab">Monthly</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="compare-yearly-tab" data-bs-toggle="tab" data-bs-target="#compare-yearly" type="button" role="tab">Yearly</button>
+                                    <button class="nav-link" id="compare-yearly-tab" data-bs-toggle="tab"
+                                        data-bs-target="#compare-yearly" type="button"
+                                        role="tab">Yearly</button>
                                 </li>
                             </ul>
                             <div class="tab-content">
@@ -229,16 +247,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($lowStockProducts as $product)
-                                        <tr>
-                                            <td>{{ $product->name }}</td>
-                                            <td>{{ $product->stock }}</td>
-                                            <td>{{ $product->restock_level }}</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-primary" onclick="showRestockModal({{ $product->id }})">
-                                                    Restock
-                                                </button>
-                                            </td>
+                                        @foreach ($lowStockProducts as $product)
+                                            <tr>
+                                                <td>{{ $product->name }}</td>
+                                                <td>{{ $product->stock }}</td>
+                                                <td>{{ $product->restock_level }}</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary"
+                                                        onclick="showRestockModal({{ $product->id }})">
+                                                        Restock
+                                                    </button>
+                                                </td>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -265,13 +284,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($recentTransactions as $transaction)
-                                        <tr>
-                                            <td>{{ $transaction->order_no }}</td>
-                                            <td>{{ $transaction->product->name }}</td>
-                                            <td>${{ number_format($transaction->product->price, 2) }}</td>
-                                            <td>${{ number_format($transaction->total_amount) }}</td>
-                                        </tr>
+                                        @foreach ($recentTransactions as $transaction)
+                                            <tr>
+                                                <td>{{ $transaction->order_no }}</td>
+                                                <td>{{ $transaction->product->name }}</td>
+                                                <td>${{ number_format($transaction->product->price, 2) }}</td>
+                                                <td>${{ number_format($transaction->total_amount) }}</td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -304,21 +323,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($stockHistory as $history)
-                                        <tr>
-                                            <td>{{ \Carbon\Carbon::parse($history->created_at)->format('Y-m-d H:i') }}</td>
-                                            <td>{{ $history->product ? $history->product->name : 'N/A' }}</td>
-                                            <td>{{ ucfirst($history->type) }}</td>
-                                            <td>{{ $history->quantity_before }}</td>
-                                            <td>{{ $history->quantity_after }}</td>
-                                            <td>${{ number_format($history->purchase_price_before, 2) }}</td>
-                                            <td>${{ number_format($history->purchase_price_after, 2) }}</td>
-                                            <td>{{ $history->notes }}</td>
-                                        </tr>
+                                        @foreach ($stockHistory as $history)
+                                            <tr>
+                                                <td>{{ \Carbon\Carbon::parse($history->created_at)->format('Y-m-d H:i') }}
+                                                </td>
+                                                <td>{{ $history->product ? $history->product->name : 'N/A' }}</td>
+                                                <td>{{ ucfirst($history->type) }}</td>
+                                                <td>{{ $history->quantity_before }}</td>
+                                                <td>{{ $history->quantity_after }}</td>
+                                                <td>${{ number_format($history->purchase_price_before, 2) }}</td>
+                                                <td>${{ number_format($history->purchase_price_after, 2) }}</td>
+                                                <td>{{ $history->notes }}</td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                @if($stockHistory->isEmpty())
+                                @if ($stockHistory->isEmpty())
                                     <div class="text-center text-muted">No stock history records found.</div>
                                 @endif
                             </div>
@@ -328,7 +348,6 @@
             </div>
         </div>
     </section>
-    <!-- NAVBAR -->
     <!-- MAIN -->
 
     <!-- Bootstrap JS -->
@@ -336,7 +355,7 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="{{ asset('js/admin.js') }}"></script>
 
-    <!-- Add this right before the closing </body> tag -->
+    <!-- Add this right before the closing body tag -->
     <!-- Restock Modal -->
     <div class="modal fade" id="restockModal" tabindex="-1">
         <div class="modal-dialog">
@@ -357,7 +376,8 @@
                             <label class="form-label">Purchase Price</label>
                             <div class="input-group">
                                 <span class="input-group-text">$</span>
-                                <input placeholder="leave empty same price before ..." type="number" name="purchase_price" class="form-control" step="0.01">
+                                <input placeholder="leave empty same price before ..." type="number"
+                                    name="purchase_price" class="form-control" step="0.01">
                             </div>
                         </div>
                         <div class="mb-3">
@@ -374,6 +394,8 @@
         </div>
     </div>
 
+    <!-- Scripts -->
+    {{-- @vite(['resources/js/admin/dashboard.js']) --}}
     <script>
         // Pass PHP data to JS
         window.salesData = {
@@ -489,123 +511,129 @@
 
 
 
-    function getMonthName(monthNumber) {
-        return new Date(2000, monthNumber - 1).toLocaleString('default', { month: 'long' });
-    }
-
-    // Comparison Modal logic
-    let compareDailyChart, compareMonthlyChart, compareYearlyChart;
-
-    function showComparisonModal() {
-        // Prepare comparison data (for demo, compare today vs yesterday, this month vs last month, this year vs last year)
-        const today = new Date();
-        const yesterday = new Date(today);
-        yesterday.setDate(today.getDate() - 1);
-
-        const thisMonth = today.getMonth() + 1;
-        const lastMonth = thisMonth === 1 ? 12 : thisMonth - 1;
-        const thisYear = today.getFullYear();
-        const lastYear = thisMonth === 1 ? thisYear - 1 : thisYear;
-
-        // Daily comparison
-        const dailyLabels = ['Yesterday', 'Today'];
-        const dailyTotals = [
-            @php
-                $yesterday = \Carbon\Carbon::yesterday()->toDateString();
-                $yesterdayTotal = \App\Models\Order::where('status', 'delivered')->whereDate('created_at', $yesterday)->sum('total_amount');
-                echo $yesterdayTotal;
-            @endphp,
-            @php
-                $today = \Carbon\Carbon::today()->toDateString();
-                $todayTotal = \App\Models\Order::where('status', 'delivered')->whereDate('created_at', $today)->sum('total_amount');
-                echo $todayTotal;
-            @endphp
-        ];
-
-        // Monthly comparison
-        const monthlyLabels = ['Last Month', 'This Month'];
-        const monthlyTotals = [
-            @php
-                $lastMonth = \Carbon\Carbon::now()->subMonth()->month;
-                $lastMonthYear = \Carbon\Carbon::now()->subMonth()->year;
-                $lastMonthTotal = \App\Models\Order::where('status', 'delivered')->whereMonth('created_at', $lastMonth)->whereYear('created_at', $lastMonthYear)->sum('total_amount');
-                echo $lastMonthTotal;
-            @endphp,
-            @php
-                $thisMonth = \Carbon\Carbon::now()->month;
-                $thisYear = \Carbon\Carbon::now()->year;
-                $thisMonthTotal = \App\Models\Order::where('status', 'delivered')->whereMonth('created_at', $thisMonth)->whereYear('created_at', $thisYear)->sum('total_amount');
-                echo $thisMonthTotal;
-            @endphp
-        ];
-
-        // Yearly comparison
-        const yearlyLabels = ['Last Year', 'This Year'];
-        const yearlyTotals = [
-            @php
-                $lastYear = \Carbon\Carbon::now()->subYear()->year;
-                $lastYearTotal = \App\Models\Order::where('status', 'delivered')->whereYear('created_at', $lastYear)->sum('total_amount');
-                echo $lastYearTotal;
-            @endphp,
-            @php
-                $thisYear = \Carbon\Carbon::now()->year;
-                $thisYearTotal = \App\Models\Order::where('status', 'delivered')->whereYear('created_at', $thisYear)->sum('total_amount');
-                echo $thisYearTotal;
-            @endphp
-        ];
-
-        // Destroy previous charts if exist
-        if (compareDailyChart) compareDailyChart.destroy();
-        if (compareMonthlyChart) compareMonthlyChart.destroy();
-        if (compareYearlyChart) compareYearlyChart.destroy();
-
-        // Render comparison charts
-        compareDailyChart = new Chart(document.getElementById('compareDailyChart').getContext('2d'), {
-            type: 'bar',
-            data: {
-                labels: dailyLabels,
-                datasets: [{
-                    label: 'Sales',
-                    data: dailyTotals,
-                    backgroundColor: ['#6c757d', '#0d6efd']
-                }]
-            }
-        });
-
-        compareMonthlyChart = new Chart(document.getElementById('compareMonthlyChart').getContext('2d'), {
-            type: 'bar',
-            data: {
-                labels: monthlyLabels,
-                datasets: [{
-                    label: 'Sales',
-                    data: monthlyTotals,
-                    backgroundColor: ['#6c757d', '#0d6efd']
-                }]
-            }
-        });
-
-        compareYearlyChart = new Chart(document.getElementById('compareYearlyChart').getContext('2d'), {
-            type: 'bar',
-            data: {
-                labels: yearlyLabels,
-                datasets: [{
-                    label: 'Sales',
-                    data: yearlyTotals,
-                    backgroundColor: ['#6c757d', '#0d6efd']
-                }]
-            }
-        });
-
-        // Show modal
-        new bootstrap.Modal(document.getElementById('comparisonModal')).show();
-    }
-
-    function scrollToDailySalesDetail() {
-        const detailRow = document.getElementById('dailySalesDetailRow');
-        if (detailRow) {
-            detailRow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        function getMonthName(monthNumber) {
+            return new Date(2000, monthNumber - 1).toLocaleString('default', {
+                month: 'long'
+            });
         }
-    }
+
+        // Comparison Modal logic
+        let compareDailyChart, compareMonthlyChart, compareYearlyChart;
+
+        function showComparisonModal() {
+            // Prepare comparison data (for demo, compare today vs yesterday, this month vs last month, this year vs last year)
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+
+            const thisMonth = today.getMonth() + 1;
+            const lastMonth = thisMonth === 1 ? 12 : thisMonth - 1;
+            const thisYear = today.getFullYear();
+            const lastYear = thisMonth === 1 ? thisYear - 1 : thisYear;
+
+            // Daily comparison
+            const dailyLabels = ['Yesterday', 'Today'];
+            const dailyTotals = [
+                @php
+                    $yesterday = \Carbon\Carbon::yesterday()->toDateString();
+                    $yesterdayTotal = \App\Models\Order::where('status', 'delivered')->whereDate('created_at', $yesterday)->sum('total_amount');
+                    echo $yesterdayTotal;
+                @endphp,
+                @php
+                    $today = \Carbon\Carbon::today()->toDateString();
+                    $todayTotal = \App\Models\Order::where('status', 'delivered')->whereDate('created_at', $today)->sum('total_amount');
+                    echo $todayTotal;
+                @endphp
+            ];
+
+            // Monthly comparison
+            const monthlyLabels = ['Last Month', 'This Month'];
+            const monthlyTotals = [
+                @php
+                    $lastMonth = \Carbon\Carbon::now()->subMonth()->month;
+                    $lastMonthYear = \Carbon\Carbon::now()->subMonth()->year;
+                    $lastMonthTotal = \App\Models\Order::where('status', 'delivered')->whereMonth('created_at', $lastMonth)->whereYear('created_at', $lastMonthYear)->sum('total_amount');
+                    echo $lastMonthTotal;
+                @endphp,
+                @php
+                    $thisMonth = \Carbon\Carbon::now()->month;
+                    $thisYear = \Carbon\Carbon::now()->year;
+                    $thisMonthTotal = \App\Models\Order::where('status', 'delivered')->whereMonth('created_at', $thisMonth)->whereYear('created_at', $thisYear)->sum('total_amount');
+                    echo $thisMonthTotal;
+                @endphp
+            ];
+
+            // Yearly comparison
+            const yearlyLabels = ['Last Year', 'This Year'];
+            const yearlyTotals = [
+                @php
+                    $lastYear = \Carbon\Carbon::now()->subYear()->year;
+                    $lastYearTotal = \App\Models\Order::where('status', 'delivered')->whereYear('created_at', $lastYear)->sum('total_amount');
+                    echo $lastYearTotal;
+                @endphp,
+                @php
+                    $thisYear = \Carbon\Carbon::now()->year;
+                    $thisYearTotal = \App\Models\Order::where('status', 'delivered')->whereYear('created_at', $thisYear)->sum('total_amount');
+                    echo $thisYearTotal;
+                @endphp
+            ];
+
+            // Destroy previous charts if exist
+            if (compareDailyChart) compareDailyChart.destroy();
+            if (compareMonthlyChart) compareMonthlyChart.destroy();
+            if (compareYearlyChart) compareYearlyChart.destroy();
+
+            // Render comparison charts
+            compareDailyChart = new Chart(document.getElementById('compareDailyChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: dailyLabels,
+                    datasets: [{
+                        label: 'Sales',
+                        data: dailyTotals,
+                        backgroundColor: ['#6c757d', '#0d6efd']
+                    }]
+                }
+            });
+
+            compareMonthlyChart = new Chart(document.getElementById('compareMonthlyChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: monthlyLabels,
+                    datasets: [{
+                        label: 'Sales',
+                        data: monthlyTotals,
+                        backgroundColor: ['#6c757d', '#0d6efd']
+                    }]
+                }
+            });
+
+            compareYearlyChart = new Chart(document.getElementById('compareYearlyChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: yearlyLabels,
+                    datasets: [{
+                        label: 'Sales',
+                        data: yearlyTotals,
+                        backgroundColor: ['#6c757d', '#0d6efd']
+                    }]
+                }
+            });
+
+            // Show modal
+            new bootstrap.Modal(document.getElementById('comparisonModal')).show();
+        }
+
+        function scrollToDailySalesDetail() {
+            const detailRow = document.getElementById('dailySalesDetailRow');
+            if (detailRow) {
+                detailRow.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
     </script>
 </body>
+
 </html>

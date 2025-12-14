@@ -130,34 +130,13 @@
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
     <!-- Initialize DataTable -->
-    <script>
-        $(document).ready(function() {
-            $('#completedOrdersTable').DataTable({
-                "paging": true, // Enable pagination
-                "searching": true, // Enable search filter
-                "ordering": true, // Enable column sorting
-                "info": true, // Show table info
-                "lengthMenu": [5, 10, 25, 50], // Define page length options
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            let alertBox = document.getElementById("successMessage");
-
-            if (alertBox) {
-                setTimeout(function() {
-                    alertBox.style.transition = "opacity 1s ease-out";
-                    alertBox.style.opacity = "0";
-                    setTimeout(() => alertBox.remove(), 1000); // Remove from DOM after fade out
-                }, 2000); // Show for 2 seconds before fading
-            }
-        });
-    </script>
+    @vite('resources/js/admin/completed-orders.js')
 
     <!-- ApexCharts JS -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <!-- Chart Initialization -->
+    {{-- @vite('resources/js/admin/completed-orders-chart.js') --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const monthlyData = <?php echo json_encode($monthlyCompletedOrders ?? []); ?>;
@@ -204,34 +183,7 @@
     </script>
 
     <!-- Add this script before the closing body tag -->
-    <script>
-        function handleInvoiceClick(event, button) {
-            // Prevent default action
-            event.preventDefault();
-
-            // Disable button
-            button.classList.add('disabled');
-
-            // Hide invoice icon and text, show spinner
-            button.querySelector('.invoice-icon').classList.add('d-none');
-            button.querySelector('.invoice-text').classList.add('d-none');
-            button.querySelector('.loading-spinner').classList.remove('d-none');
-
-            // Get the href
-            const url = button.getAttribute('href');
-
-            // Navigate to the invoice URL
-            window.location.href = url;
-
-            // Reset button after a short delay (for cases where the page might not navigate)
-            setTimeout(() => {
-                button.classList.remove('disabled');
-                button.querySelector('.invoice-icon').classList.remove('d-none');
-                button.querySelector('.invoice-text').classList.remove('d-none');
-                button.querySelector('.loading-spinner').classList.add('d-none');
-            }, 3000);
-        }
-    </script>
+    @vite(['resources/js/admin/completed-orders-invoice.js'])
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

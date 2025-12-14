@@ -97,7 +97,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Image Preview</label>
-                            <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid" style="max-height: 200px; display: none;">
+                            <img id="imagePreview" src="#" alt=" Preview" class="img-fluid" style="max-height: 200px; display: none;">
                         </div>
 
                         <script>

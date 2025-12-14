@@ -53,17 +53,21 @@
     <nav class="pos-topbar">
         <div class="container-fluid">
             <div class="row align-items-center">
+                {{-- search bar --}}
                 <div class="col-md-4 col-6">
                     <div class="input-group">
                         <input type="text" id="searchInput" class="form-control" placeholder="Search products..."
                             value="{{ request('query') }}">
-                        <button class="btn btn-light" type="button" id="searchButton"><i
-                                class="fa fa-search"></i></button>
+                        <button class="btn btn-light" type="button" id="searchButton">
+                            <i class="fa fa-search"></i>
+                        </button>
                     </div>
                 </div>
+                {{-- site name --}}
                 <div class="col-md-4 d-none d-md-block text-center">
                     <h4 class="mb-0">Silicon Cove</h4>
                 </div>
+                {{-- cart button --}}
                 <div class="col-md-4 col-6 text-end">
                     <a href="javascript:void(0);" class="text-decoration-none"
                         style="{{ auth()->guard('admin')->check() ? 'pointer-events: none; cursor: default; color: #6c757d; text-decoration: none;' : 'cursor: pointer' }}">
@@ -209,7 +213,8 @@
             </div>
             <div class="modal-body">
                 <div class="text-center">
-                    <img id="modalProductImage" alt="product preview" src="" class="img-fluid mb-3" style="max-height: 200px;">
+                    <img id="modalProductImage" alt="product preview" src="" class="img-fluid mb-3"
+                        style="max-height: 200px;">
                 </div>
                 <h5 id="modalProductName"></h5>
                 <p id="modalProductPrice" class="text-muted"></p>

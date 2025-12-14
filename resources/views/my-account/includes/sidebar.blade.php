@@ -1,7 +1,7 @@
-<!-- Sidebar -->
+{{-- Sidebar  --}}
 <div class="col-lg-3 mb-4">
 
-    <!-- Back to Home Button -->
+    {{-- Back to Home Button  --}}
     <div class="mb-3">
         <a href="{{ route('index') }}" class="btn btn-outline-primary w-100">
             <i class="fa fa-arrow-left"></i> Back to Home
@@ -12,11 +12,11 @@
         $user = auth()->user();
     @endphp
 
-    <!-- User Profile Card -->
+    {{-- User Profile Card  --}}
     <div class="card text-center shadow-sm">
         <div class="card-body">
 
-            <!-- Profile Picture -->
+            {{-- Profile Picture  --}}
             <img src="{{ $user->profile_picture
                 ? asset('storage/profile_images/' . $user->profile_picture)
                 : asset('images/default-profile.jpg') }}"
@@ -29,11 +29,11 @@
         </div>
     </div>
 
-    <!-- Navigation Links -->
+    {{-- Navigation Links  --}}
     <div class="mt-3">
         <nav class="list-group">
 
-            <!-- Orders -->
+            {{-- Orders  --}}
             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center
                 {{ request()->routeIs('account.index') ? 'active' : '' }}"
                 href="{{ route('account.index') }}">
@@ -41,7 +41,7 @@
                 <span class="badge bg-secondary">{{ $user->orders->count() }}</span>
             </a>
 
-            <!-- Saved Cart -->
+            {{-- Saved Cart  --}}
             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center
                 {{ request()->routeIs('cart.index') ? 'active' : '' }}"
                 href="{{ route('cart.index') }}">
@@ -51,21 +51,21 @@
                 </span>
             </a>
 
-            <!-- Profile Settings -->
+            {{-- Profile Settings  --}}
             <a class="list-group-item list-group-item-action
                 {{ request()->routeIs('account.profileSettings') ? 'active' : '' }}"
                 href="{{ route('account.profileSettings') }}">
                 <i class="fa fa-user"></i> Profile Settings
             </a>
 
-            <!-- Addresses -->
+            {{-- Addresses  --}}
             <a class="list-group-item list-group-item-action
                 {{ request()->routeIs('account.addresses') ? 'active' : '' }}"
                 href="{{ route('account.addresses') }}">
                 <i class="fa fa-map-marker"></i> Addresses
             </a>
 
-            {{-- <!-- Logout -->
+            {{-- // Logout 
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="list-group-item list-group-item-action text-start text-danger">
@@ -82,9 +82,9 @@
         </nav>
     </div>
 </div>
-<!-- End of Sidebar -->
+{{-- End of Sidebar  --}}
 
-<!-- Logout Confirmation Modal -->
+{{-- Logout Confirmation Modal  --}}
 <div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-labelledby="logoutConfirmLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
