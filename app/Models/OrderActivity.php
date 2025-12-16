@@ -18,4 +18,3 @@ class OrderActivity extends Model
         return $this->belongsTo(Order::class);
     }
 }
-

@@ -23,22 +23,25 @@ class OrderController extends Controller
             'selected_cart_items' => 'required|array',
         ]);
 
-        $isInstantOrder = isset($request->instant_order) && $request->instant_order;
-        $selectedProductQuantities = $request->selected_product_quantities;
+        $isInstantOrder = $request->boolean('instant_order');
+        $selectedProductQuantities = $request->selected_product_quantities ?? [];
         $selectedCartItems = $request->selected_cart_items;
 
         $orderNo = strtoupper(Str::random(15));
         $productNameErrors = [];
+        $firstOrder = null;
 
+        /** ---------------------------------
+         *  Stock Validation
+         *  ---------------------------------
+         */
         foreach ($selectedCartItems as $index => $cartItemId) {
             if ($isInstantOrder) {
-                // the cart item ID is product ID
                 $product = Product::find($cartItemId);
                 if ($product && $product->stock < $selectedProductQuantities[$index]) {
                     $productNameErrors[] = $product->name;
                 }
             } else {
-                // the cart item ID is order ID
                 $cartItem = Cart::find($cartItemId);
                 if ($cartItem) {
                     $product = Product::find($cartItem->product_id);
@@ -50,64 +53,102 @@ class OrderController extends Controller
         }
 
         if (! empty($productNameErrors)) {
-            return redirect()->route('cart.index')->with('error', 'Cannot place order. Insufficient stock for: '.implode(', ', $productNameErrors));
+            return redirect()
+                ->route('cart.index')
+                ->with('error', 'Cannot place order. Insufficient stock for: '.implode(', ', $productNameErrors));
         }
 
+        /** ---------------------------------
+         *  Proof of Payment
+         *  ---------------------------------
+         */
         $proofOfPaymentPath = null;
 
         if ($request->hasFile('proof_of_payment')) {
-            $proofOfPaymentPath = $request->file('proof_of_payment')->store('proof_of_payments', 'public');
+            $proofOfPaymentPath = $request->file('proof_of_payment')
+                ->store('proof_of_payments', 'public');
         }
 
-        foreach ($selectedCartItems as $index => $cartItemId) {
-            if ($isInstantOrder) {
-                Order::create([
-                    'user_id' => Auth::id(),
-                    'order_no' => $orderNo,
-                    'product_id' => $cartItemId,
-                    'payment_method' => $request->payment_method,
-                    'proof_of_payment' => $proofOfPaymentPath,
-                    'quantity' => $selectedProductQuantities[$index],
-                    'total_amount' => Product::find($cartItemId)->price * $selectedProductQuantities[$index],
-                    'status' => 'pending',
-                ]);
+        /** ---------------------------------
+         *  Create Orders + Activity
+         *  ---------------------------------
+         */
+        DB::transaction(function () use (
+            $selectedCartItems,
+            $selectedProductQuantities,
+            $isInstantOrder,
+            $request,
+            $proofOfPaymentPath,
+            $orderNo,
+            &$firstOrder
+        ) {
+            foreach ($selectedCartItems as $index => $cartItemId) {
 
-                // the cart item ID is product ID
-                $product = Product::find($cartItemId);
-                if ($product) {
-                    $product->stock -= $selectedProductQuantities[$index];
-                    $product->save();
-                }
-            } else {
-                $cartItem = Cart::find($cartItemId);
-                if ($cartItem) {
-                    Order::create([
+                if ($isInstantOrder) {
+                    $product = Product::findOrFail($cartItemId);
+
+                    $order = Order::create([
                         'user_id' => Auth::id(),
                         'order_no' => $orderNo,
-                        'product_id' => $cartItem->product_id,
+                        'product_id' => $product->id,
                         'payment_method' => $request->payment_method,
                         'proof_of_payment' => $proofOfPaymentPath,
-                        'quantity' => $cartItem->quantity,
-                        'total_amount' => $cartItem->product->price * $cartItem->quantity,
+                        'quantity' => $selectedProductQuantities[$index],
+                        'total_amount' => $product->price * $selectedProductQuantities[$index],
                         'status' => 'pending',
                     ]);
 
-                    $product = Product::find($cartItem->product_id);
-                    if ($product) {
-                        $product->stock -= $cartItem->quantity;
-                        $product->save();
+                    if (! $firstOrder) {
+                        $firstOrder = $order;
                     }
+
+                    $product->decrement('stock', $selectedProductQuantities[$index]);
+                } else {
+                    $cartItem = Cart::findOrFail($cartItemId);
+                    $product = $cartItem->product;
+
+                    $order = Order::create([
+                        'user_id' => Auth::id(),
+                        'order_no' => $orderNo,
+                        'product_id' => $product->id,
+                        'payment_method' => $request->payment_method,
+                        'proof_of_payment' => $proofOfPaymentPath,
+                        'quantity' => $cartItem->quantity,
+                        'total_amount' => $product->price * $cartItem->quantity,
+                        'status' => 'pending',
+                    ]);
+
+                    if (! $firstOrder) {
+                        $firstOrder = $order;
+                    }
+
+                    $product->decrement('stock', $cartItem->quantity);
                 }
             }
-        }
 
+            /** ✅ NEW ORDER ACTIVITY (only once) */
+            if ($firstOrder) {
+                OrderActivity::create([
+                    'order_id' => $firstOrder->id,
+                    'description' => "New order #{$firstOrder->order_no} was placed",
+                    'icon' => 'fa-solid fa-cart-plus text-warning',
+                ]);
+            }
+        });
+
+        /** ---------------------------------
+         *  Clear Cart
+         *  ---------------------------------
+         */
         if (! $isInstantOrder) {
             Cart::where('user_id', Auth::id())
                 ->whereIn('id', $selectedCartItems)
                 ->delete();
         }
 
-        return redirect()->route('cart.index')->with('success', 'Order placed successfully!');
+        return redirect()
+            ->route('cart.index')
+            ->with('success', 'Order placed successfully!');
     }
 
     public function viewOrders(Request $request)
@@ -231,8 +272,8 @@ class OrderController extends Controller
             ]);
 
             // Step 2: Move to in progress (optional delay)
-            sleep(1);
-            $order->update(['status' => 'in progress']);
+            // sleep(1);
+            // $order->update(['status' => 'in progress']);
 
             return response()->json([
                 'success' => true,
@@ -242,6 +283,37 @@ class OrderController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error approving order',
+            ], 500);
+        }
+    }
+
+    public function processOrder($id)
+    {
+        try {
+            $order = Order::where('id', $id)
+                ->where('status', 'approved')
+                ->firstOrFail();
+
+            // Update status
+            $order->update([
+                'status' => 'in progress',
+            ]);
+
+            // ✅ Log activity
+            OrderActivity::create([
+                'order_id' => $order->id,
+                'description' => "Order #{$order->order_no} is now being processed",
+                'icon' => 'fa-solid fa-gear text-info',
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Order moved to processing',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to process order',
             ], 500);
         }
     }
@@ -359,18 +431,6 @@ class OrderController extends Controller
             array_intersect_key(array_flip($expectedMethods), $paymentDistribution),
             $paymentDistribution
         );
-
-        // Ensure both payment methods exist in distribution
-        // if (empty($paymentDistribution)) {
-        //     $paymentDistribution = ['cod' => 0, 'gcash' => 0];
-        // } else {
-        //     if (! isset($paymentDistribution['cod'])) {
-        //         $paymentDistribution['cod'] = 0;
-        //     }
-        //     if (! isset($paymentDistribution['gcash'])) {
-        //         $paymentDistribution['gcash'] = 0;
-        //     }
-        // }
 
         // Use same query conditions for top customers with payment method filter
         $topCustomers = clone $query;
