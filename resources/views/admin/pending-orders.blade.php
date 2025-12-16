@@ -147,6 +147,21 @@
                                         </button>';
                                     }
 
+                                    $processBtn = '';
+                                    if ($status === 'approved') {
+                                        $processBtn =
+                                            '
+                                            <button class="btn btn-warning btn-sm me-1" data-bs-toggle="modal" data-bs-target="#processOrderModal" onclick="setProcessOrder(\'' .
+                                            $orderId .
+                                            '\')">
+                                            <i class="fa-solid fa-gear"></i> Process
+                                        </button>';
+                                    } else {
+                                        $processBtn = '<button class="btn btn-secondary btn-sm me-1 text-muted opacity-50" disabled>
+                                            <i class="fa-solid fa-gear"></i> Process
+                                        </button>';
+                                    }
+
                                     $completeBtn = '';
                                     if ($status === 'in progress') {
                                         $completeBtn =
@@ -161,7 +176,7 @@
                                         </button>';
                                     }
 
-                                    return '<div class="btn-group">' . $viewBtn . $approveBtn . $completeBtn . '</div>';
+                                    return '<div class="btn-group">' . $viewBtn . $approveBtn . $processBtn . $completeBtn . '</div>';
                                 },
                             ],
                         ];
@@ -181,6 +196,18 @@
             </div>
 
             <!-- Recent Order Activity -->
+            {{-- <i class="fa-solid fa-plus text-warning"></i>
+            <i class="fa fa-circle-plus text-warning"></i>
+            <i class="fa-solid fa-square-plus"></i>
+            <i class="fa-solid fa-bag-shopping"></i>
+            <i class="fa-solid fa-receipt"></i>
+            <i class="fa-solid fa-truck"></i>
+            <i class="fa-solid fa-truck-fast"></i>
+            <i class="fa-solid fa-truck-moving"></i>
+            <i class="fa-solid fa-truck-ramp-box"></i>
+            <i class="fa-solid fa-box"></i>
+            <i class="fa-solid fa-dolly"></i> --}}
+            {{-- <i class="fa-solid fa-gear text-info"></i> --}}
             <div class="card mt-4">
                 <div class="card-header">
                     <h3 class="card-title">Recent Order Activity</h3>
@@ -232,6 +259,32 @@
         </div>
     </div>
 
+    <!-- Process Order Modal -->
+    <div class="modal fade" id="processOrderModal" tabindex="-1" aria-labelledby="processOrderModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="processOrderModalLabel">Process Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to process this order? This will move it to the in progress stage.</p>
+                    <form id="processOrderForm">
+                        @csrf
+                        <input type="hidden" name="_method" value="PUT">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="processOrderBtn" onclick="submitProcessForm()" class="btn btn-warning">
+                        Process Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Complete Order Modal -->
     <div class="modal fade" id="completeOrderModal" tabindex="-1" aria-labelledby="completeOrderModalLabel"
         aria-hidden="true">
@@ -261,162 +314,7 @@
 
     <!-- JavaScript to Set Form Action -->
     <script>
-        let currentOrderId = null;
-
-function setApproveOrder(orderId) {
-  currentOrderId = orderId;
-}
-
-function submitApproveForm() {
-  if (!currentOrderId) return;
-
-  const form = document.getElementById("approveOrderForm");
-  const formData = new FormData(form);
-
-  fetch(`/admin/orders/${currentOrderId}/approve`, {
-    method: "PUT",
-    headers: {
-      "X-CSRF-TOKEN": "{{ csrf_token() }}",
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(Object.fromEntries(formData)),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        $("#approveOrderModal").modal("hide");
-        // Add Bootstrap alert
-        const alertHtml = `
-                        <div id="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
-                            ${data.message}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    `;
-        document
-          .querySelector(".pending-orders")
-          .insertAdjacentHTML("afterbegin", alertHtml);
-
-        // Reload page after delay
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      } else {
-        const alertHtml = `
-                        <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
-                            ${data.message}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    `;
-        document
-          .querySelector(".pending-orders")
-          .insertAdjacentHTML("afterbegin", alertHtml);
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      const alertHtml = `
-                    <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
-                        Error approving order
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                `;
-      document
-        .querySelector(".pending-orders")
-        .insertAdjacentHTML("afterbegin", alertHtml);
-    });
-}
-
-let currentCompleteOrderId = null;
-
-function setCompleteOrder(orderId) {
-  currentCompleteOrderId = orderId;
-}
-
-function submitCompleteForm() {
-  if (!currentCompleteOrderId) return;
-
-  const form = document.getElementById("completeOrderForm");
-  const submitButton = document.getElementById("completeOrderBtn");
-  const formData = new FormData(form);
-
-  // Update button to muted state while processing
-  submitButton.disabled = true;
-  submitButton.classList.remove("btn-success");
-  submitButton.classList.add("btn-secondary", "text-muted", "opacity-75");
-  submitButton.innerHTML =
-    '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
-
-  fetch(`/admin/orders/${currentCompleteOrderId}/complete`, {
-    method: "PUT",
-    headers: {
-      "X-CSRF-TOKEN": "{{ csrf_token() }}",
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(Object.fromEntries(formData)),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        $("#completeOrderModal").modal("hide");
-        // Add success alert
-        const alertHtml = `
-                        <div id="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
-                            ${data.message}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    `;
-        document
-          .querySelector(".pending-orders")
-          .insertAdjacentHTML("afterbegin", alertHtml);
-
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      } else {
-        // Re-enable button if there's an error
-        submitButton.disabled = false;
-        submitButton.classList.remove(
-          "btn-secondary",
-          "text-muted",
-          "opacity-75"
-        );
-        submitButton.classList.add("btn-success");
-        submitButton.innerHTML = "Complete Order";
-        // Show error alert
-        const alertHtml = `
-                        <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
-                            ${data.message} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    `;
-        document
-          .querySelector(".pending-orders")
-          .insertAdjacentHTML("afterbegin", alertHtml);
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      // Restore button state
-      submitButton.disabled = false;
-      submitButton.remove("btn-secondary", "text-muted", "opacity-75");
-      submitButton.classList.add("btn-success");
-      submitButton.innerHTML = "Complete Order";
-    });
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  let alertBox = document.getElementById("successMessage");
-
-  if (alertBox) {
-    setTimeout(function () {
-      alertBox.style.transition = "opacity 1s ease-out";
-      alertBox.style.opacity = "0";
-      setTimeout(() => alertBox.remove(), 1000); // Remove from DOM after fade out
-    }, 2000); // Show for 2 seconds before fading
-  }
-});
-
+        window.csrfToken = "{{ csrf_token() }}";
     </script>
 
     <!-- Include jQuery & DataTables JS -->
@@ -428,7 +326,8 @@ document.addEventListener("DOMContentLoaded", function () {
     @vite('resources/js/admin/pending-orders.js')
 
     <!-- Initialize DataTable -->
-    <script>
+    <!-- Uncomment below script if you want to customize DataTable initialization  and to use inline js-->
+    {{-- <script>
         $(document).ready(function() {
             $('.data-table').DataTable({
                 "paging": false,
@@ -437,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "info": false,
             });
         });
-    </script>
+    </script> --}}
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
