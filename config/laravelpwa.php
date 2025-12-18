@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => 'Silicon Cove',
+    'name' => 'SiliconCove',
     'short_name' => 'SC',
     'start_url' => '/',
     'theme_color' => '#3367D6',

@@ -14,7 +14,7 @@
                 <div class="row mt-4">
                     <!-- About Company -->
                     <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
-                        <h5 class="text-uppercase mb-4">About Silicon Cove</h5> <!-- flag -->
+                        <h5 class="text-uppercase mb-4">About SiliconCove</h5> <!-- flag -->
                         <p style="font-weight: bold;">
                             Your one-stop hub for PC hardware — whether you're a gamer, developer, hacker, or
                             everyday user.
@@ -79,7 +79,7 @@
 
             <!-- Copyright -->
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                © {{ date('Y') }} Silicon Cove - All Rights Reserved. <!-- flag -->
+                © {{ date('Y') }} SiliconCove - All Rights Reserved. <!-- flag -->
             </div>
 
         </footer>

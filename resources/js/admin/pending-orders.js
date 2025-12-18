@@ -33,6 +33,45 @@ window.submitApproveForm = function () {
 };
 
 /* -------------------------
+    Reject Order
+-------------------------- */
+let currentRejectOrderId = null;
+
+window.setRejectOrder = function (orderId) {
+    currentRejectOrderId = orderId;
+};
+
+window.submitRejectForm = function () {
+    if (!currentRejectOrderId) return;
+
+    const reason = document.getElementById("rejectReason").value;
+
+    fetch(`/admin/orders/${currentRejectOrderId}/reject`, {
+        method: "PUT",
+        headers: {
+            "X-CSRF-TOKEN": window.csrfToken,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify({ reason }),
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                $("#rejectOrderModal").modal("hide");
+                showAlert(data.message, "success");
+                setTimeout(() => window.location.reload(), 1000);
+            } else {
+                showAlert(data.message, "danger");
+            }
+        })
+        .catch(() => {
+            showAlert("Error rejecting order", "danger");
+        });
+};
+
+
+/* -------------------------
     Process Order
 -------------------------- */
 let currentProcessOrderId = null;

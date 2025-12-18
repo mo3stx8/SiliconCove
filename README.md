@@ -1,4 +1,4 @@
-# ✨Silicon Cove
+# ✨SiliconCove
 
 #### E-commerce build with Laravel 12 and MySql.
 

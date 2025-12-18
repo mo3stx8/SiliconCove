@@ -156,7 +156,7 @@ class OrderController extends Controller
         $entries = $request->get('entries', 5);
         $query = $this->applySearchFilters(Order::with(['user', 'user.address'])->orderBy('id', 'desc'), $request);
 
-        $orders = $query->whereNotIn('status', ['refunded', 'refund_requested', 'refund_rejected'])->paginate($entries);
+        $orders = $query->whereNotIn('status', ['refunded', 'rejected', 'refund_requested', 'refund_rejected'])->paginate($entries);
 
         return view('admin.view-orders', compact('orders'));
     }
@@ -173,6 +173,7 @@ class OrderController extends Controller
         $orders = $query
             ->whereNotIn('status', [
                 'delivered',
+                'rejected',
                 'refunded',
                 'refund_requested',
                 'refund_rejected',
@@ -181,6 +182,7 @@ class OrderController extends Controller
 
         $newOrdersCount = Order::where('status', 'pending')->count();
         $aprovedOrdersCount = Order::where('status', 'approved')->count();
+        $rejectedOrdersCount = Order::where('status', 'rejected')->count();
         $readyToShipOrdersCount = Order::where('status', 'in progress')->count();
         $shippedOrdersCount = Order::where('status', 'delivered')->count();
 
@@ -196,6 +198,7 @@ class OrderController extends Controller
                 'recentActivities', // 👈 IMPORTANT
                 'newOrdersCount',
                 'aprovedOrdersCount',
+                'rejectedOrdersCount',
                 'readyToShipOrdersCount',
                 'shippedOrdersCount'
             )
@@ -314,6 +317,39 @@ class OrderController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Unable to process order',
+            ], 500);
+        }
+    }
+
+    public function rejectOrder(Request $request, $id)
+    {
+        try {
+            $order = Order::where('id', $id)
+                ->where('status', 'pending')
+                ->firstOrFail();
+
+            $reason = $request->input('reason');
+
+            $order->update([
+                'status' => 'rejected',
+            ]);
+
+            // ✅ Log activity
+            OrderActivity::create([
+                'order_id' => $order->id,
+                'description' => "Order #{$order->order_no} was rejected".
+                    ($reason ? " (Reason: {$reason})" : ''),
+                'icon' => 'fa-solid fa-xmark-circle text-danger',
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Order rejected successfully',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to reject order',
             ], 500);
         }
     }

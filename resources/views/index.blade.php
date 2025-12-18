@@ -15,7 +15,7 @@
 <link rel="shortcut icon" href="{{ asset('images/siliconcovelogo.png') }}">
 
 <title>
-    Silicon Cove
+    SiliconCove
 </title>
 
 @include('includes.navbar')
@@ -65,7 +65,7 @@
                 </div>
                 {{-- site name --}}
                 <div class="col-md-4 d-none d-md-block text-center">
-                    <h4 class="mb-0">Silicon Cove</h4>
+                    <h4 class="mb-0">SiliconCove</h4>
                 </div>
                 {{-- cart button --}}
                 <div class="col-md-4 col-6 text-end">
@@ -336,7 +336,7 @@
     <div class="receipt-container"
         style="width: 300px; padding: 20px; font-family: 'Courier New', Courier, monospace;">
         <div style="text-align: center; margin-bottom: 20px;">
-            <h3>Silicon Cove</h3>
+            <h3>SiliconCove</h3>
             <p>Official Receipt</p>
             <p>Date: <span id="receiptDate"></span></p>
             <p>Transaction #: <span id="receiptTransactionNo"></span></p>
