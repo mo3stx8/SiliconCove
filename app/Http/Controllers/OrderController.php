@@ -156,7 +156,7 @@ class OrderController extends Controller
         $entries = $request->get('entries', 5);
         $query = $this->applySearchFilters(Order::with(['user', 'user.address'])->orderBy('id', 'desc'), $request);
 
-        $orders = $query->whereNotIn('status', ['refunded', 'rejected', 'refund_requested', 'refund_rejected'])->paginate($entries);
+        $orders = $query->whereNotIn('status', ['refunded', 'rejected', 'cancelled', 'refund_requested', 'refund_rejected'])->paginate($entries);
 
         return view('admin.view-orders', compact('orders'));
     }
@@ -174,6 +174,7 @@ class OrderController extends Controller
             ->whereNotIn('status', [
                 'delivered',
                 'rejected',
+                'cancelled',
                 'refunded',
                 'refund_requested',
                 'refund_rejected',
@@ -288,6 +289,37 @@ class OrderController extends Controller
                 'message' => 'Error approving order',
             ], 500);
         }
+    }
+
+    public function cancelOrder(Request $request, $id)
+    {
+        $order = Order::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->where('status', 'pending')
+            ->firstOrFail();
+
+        $reason = $request->input('reason');
+
+        // 🔁 RESTOCK PRODUCT
+        $product = $order->product;
+        if ($product) {
+            $product->increment('stock', $order->quantity);
+        }
+
+        // ❌ CANCEL ORDER
+        $order->update([
+            'status' => 'cancelled',
+        ]);
+
+        // 🧾 LOG ACTIVITY
+        OrderActivity::create([
+            'order_id' => $order->id,
+            'description' => "Order #{$order->order_no} was cancelled by customer".
+            ($reason ? " (Reason: {$reason})" : ''),
+            'icon' => 'fa-solid fa-ban text-secondary',
+        ]);
+
+        return response()->json(['success' => true]);
     }
 
     public function processOrder($id)

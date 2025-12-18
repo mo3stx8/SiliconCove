@@ -40,16 +40,16 @@
                 </ol>
             </div>
 
-            @if(session('success'))
-            <div id="successMessage" class="alert alert-success">
-                {{ session('success') }}
-            </div>
+            @if (session('success'))
+                <div id="successMessage" class="alert alert-success">
+                    {{ session('success') }}
+                </div>
             @endif
 
-            @if(session('error'))
-            <div id="errorMessage" class="alert alert-danger">
-                {{ session('error') }}
-            </div>
+            @if (session('error'))
+                <div id="errorMessage" class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
             @endif
 
             @include('components.product-info-modal')
@@ -60,55 +60,56 @@
                 </div>
                 <div class="card-body">
                     @php
-                    $actions = [
-                        [
-                            'inline' => function ($row) {
-                                $rowJson = htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8');
-                                $orderId = $row['order_id'] ?? null;
+                        $actions = [
+                            [
+                                'inline' => function ($row) {
+                                    $rowJson = htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8');
+                                    $orderId = $row['order_id'] ?? null;
 
-                                $viewBtn = '<button class="btn btn-primary btn-sm me-1" onclick="showProductInfoModal(' . $rowJson . ')">
+                                    $viewBtn =
+                                        '<button class="btn btn-primary btn-sm me-1" onclick="showProductInfoModal(' .
+                                        $rowJson .
+                                        ')">
                                     <i class="fa fa-eye"></i> View
                                 </button>';
 
-                                $deleteBtn = '<button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteOrderModal"
-                                    onclick="setDeleteOrder(' . $orderId . ')">
+                                    $deleteBtn =
+                                        '<button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteOrderModal"
+                                    onclick="setDeleteOrder(' .
+                                        $orderId .
+                                        ')">
                                     <i class="fa fa-trash"></i> Delete
                                 </button>';
 
-                                return '<div class="btn-group">' . $viewBtn . $deleteBtn . '</div>';
-                            },
-                        ],
-                    ];
+                                    return '<div class="btn-group">' . $viewBtn . $deleteBtn . '</div>';
+                                },
+                            ],
+                        ];
                     @endphp
 
-                    <x-data-table
-                        :headers="[
+                    <x-data-table :headers="[
                         'id' => '#',
                         'order_no' => 'Order ID',
                         'name' => 'Customer',
                         'created_at' => 'Order Date',
                         'total_amount' => 'Total',
                         'status' => 'Status',
-                    ]"
-
-                        :rows="$orders->through(function($order, $index) use ($orders) {
-                            return [
-                                'id' => $orders->firstItem() + $index,
-                                'order_no' => $order->order_no,
-                                'order_id' => $order->id,
-                                'name' => $order->user->name ?? '(Admin)',
-                                'created_at' => $order->created_at->format('Y-m-d'),
-                                'total_amount' => '$' . number_format($order->total_amount, 2),
-                                'status' => view('partials.order-status', ['status' => $order->status])->render(),
-                                'payment_method' => ucfirst($order->payment_method),
-                                'product' => $order->product,
-                                'proof_of_payment' => $order->proof_of_payment,
-                                'quantity' => $order->quantity,
-                                'address' => $order->user->address ?? '',
-                            ];
-                        })"
-
-                        :actions="$actions"
+                    ]" :rows="$orders->through(function ($order, $index) use ($orders) {
+                        return [
+                            'id' => $orders->firstItem() + $index,
+                            'order_no' => $order->order_no,
+                            'order_id' => $order->id,
+                            'name' => $order->user->name ?? '(Admin)',
+                            'created_at' => $order->created_at->format('Y-m-d'),
+                            'total_amount' => '$' . number_format($order->total_amount, 2),
+                            'status' => view('partials.order-status', ['status' => $order->status])->render(),
+                            'payment_method' => ucfirst($order->payment_method),
+                            'product' => $order->product,
+                            'proof_of_payment' => $order->proof_of_payment,
+                            'quantity' => $order->quantity,
+                            'address' => $order->user->address ?? '',
+                        ];
+                    })" :actions="$actions"
                         route="{{ route('admin.view-orders') }}" />
                 </div>
             </div>
@@ -116,7 +117,8 @@
     </section>
 
     <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteOrderModal" tabindex="-1" aria-labelledby="deleteOrderModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteOrderModal" tabindex="-1" aria-labelledby="deleteOrderModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
@@ -139,11 +141,12 @@
     </div>
 
     <!-- JavaScript to Set Form Action -->
-    <script>
+    
+    {{-- <script>
         function setDeleteOrder(id) {
-            const deleteForm = document.getElementById('deleteOrderForm');
+            const deleteForm = document.getElementById("deleteOrderForm");
             deleteForm.action = "/admin/orders/" + id + "/delete"; // Updated to match the new route
-        };
+        }
 
         document.addEventListener("DOMContentLoaded", function() {
             let alertBox = document.getElementById("successMessage");
@@ -156,7 +159,7 @@
                 }, 2000); // Show for 2 seconds before fading
             }
         });
-    </script>
+    </script> --}}
 
     <!-- Include jQuery & DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -177,6 +180,7 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    @vite(['resources/js/admin/view-orders.js'])
     <script src="{{ asset('js/admin.js') }}"></script>
 </body>
 

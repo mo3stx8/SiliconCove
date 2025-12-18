@@ -100,20 +100,6 @@
                             <img id="imagePreview" src="#" alt=" Preview" class="img-fluid" style="max-height: 200px; display: none;">
                         </div>
 
-                        <script>
-                            document.getElementById('imageInput').addEventListener('change', function(event) {
-                                const [file] = event.target.files;
-                                if (file) {
-                                    const reader = new FileReader();
-                                    reader.onload = function(e) {
-                                        document.getElementById('imagePreview').src = e.target.result;
-                                        document.getElementById('imagePreview').style.display = 'block';
-                                    };
-                                    reader.readAsDataURL(file);
-                                }
-                            });
-                        </script>
-
                         <button type="submit" class="btn btn-primary">Add Product</button>
                     </form>
                 </div>
@@ -125,6 +111,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="{{ asset('js/admin.js') }}"></script>
+    @vite(['resources/js/admin/add-product.js'])
 </body>
 
 </html>

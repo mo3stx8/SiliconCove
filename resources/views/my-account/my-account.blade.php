@@ -46,7 +46,7 @@
                                 Delivered</option>
                             <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Rejected
                             </option>
-                            <option value="canceled" {{ request('status') === 'canceled' ? 'selected' : '' }}>Canceled
+                            <option value="cancelled" {{ request('status') === 'cancelled' ? 'selected' : '' }}>Cancelled
                             </option>
                             <option value="refunded" {{ request('status') === 'refunded' ? 'selected' : '' }}>Refunded
                             </option>
@@ -94,7 +94,7 @@
                                                     'in progress' => 'info',
                                                     'delivered' => 'primary',
                                                     'rejected' => 'danger',
-                                                    'canceled' => 'danger',
+                                                    'cancelled' => 'danger',
                                                     'refunded' => 'dark',
                                                     'refund_requested' => 'warning',
                                                     'refund_rejected' => 'danger',
@@ -113,6 +113,14 @@
                                                     onclick='showProductInfoModal(@json($order))'>
                                                     <i class="fa fa-eye"></i> View
                                                 </button>
+
+                                                @if ($order->status === 'pending')
+                                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#cancelOrderModal"
+                                                        onclick="setCancelOrder('{{ $order->id }}')">
+                                                        <i class="fa-solid fa-ban"></i> Cancel
+                                                    </button>
+                                                @endif
 
                                                 @php
                                                     $restrictedRefundStatuses = [
@@ -225,6 +233,33 @@
         </div>
     </div>
 
+    <!-- Cancel Order Modal -->
+    <div class="modal fade" id="cancelOrderModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-ban me-2"></i>
+                        Cancel Order
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to cancel this order?</p>
+
+                    <textarea id="cancelReason" class="form-control" rows="3" placeholder="Optional reason for cancellation"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button class="btn btn-danger" onclick="submitCancelOrder()">
+                        Yes, Cancel Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -260,6 +295,30 @@
             alert("{{ session('success') }}");
         @endif
     </script>
+    <script>
+        let currentCancelOrderId = null;
+
+        function setCancelOrder(orderId) {
+            currentCancelOrderId = orderId;
+        }
+
+        function submitCancelOrder() {
+            if (!currentCancelOrderId) return;
+
+            fetch(`/orders/${currentCancelOrderId}/cancel`, {
+                    method: "PUT",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        reason: document.getElementById('cancelReason').value
+                    })
+                })
+                .then(() => window.location.reload());
+        }
+    </script>
+
 
 </body>
 

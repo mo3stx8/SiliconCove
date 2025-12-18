@@ -1,85 +1,176 @@
-// import Chart from '/public/js/admin/Chart.min.js';
+/* ===============================
+   GLOBAL DATA (from Blade)
+================================ */
+const salesData = window.salesData || {};
+const profitData = window.profitData || {};
 
-const { salesData, profitData, comparison } = window.dashboardData;
+/* ===============================
+   CHART INITIALIZATION
+================================ */
+let salesChart, profitChart;
 
-// Charts
-const salesChart = new Chart(
-    document.getElementById('salesChart'),
-    {
-        type: 'line',
-        data: { labels: [], datasets: [{ label: 'Sales', data: [] }] },
-        options: { responsive: true }
-    }
-);
+document.addEventListener("DOMContentLoaded", () => {
+    initSalesChart();
+    initProfitChart();
+    updateCharts("daily");
+});
 
-const profitChart = new Chart(
-    document.getElementById('profitChart'),
-    {
-        type: 'bar',
-        data: { labels: [], datasets: [{ label: 'Profit', data: [] }] },
-        options: { responsive: true }
-    }
-);
+/* ===============================
+   SALES CHART
+================================ */
+function initSalesChart() {
+    const ctx = document.getElementById("salesChart")?.getContext("2d");
+    if (!ctx) return;
 
-function getMonthName(month) {
-    return new Date(2000, month - 1).toLocaleString('default', { month: 'long' });
+    salesChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: [],
+            datasets: [{
+                label: "Sales",
+                data: [],
+                borderColor: "rgb(75, 192, 192)",
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => "$" + value.toLocaleString()
+                    }
+                }
+            }
+        }
+    });
 }
 
-// Make functions GLOBAL if used by onclick=""
+/* ===============================
+   PROFIT CHART
+================================ */
+function initProfitChart() {
+    const ctx = document.getElementById("profitChart")?.getContext("2d");
+    if (!ctx) return;
+
+    profitChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: [],
+            datasets: [{
+                label: "Profit",
+                data: [],
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderColor: "rgb(75, 192, 192)",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => "$" + value.toLocaleString()
+                    }
+                }
+            }
+        }
+    });
+}
+
+/* ===============================
+   UPDATE CHARTS
+================================ */
 window.updateChart = function (period) {
-    const sales = salesData[period];
-    const profit = profitData[period];
+    updateCharts(period);
+};
 
-    salesChart.data.labels = sales.map(i =>
-        period === 'daily' ? i.hour :
-        period === 'monthly' ? getMonthName(i.month) :
-        i.year
+function updateCharts(period) {
+    const sData = salesData[period] || [];
+    const pData = profitData[period] || [];
+
+    // Sales
+    salesChart.data.labels = sData.map(item =>
+        period === "daily" ? item.hour :
+        period === "monthly" ? getMonthName(item.month) :
+        item.year
     );
-
-    salesChart.data.datasets[0].data = sales.map(i => i.total);
+    salesChart.data.datasets[0].data = sData.map(item => item.total);
     salesChart.update();
 
-    profitChart.data.labels = profit.map(i =>
-        period === 'daily' ? i.hour :
-        period === 'monthly' ? getMonthName(i.month) :
-        i.year
+    // Profit
+    profitChart.data.labels = pData.map(item =>
+        period === "daily" ? item.hour :
+        period === "monthly" ? getMonthName(item.month) :
+        item.year
     );
-
-    profitChart.data.datasets[0].data = profit.map(i => i.profit);
+    profitChart.data.datasets[0].data = pData.map(item => item.profit);
     profitChart.update();
-};
+}
 
-// Init
-updateChart('daily');
+/* ===============================
+   HELPERS
+================================ */
+function getMonthName(monthNumber) {
+    return new Date(2000, monthNumber - 1).toLocaleString("default", {
+        month: "long"
+    });
+}
 
-// Restock modal
+/* ===============================
+   RESTOCK MODAL
+================================ */
 window.showRestockModal = function (productId) {
-    document.getElementById('restockProductId').value = productId;
-    new bootstrap.Modal(document.getElementById('restockModal')).show();
+    document.getElementById("restockProductId").value = productId;
+    new bootstrap.Modal(document.getElementById("restockModal")).show();
 };
 
-// Scroll helper
+/* ===============================
+   SCROLL
+================================ */
 window.scrollToDailySalesDetail = function () {
-    document
-        .getElementById('dailySalesDetailRow')
-        ?.scrollIntoView({ behavior: 'smooth' });
+    const el = document.getElementById("dailySalesDetailRow");
+    if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 };
+
+/* ===============================
+   COMPARISON MODAL
+================================ */
+let compareDailyChart, compareMonthlyChart, compareYearlyChart;
 
 window.showComparisonModal = function () {
-    new Chart(document.getElementById('compareDailyChart'), {
-        type: 'bar',
+    destroyComparisonCharts();
+
+    renderCompareChart("compareDailyChart", window.compareDailyData);
+    renderCompareChart("compareMonthlyChart", window.compareMonthlyData);
+    renderCompareChart("compareYearlyChart", window.compareYearlyData);
+
+    new bootstrap.Modal(document.getElementById("comparisonModal")).show();
+};
+
+function renderCompareChart(canvasId, chartData) {
+    const ctx = document.getElementById(canvasId)?.getContext("2d");
+    if (!ctx) return;
+
+    return new Chart(ctx, {
+        type: "bar",
         data: {
-            labels: ['Yesterday', 'Today'],
+            labels: chartData.labels,
             datasets: [{
-                data: [
-                    comparison.daily.yesterday,
-                    comparison.daily.today
-                ]
+                label: "Sales",
+                data: chartData.data,
+                backgroundColor: ["#6c757d", "#0d6efd"]
             }]
         }
     });
+}
 
-    new bootstrap.Modal(
-        document.getElementById('comparisonModal')
-    ).show();
-};
+function destroyComparisonCharts() {
+    [compareDailyChart, compareMonthlyChart, compareYearlyChart].forEach(c => {
+        if (c) c.destroy();
+    });
+}
