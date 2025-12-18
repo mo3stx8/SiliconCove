@@ -80,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
     Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
     Route::post('/orders/request-refund', [OrderController::class, 'requestRefund'])->name('orders.request-refund');
+    Route::put('/orders/{id}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
 });
 
 // guest cart
@@ -125,7 +126,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/orders/{orderNo}/invoice', [OrderController::class, 'generateInvoice'])->name('admin.orders.invoice');
         Route::put('/orders/{id}/approve', [OrderController::class, 'approveOrder'])->name('admin.orders.approve');
         Route::put('/orders/{id}/process', [OrderController::class, 'processOrder'])->name('admin.orders.process');
-        Route::put('/orders/{id}/reject', [OrderController::class, 'rejectOrder']);//->name('admin.orders.reject');
+        Route::put('/orders/{id}/reject', [OrderController::class, 'rejectOrder'])->name('admin.orders.reject');
         Route::put('/orders/{id}/complete', [OrderController::class, 'completeOrder'])->name('admin.orders.complete');
         Route::post('/orders/{id}/approve-refund', [OrderController::class, 'approveRefund'])->name('admin.orders.approve-refund');
         Route::post('/orders/{id}/deny-refund', [OrderController::class, 'denyRefund'])->name('admin.orders.deny-refund');

@@ -351,82 +351,8 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            // Setup CSRF token for all AJAX requests
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
 
-            $('#pendingRefundsTable').DataTable();
-            $('#processedRefundsTable').DataTable();
-        });
-
-        function viewRefund(order) {
-            console.log(order);
-            // Update modal content
-            $('#orderNumber').text(order.order_no);
-            $('#customerName').text(order.name);
-            $('#productName').text(order.product.name);
-            $('#orderDate').text(order.created_at);
-            $('#paymentMethod').text(order.payment_method.toUpperCase());
-
-            // Format status with badge
-            const statusClass = {
-                'refund_requested': 'bg-warning',
-                'refunded': 'bg-success',
-                'refund_rejected': 'bg-danger'
-            }[order.raw_status] || 'bg-secondary';
-
-            $('#refundStatus').html(`<span class="badge ${statusClass}">${order.raw_status.replace('_', ' ').toUpperCase()}</span>`);
-            $('#totalAmount').text(order.total_amount);
-            $('#requestDate').text(order.refund_requested_date);
-            $('#refundReason').text(order.refund_reason || 'No reason provided');
-
-            // Show modal
-            $('#viewRefundModal').modal('show');
-        }
-
-        let currentOrderId = null;
-
-        function approveRefund(orderId) {
-            currentOrderId = orderId;
-        }
-
-        function denyRefund(orderId) {
-            currentOrderId = orderId;
-        }
-
-        function submitRefundAction(action) {
-            if (!currentOrderId) return;
-
-            const url = action === 'approve'
-                ? `/admin/orders/${currentOrderId}/approve-refund`
-                : `/admin/orders/${currentOrderId}/deny-refund`;
-
-            $.ajax({
-                url: url,
-                type: 'POST',
-                success: function(response) {
-                    if (response.success) {
-                        // Close modal
-                        $(`#${action}RefundModal`).modal('hide');
-
-                        // Reload page to reflect changes
-                        window.location.reload();
-                    } else {
-                        alert(response.message || 'Error processing refund');
-                    }
-                },
-                error: function(xhr) {
-                    console.error('Error:', xhr);
-                    alert('Error processing refund');
-                }
-            });
-        }
-    </script>
+    @vite(['resources/js/admin/process-refunds.js'])
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/admin.js') }}"></script>

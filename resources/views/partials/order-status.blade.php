@@ -7,7 +7,7 @@
         'in progress' => 'info',
         'delivered' => 'primary',
         'rejected' => 'danger',
-        'canceled' => 'secondary',
+        'cancelled' => 'secondary',
         'refunded' => 'dark',
         'refund_requested' => 'dark',
         'refund_rejected' => 'danger',
