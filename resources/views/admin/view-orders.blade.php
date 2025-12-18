@@ -140,26 +140,7 @@
         </div>
     </div>
 
-    <!-- JavaScript to Set Form Action -->
     
-    {{-- <script>
-        function setDeleteOrder(id) {
-            const deleteForm = document.getElementById("deleteOrderForm");
-            deleteForm.action = "/admin/orders/" + id + "/delete"; // Updated to match the new route
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            let alertBox = document.getElementById("successMessage");
-
-            if (alertBox) {
-                setTimeout(function() {
-                    alertBox.style.transition = "opacity 1s ease-out";
-                    alertBox.style.opacity = "0";
-                    setTimeout(() => alertBox.remove(), 1000); // Remove from DOM after fade out
-                }, 2000); // Show for 2 seconds before fading
-            }
-        });
-    </script> --}}
 
     <!-- Include jQuery & DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -180,6 +161,7 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!-- JavaScript to Set Form Action -->
     @vite(['resources/js/admin/view-orders.js'])
     <script src="{{ asset('js/admin.js') }}"></script>
 </body>
