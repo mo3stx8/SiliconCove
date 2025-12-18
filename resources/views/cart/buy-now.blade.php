@@ -9,7 +9,7 @@
 @endpush
 
 @section('title')
-    Silicon Cove - Checkout
+    SiliconCove - Checkout
 @endsection
 @section('content')
     <div class="container checkout-container" style="margin-top: 70px;">

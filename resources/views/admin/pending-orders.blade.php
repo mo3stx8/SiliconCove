@@ -136,7 +136,7 @@
                                     $approveBtn = '';
                                     if ($status === 'pending') {
                                         $approveBtn =
-                                            '<button class="btn btn-info btn-sm me-1" data-bs-toggle="modal" data-bs-target="#approveOrderModal" onclick="setApproveOrder(\'' .
+                                            '<button class="btn btn-warning btn-sm me-1" data-bs-toggle="modal" data-bs-target="#approveOrderModal" onclick="setApproveOrder(\'' .
                                             $orderId .
                                             '\')">
                                             <i class="fa fa-check-circle"></i> Approve
@@ -151,7 +151,7 @@
                                     if ($status === 'approved') {
                                         $processBtn =
                                             '
-                                            <button class="btn btn-warning btn-sm me-1" data-bs-toggle="modal" data-bs-target="#processOrderModal" onclick="setProcessOrder(\'' .
+                                            <button class="btn btn-info btn-sm me-1" data-bs-toggle="modal" data-bs-target="#processOrderModal" onclick="setProcessOrder(\'' .
                                             $orderId .
                                             '\')">
                                             <i class="fa-solid fa-gear"></i> Process
@@ -159,6 +159,21 @@
                                     } else {
                                         $processBtn = '<button class="btn btn-secondary btn-sm me-1 text-muted opacity-50" disabled>
                                             <i class="fa-solid fa-gear"></i> Process
+                                        </button>';
+                                    }
+
+                                    $rejectBtn = '';
+                                    if ($status === 'pending') {
+                                        $rejectBtn =
+                                            '
+                                            <button class="btn btn-danger btn-sm me-1" data-bs-toggle="modal" data-bs-target="#rejectOrderModal" onclick="setRejectOrder(\'' .
+                                            $orderId .
+                                            '\')">
+                                            <i class="fa-solid fa-xmark-circle"></i> Reject
+                                        </button>';
+                                    } else {
+                                        $rejectBtn = '<button class="btn btn-secondary btn-sm me-1 text-muted opacity-50" disabled>
+                                            <i class="fa-solid fa-xmark-circle"></i> Reject
                                         </button>';
                                     }
 
@@ -176,7 +191,13 @@
                                         </button>';
                                     }
 
-                                    return '<div class="btn-group">' . $viewBtn . $approveBtn . $processBtn . $completeBtn . '</div>';
+                                    return '<div class="btn-group">' .
+                                        $viewBtn .
+                                        $approveBtn .
+                                        $rejectBtn .
+                                        $processBtn .
+                                        $completeBtn .
+                                        '</div>';
                                 },
                             ],
                         ];
@@ -196,18 +217,6 @@
             </div>
 
             <!-- Recent Order Activity -->
-            {{-- <i class="fa-solid fa-plus text-warning"></i>
-            <i class="fa fa-circle-plus text-warning"></i>
-            <i class="fa-solid fa-square-plus"></i>
-            <i class="fa-solid fa-bag-shopping"></i>
-            <i class="fa-solid fa-receipt"></i>
-            <i class="fa-solid fa-truck"></i>
-            <i class="fa-solid fa-truck-fast"></i>
-            <i class="fa-solid fa-truck-moving"></i>
-            <i class="fa-solid fa-truck-ramp-box"></i>
-            <i class="fa-solid fa-box"></i>
-            <i class="fa-solid fa-dolly"></i> --}}
-            {{-- <i class="fa-solid fa-gear text-info"></i> --}}
             <div class="card mt-4">
                 <div class="card-header">
                     <h3 class="card-title">Recent Order Activity</h3>
@@ -240,7 +249,7 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-info text-white">
+                <div class="modal-header bg-warning text-white">
                     <h5 class="modal-title" id="approveOrderModalLabel">Approve Order</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -253,18 +262,41 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" onclick="submitApproveForm()" class="btn btn-info">Approve Order</button>
+                    <button type="button" onclick="submitApproveForm()" class="btn btn-warning">Approve Order</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Reject Order Modal -->
+    <div class="modal fade" id="rejectOrderModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Reject Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to reject this order?</p>
+                    <textarea id="rejectReason" class="form-control" placeholder="Optional reason for rejection"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-danger" onclick="submitRejectForm()">
+                        Reject Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Process Order Modal -->
     <div class="modal fade" id="processOrderModal" tabindex="-1" aria-labelledby="processOrderModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-warning text-dark">
+                <div class="modal-header bg-info text-dark">
                     <h5 class="modal-title" id="processOrderModalLabel">Process Order</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -277,7 +309,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" id="processOrderBtn" onclick="submitProcessForm()" class="btn btn-warning">
+                    <button type="button" id="processOrderBtn" onclick="submitProcessForm()" class="btn btn-info">
                         Process Order
                     </button>
                 </div>
@@ -344,3 +376,18 @@
 </body>
 
 </html>
+
+
+<!-- icons -->
+{{-- <i class="fa-solid fa-plus text-warning"></i>
+<i class="fa fa-circle-plus text-warning"></i>
+<i class="fa-solid fa-bag-shopping"></i>
+<i class="fa-solid fa-receipt"></i>
+<i class="fa-solid fa-truck"></i>
+<i class="fa-solid fa-truck-fast"></i>
+<i class="fa-solid fa-truck-moving"></i>
+<i class="fa-solid fa-truck-ramp-box"></i>
+<i class="fa-solid fa-box"></i>
+<i class="fa-solid fa-dolly"></i> 
+<i class="fa-solid fa-square-plus"></i>
+<i class="fa-solid fa-gear text-info"></i> --}}

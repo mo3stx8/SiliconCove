@@ -57,9 +57,9 @@
         </div>
 
         <!-- Welcome Message -->
-        <h1 class="jumbotron-heading text-primary fw-bold">Welcome to Silicon Cove</h1>
+        <h1 class="jumbotron-heading text-primary fw-bold">Welcome to SiliconCove</h1>
         <p class="lead text-muted">
-            Welcome to <strong>Silicon Cove</strong> Your trusted source for authentic SiliconCove products.
+            Welcome to <strong>SiliconCove</strong> Your trusted source for authentic SiliconCove products.
             Shop confidently with reliable service, curated selections, and smooth, hassle-free delivery every time.
             <strong>Thank you very much for your patronage!</strong> 🛒✨
         </p>

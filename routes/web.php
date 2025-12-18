@@ -124,7 +124,8 @@ Route::prefix('admin')->group(function () {
         Route::delete('/orders/{id}/delete', [OrderController::class, 'deleteOrder'])->name('admin.orders.delete');
         Route::get('/orders/{orderNo}/invoice', [OrderController::class, 'generateInvoice'])->name('admin.orders.invoice');
         Route::put('/orders/{id}/approve', [OrderController::class, 'approveOrder'])->name('admin.orders.approve');
-        Route::put('/orders/{id}/process', [OrderController::class, 'processOrder']);
+        Route::put('/orders/{id}/process', [OrderController::class, 'processOrder'])->name('admin.orders.process');
+        Route::put('/orders/{id}/reject', [OrderController::class, 'rejectOrder']);//->name('admin.orders.reject');
         Route::put('/orders/{id}/complete', [OrderController::class, 'completeOrder'])->name('admin.orders.complete');
         Route::post('/orders/{id}/approve-refund', [OrderController::class, 'approveRefund'])->name('admin.orders.approve-refund');
         Route::post('/orders/{id}/deny-refund', [OrderController::class, 'denyRefund'])->name('admin.orders.deny-refund');
@@ -138,3 +139,4 @@ Route::prefix('admin')->group(function () {
             ->name('admin.search');
     });
 });
+

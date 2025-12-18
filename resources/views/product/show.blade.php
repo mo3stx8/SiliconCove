@@ -3,7 +3,7 @@
 <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 
 @section('title')
-    Silicon Cove
+    SiliconCove
 @endsection
 
 @section('content')

@@ -2,7 +2,7 @@
 <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 
 @section('title')
-    Silicon Cove - Customer Details
+    SiliconCove - Customer Details
 @endsection
 <div class="modal fade" id="viewCustomerModal{{ $customer->user->id ?? '' }}" tabindex="-1">
     <div class="modal-dialog">

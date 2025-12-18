@@ -2,7 +2,7 @@
     <div class="container">
         <!-- Brand -->
         <a class="navbar-brand" href="{{ route('index') }}">
-            <i class="fas fa-store me-2"></i> Silicon Cove <!-- flag -->
+            <i class="fas fa-store me-2"></i> SiliconCove <!-- flag -->
         </a>
 
         <!-- Mobile Toggle Button (JS-based) -->
