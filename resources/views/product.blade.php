@@ -120,6 +120,12 @@
     </div>
 </div>
 
+<div class="mt-5 d-flex justify-content-center">
+    {{ $products->links('pagination::bootstrap-5') }}
+</div>
+
+
+
 <!-- JavaScript to Handle Modal Data -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
