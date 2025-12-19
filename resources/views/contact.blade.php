@@ -3,7 +3,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <!-- website icon -->
-    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
+<link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 
 <title>SiliconCove - Contact</title>
 <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -45,7 +45,8 @@
                 <div class="col-12 col-lg-9">
                     <div class="bg-white border rounded shadow-sm overflow-hidden">
 
-                        <form action="#!">
+                        <form action="{{ route('contact.send') }}" method="POST">
+                            @csrf
                             <div class="row gy-4 gy-xl-5 p-4 p-xl-5">
                                 <div class="col-12">
                                     <label for="fullname" class="form-label">Full Name <span

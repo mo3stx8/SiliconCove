@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\UserAdmin;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
 
 // 🔹 Home Page
 // Route::get('/', function () {
@@ -141,3 +142,5 @@ Route::prefix('admin')->group(function () {
     });
 });
 
+// 🔹 Contact Form Submission
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
