@@ -46,7 +46,7 @@
                             </li>
                             <li class="mb-3 d-flex align-items-center justify-content-center justify-content-lg-start">
                                 <i class="fas fa-clock me-3"></i>
-                                <span>Mon-Sat: 8:00 AM - 9:00 PM</span>
+                                <span>Sat - Thr : 8:00 AM - 9:00 PM</span>
                             </li>
                         </ul>
                     </div>
