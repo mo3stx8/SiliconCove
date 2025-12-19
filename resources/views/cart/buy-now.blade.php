@@ -202,51 +202,51 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
-                    // Toggle GCash payment section
-                    $('.payment-method').change(function() {
-                        if ($('#gcashPayment').is(':checked')) {
-                            $('#gcashSection').removeClass('d-none');
-                            $('#proofOfPayment').prop('required', true); // Make proof_of_payment required
-                        } else {
-                            $('#gcashSection').addClass('d-none');
-                            $('#proofOfPayment').prop('required', false); // Remove required attribute
-                        }
-                    });
+            // Toggle GCash payment section
+            $('.payment-method').change(function() {
+                if ($('#gcashPayment').is(':checked')) {
+                    $('#gcashSection').removeClass('d-none');
+                    $('#proofOfPayment').prop('required', true); // Make proof_of_payment required
+                } else {
+                    $('#gcashSection').addClass('d-none');
+                    $('#proofOfPayment').prop('required', false); // Remove required attribute
+                }
+            });
 
-                    // Handle image preview
-                    $('#proofOfPayment').change(function() {
-                        const file = this.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                $('#imagePreview img').attr('src', e.target.result).removeClass('d-none');
-                            }
-                            reader.readAsDataURL(file);
-                        }
-                    });
+            // Handle image preview
+            $('#proofOfPayment').change(function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagePreview img').attr('src', e.target.result).removeClass('d-none');
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
 
-                    // Handle image preview for the second GCash
-                    $('#proofOfPayment2').change(function() {
-                        const file = this.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                $('#imagePreview2 img').attr('src', e.target.result).removeClass('d-none');
-                            }
-                            reader.readAsDataURL(file);
-                        }
-                    });
+            // Handle image preview for the second GCash
+            $('#proofOfPayment2').change(function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#imagePreview2 img').attr('src', e.target.result).removeClass('d-none');
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
 
-                    // Toggle GCash payment section 2
-                    $('.payment-method').change(function() {
-                        if ($('#gcashPayment2').is(':checked')) {
-                            $('#gcashSection2').removeClass('d-none');
-                            $('#proofOfPayment2').prop('required', true); // Make proof_of_payment2 required
-                        } else {
-                            $('#gcashSection2').addClass('d-none');
-                            $('#proofOfPayment2').prop('required', false); // Remove required attribute
-                        }
-                    });
-                });
+            // Toggle GCash payment section 2
+            $('.payment-method').change(function() {
+                if ($('#gcashPayment2').is(':checked')) {
+                    $('#gcashSection2').removeClass('d-none');
+                    $('#proofOfPayment2').prop('required', true); // Make proof_of_payment2 required
+                } else {
+                    $('#gcashSection2').addClass('d-none');
+                    $('#proofOfPayment2').prop('required', false); // Remove required attribute
+                }
+            });
+        });
     </script>
 @endpush
