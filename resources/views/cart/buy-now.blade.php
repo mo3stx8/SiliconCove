@@ -176,7 +176,7 @@
                             @endphp
                             <tr>
                                 <td><img src="{{ asset('storage/' . $item->product->image) }}" class="img-thumbnail"
-                                        width="50"></td>
+                                        width="50" alt="productimg"></td>
                                 <td>{{ $item->product->name }}</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>${{ number_format($totalPrice, 2) }}</td>

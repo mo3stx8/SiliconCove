@@ -67,6 +67,31 @@
             <div class="text-center mt-3">
                 Don't have an account? <a href="{{ route('signup') }}">Sign up</a>
             </div>
+
+            {{-- socail login  --}}
+            <div class="text-center mt-3">
+                <div class="d-flex justify-content-center gap-3">
+                    {{-- google login --}}
+                    <a href="{{ route('google.login') }}" class="btn btn-light rounded-circle shadow-sm p-2">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" alt="Google Logo">
+                    </a>
+
+                    {{-- github login --}}
+                    <a href="{{ route('github.login') }}" class="btn btn-light rounded-circle shadow-sm p-2">
+                        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" alt="GitHub Logo">
+                    </a>
+
+                    {{-- facebook login --}}
+                    <a href="{{ route('facebook.login') }}" class="btn btn-light rounded-circle shadow-sm p-2">
+                        <img src="https://www.facebook.com/images/fb_icon_325x325.png" width="20" alt="Facebook Logo">
+                    </a>
+                </div>
+
+                <small class="text-muted d-block mt-2">
+                    We won't post anything without your permission.
+                </small>
+            </div>
+
         </div>
     </div>
 

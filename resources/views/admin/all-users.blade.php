@@ -87,8 +87,60 @@
         </div>
     </div>
 
-    <!-- JavaScript to Set Form Action -->
-    @vite(['resources/js/admin/all-users.js'])
+    <!-- view User Modal -->
+    <div class="modal fade" id="viewUserModal" tabindex="-1" aria-labelledby="viewUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewUserModalLabel">User Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="viewUserBody">
+                    {{-- <img src="" alt="User Avatar" class="img-fluid rounded-circle mb-3" id="viewUserAvatar" style="width: 100px; height: 100px;"> --}}
+                    <p><strong>Name:</strong> <span id="viewUserName"></span></p>
+                    <p><strong>Email:</strong> <span id="viewUserEmail"></span></p>
+                    <p><strong>Role:</strong> <span id="viewUserRole"></span></p>
+                    <p><strong>Created At:</strong> <span id="viewUserCreatedAt"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setDeleteUser(userId) {
+            document.getElementById("deleteUserForm").action =
+                "/admin/all-users/" + userId;
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            let alertBox = document.getElementById("successMessage");
+
+            if (alertBox) {
+                setTimeout(function() {
+                    alertBox.style.transition = "opacity 1s ease-out";
+                    alertBox.style.opacity = "0";
+                    setTimeout(() => alertBox.remove(), 1000); // Remove from DOM after fade out
+                }, 2000); // Show for 2 seconds before fading
+            }
+        });
+
+        function viewUserDetails(user) {
+            // document.getElementById("viewUserAvatar").src = user.profile_picture || '/images/default-avatar.png';
+            document.getElementById("viewUserName").innerText = user.name;
+            document.getElementById("viewUserEmail").innerText = user.email;
+            document.getElementById("viewUserRole").innerText = user.role;
+            document.getElementById("viewUserCreatedAt").innerText =
+                new Date(user.created_at).toLocaleDateString();
+
+            const modal = new bootstrap.Modal(
+                document.getElementById("viewUserModal")
+            );
+            modal.show();
+        }
+    </script>
 
     <!-- Include jQuery & DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -99,6 +151,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="{{ asset('js/admin.js') }}"></script>
+
+    <!-- JavaScript to Set Form Action -->
+    {{-- @vite(['resources/js/admin/all-users.js']) --}}
 </body>
 
 </html>

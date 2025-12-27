@@ -4,8 +4,11 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\GitHubController;
+use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
@@ -14,7 +17,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\UserAdmin;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ContactController;
 
 // 🔹 Home Page
 // Route::get('/', function () {
@@ -144,3 +146,33 @@ Route::prefix('admin')->group(function () {
 
 // 🔹 Contact Form Submission
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
+// 🔹 Google OAuth Routes
+Route::get('/auth/google', [GoogleController::class, 'redirect'])
+    ->name('google.login');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
+
+// 🔹 Google link/unlink
+Route::middleware('auth')->group(function () {
+    Route::post('/auth/google/unlink', [GoogleController::class, 'unlink'])
+        ->name('google.unlink');
+});
+
+// 🔹 GitHub OAuth Routes
+Route::get('/auth/github', [GitHubController::class, 'redirect'])
+    ->name('github.login');
+
+Route::get('/auth/github/callback', [GitHubController::class, 'callback']);
+
+// 🔹 GitHub link/unlink
+Route::middleware('auth')->group(function () {
+    Route::post('/auth/github/unlink', [GitHubController::class, 'unlink'])
+        ->name('github.unlink');
+});
+
+// 🔹 FaceBook OAuth Routes
+Route::get('/auth/facebook', [\App\Http\Controllers\Auth\FacebookController::class, 'redirect'])
+    ->name('facebook.login');
+Route::get('/auth/facebook/callback', [\App\Http\Controllers\Auth\FacebookController::class, 'callback']);
+
+// 🔹 End of Web Routes
