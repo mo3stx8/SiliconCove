@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 <!-- website icon -->
-    <link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
+<link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 
 @section('title')
     SiliconCove - cart
@@ -149,7 +149,7 @@
                                 </td>
                                 <td data-label="Image">
                                     <img src="{{ asset('storage/' . $item->product->image) }}" class="img-thumbnail"
-                                        width="50">
+                                        width="50" alt="ProductImg">
                                 </td>
                                 <td data-label="Product">{{ $item->product->name }}</td>
                                 <td data-label="Stock">
@@ -378,4 +378,5 @@
         checkStockIndicator();
         updateTotal();
     </script>
+    {{-- @vite(['resources/js/cart.js']) --}}
 @endpush

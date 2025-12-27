@@ -32,6 +32,8 @@ class UserController extends Controller
                 'id' => $users->firstItem() + $index,
                 'name' => $user->name,
                 'email' => $user->email,
+                'role' => $user->role ?? 'User', // new line
+                'created_at' => $user->created_at, // new line
                 'user_id' => $user->id,
             ];
         });
@@ -44,6 +46,19 @@ class UserController extends Controller
                             data-bs-target="#deleteUserModal" onclick="setDeleteUser('.$row['user_id'].')">
                             <i class="fa fa-trash"></i> Delete
                         </button>';
+                },
+            ],
+
+            [
+                'inline' => function ($row) {
+                    return '
+                <button
+                    type="button"
+                    class="btn btn-info btn-sm me-1"
+                    onclick=\'viewUserDetails('.json_encode($row).')\'>
+                    <i class="fa fa-eye"></i> View
+                </button>
+            ';
                 },
             ],
         ];
