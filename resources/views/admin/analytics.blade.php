@@ -223,7 +223,7 @@
                                             <span class="badge bg-success rounded-pill me-2">
                                                 ${{ number_format($product->total_revenue, 2) }}
                                             </span>
-                                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                            <button class="btn btn-success btn-sm" data-bs-toggle="modal"
                                                 data-bs-target="#viewProductModal{{ $product->product_id }}">
                                                 <i class="fa fa-eye"></i>
                                             </button>

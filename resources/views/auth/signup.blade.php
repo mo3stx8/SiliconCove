@@ -106,9 +106,9 @@
                     </a>
 
                     {{-- facebook login --}}
-                    <a href="{{ route('facebook.login') }}" class="btn btn-light rounded-circle shadow-sm p-2">
+                    {{-- <a href="{{ route('facebook.login') }}" class="btn btn-light rounded-circle shadow-sm p-2">
                         <img src="https://www.facebook.com/images/fb_icon_325x325.png" width="20" alt="Facebook Logo">
-                    </a>
+                    </a> --}}
                 </div>
 
                 <small class="text-muted d-block mt-2">

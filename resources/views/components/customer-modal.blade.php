@@ -16,7 +16,7 @@
                     <img src="{{ $customer->user->profile_picture ?? ''
                         ? asset('storage/profile_images/' . $customer->user->profile_picture)
                         : asset('images/default-profile.jpg') }}"
-                        class="w-100 h-100" style="object-fit: cover;" alt="Profile Picture">
+                        class="w-100 h-100" style="object-fit: cover;" alt="Profile Pic">
                 </div>
                 <div class="row">
                     <div class="col-12">
