@@ -64,8 +64,8 @@
                     <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top"
                         alt="{{ $product->name }}">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $product->name }}</h5>
-                        <p class="card-text">{{ $product->description }}</p>
+                        <h5 class="card-title">{{ $product->name }}</h5> <!-- Display product name -->
+                        <p class="card-text">{{ $product->description }}</p> <!-- Display description -->
                         <p class="text-muted">Stock: <strong>{{ $product->stock }}</strong></p> <!-- Display stock -->
 
                         <div class="d-flex justify-content-between align-items-center">
@@ -97,11 +97,11 @@
             </div>
             <div class="modal-body">
                 <div class="text-center">
-                    <img id="modalProductImage" src="" class="img-fluid mb-3" style="max-height: 200px;">
+                    <img id="modalProductImage" src="" class="img-fluid mb-3" style="max-height: 200px;" alt="Product Img">
                 </div>
                 <h5 id="modalProductName"></h5>
                 <p id="modalProductPrice" class="text-muted"></p>
-                <p id="modalProductStock" class="text-danger"></p> <!-- Stock Info -->
+                <p id="modalProductStock" class="text-muted"></p> <!-- Stock Info -->
 
                 <form id="addToCartForm" method="POST" action="{{ route('cart.add') }}">
                     @csrf

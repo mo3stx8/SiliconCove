@@ -218,6 +218,7 @@
                 </div>
                 <h5 id="modalProductName"></h5>
                 <p id="modalProductPrice" class="text-muted"></p>
+                {{-- <p id="modalProductDescription" class="text-muted"></p> --}}
                 <p id="modalProductStock" class="text-muted"></p> <!-- ✅ Added stock display -->
 
                 <form id="addToCartForm" method="POST" action="{{ route('cart.add') }}">
@@ -433,6 +434,7 @@
             document.getElementById("modalProductName").textContent = productName;
             document.getElementById("modalProductPrice").textContent = "Price: $" + productPrice
                 .toFixed(2);
+            // document.getElementById("modalProductDescription").textContent = this.getAttribute("data-description") || '';
             document.getElementById("modalProductStock").textContent = "Stock: " + stock;
             document.getElementById("modalProductId").value = productId;
             document.getElementById("modalQuantity").value = "1";
@@ -622,6 +624,7 @@
             document.getElementById('modalProductName').textContent = data.name;
             document.getElementById('modalProductPrice').textContent =
                 `Price: $${parseFloat(data.price).toFixed(2)}`;
+            // document.getElementById('modalProductDescription').textContent = data.description || '';
             document.getElementById('modalProductStock').textContent = `Stock: ${data.stock}`;
             document.getElementById('modalProductId').value = data.id;
             document.getElementById('modalQuantity').value = "1";
@@ -782,6 +785,7 @@
                 document.getElementById('modalProductName').textContent = data.name;
                 document.getElementById('modalProductPrice').textContent =
                     `Price: $${parseFloat(data.price).toFixed(2)}`;
+                // document.getElementById('modalProductDescription').textContent = data.description || '';
                 document.getElementById('modalProductStock').textContent =
                     `Stock: ${tempStocks.get(data.id) || data.stock}`;
                 document.getElementById('modalProductId').value = data.id;

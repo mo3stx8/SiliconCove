@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div class="text-center mb-4">
                     <img id="modalProductImage" src="" class="img-fluid rounded" style="max-height: 300px;"
-                        alt="Product Image">
+                        alt="Product Img">
                 </div>
                 <h5 id="modalOrderNumber" class="text-muted">Order #: </h5>
                 <h4 id="modalProductName" class="fw-bold"></h4>
