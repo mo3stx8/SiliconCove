@@ -105,20 +105,20 @@
             @endif
 
             {{-- unlink facebook --}}
-            @if($user->facebook_id)
+            {{-- @if($user->facebook_id)
             <form action="{{ route('facebook.unlink') }}" method="POST">
                 @csrf
                 <button type="submit" class="list-group-item list-group-item-action text-start text-warning">
                     <i class="fa fa-unlink"></i> Unlink Facebook Account
                 </button>
             </form>
-            @else
+            @else --}}
             {{-- relink facebook account --}}
-            <a class="list-group-item list-group-item-action text-start text-success"
+            {{-- <a class="list-group-item list-group-item-action text-start text-success"
                 href="{{ route('facebook.login') }}">
                 <i class="fa fa-link"></i> Link Facebook Account
             </a>
-            @endif
+            @endif --}}
 
             {{-- Logout  --}}
             <button type="button" class="list-group-item list-group-item-action text-start text-danger"
