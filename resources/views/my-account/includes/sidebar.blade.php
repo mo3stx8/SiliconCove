@@ -68,44 +68,44 @@
             {{-- Change Password  --}}
             <a class="list-group-item list-group-item-action
                 {{ request()->routeIs('account.changePassword') ? 'active' : '' }}"
-                href="#">
+                href="{{ route('account.password.edit') }}">
                 <i class="fa fa-lock"></i> Change Password
             </a>
 
             {{-- unlink google --}}
-            @if($user->google_id)
-            <form action="{{ route('google.unlink') }}" method="POST">
-                @csrf
-                <button type="submit" class="list-group-item list-group-item-action text-start text-warning">
-                    <i class="fa fa-unlink"></i> Unlink Google Account
-                </button>
-            </form>
+            @if ($user->google_id)
+                <form action="{{ route('google.unlink') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="list-group-item list-group-item-action text-start text-warning">
+                        <i class="fa fa-unlink"></i> Unlink Google Account
+                    </button>
+                </form>
             @else
-            {{-- relink google account --}}
-            <a class="list-group-item list-group-item-action text-start text-success"
-                href="{{ route('google.login') }}">
-                <i class="fa fa-link"></i> Link Google Account
-            </a>
+                {{-- relink google account --}}
+                <a class="list-group-item list-group-item-action text-start text-success"
+                    href="{{ route('google.login') }}">
+                    <i class="fa fa-link"></i> Link Google Account
+                </a>
             @endif
 
             {{-- unlink github --}}
-            @if($user->github_id)
-            <form action="{{ route('github.unlink') }}" method="POST">
-                @csrf
-                <button type="submit" class="list-group-item list-group-item-action text-start text-warning">
-                    <i class="fa fa-unlink"></i> Unlink GitHub Account
-                </button>
-            </form>
+            @if ($user->github_id)
+                <form action="{{ route('github.unlink') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="list-group-item list-group-item-action text-start text-warning">
+                        <i class="fa fa-unlink"></i> Unlink GitHub Account
+                    </button>
+                </form>
             @else
-            {{-- relink github account --}}
-            <a class="list-group-item list-group-item-action text-start text-success"
-                href="{{ route('github.login') }}">
-                <i class="fa fa-link"></i> Link GitHub Account
-            </a>
+                {{-- relink github account --}}
+                <a class="list-group-item list-group-item-action text-start text-success"
+                    href="{{ route('github.login') }}">
+                    <i class="fa fa-link"></i> Link GitHub Account
+                </a>
             @endif
 
             {{-- unlink facebook --}}
-            {{-- @if($user->facebook_id)
+            {{-- @if ($user->facebook_id)
             <form action="{{ route('facebook.unlink') }}" method="POST">
                 @csrf
                 <button type="submit" class="list-group-item list-group-item-action text-start text-warning">
@@ -126,7 +126,7 @@
                 <i class="fa fa-sign-out"></i> Logout
             </button>
 
-            
+
         </nav>
     </div>
 </div>

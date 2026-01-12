@@ -17,6 +17,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\UserAdmin;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\FacebookController;
+use App\Http\Controllers\PasswordController;
+
 
 // 🔹 Home Page
 // Route::get('/', function () {
@@ -50,6 +54,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/my-account/remove-profile-picture', [AccountController::class, 'removeProfilePicture'])
         ->name('profile.removePicture');
     Route::post('/my-account/addresses/storeOrUpdate', [AccountController::class, 'storeOrUpdateAddress'])->name('addresses.storeOrUpdate');
+
+    // change Password Routes
+    Route::get('/my-account/password', [PasswordController::class, 'edit'])
+        ->name('account.password.edit');
+
+    Route::post('/my-account/password', [PasswordController::class, 'update'])
+        ->name('account.password.update');
 });
 
 //  🔹 User Authentication
