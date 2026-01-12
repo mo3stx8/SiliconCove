@@ -53,6 +53,7 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'password' => Hash::make($request->password),
+                'password_set' => true,
             ]);
 
             // Use success session variable to trigger modal in signup page

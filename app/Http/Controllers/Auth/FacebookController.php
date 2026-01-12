@@ -27,6 +27,7 @@ class FacebookController extends Controller
                 'name' => $facebookUser->getName() ?? $facebookUser->getNickname(),
                 'email' => $facebookUser->getEmail(),
                 'password' => \Str::random(32),
+                'password_set' => false, // 👈 important
             ]);
         }
 

@@ -27,16 +27,17 @@ class GitHubController extends Controller
         $user = User::where('github_id', $githubUser->getId())->first();
 
         // 2️⃣ Fallback by email
-        if (! $user && $githubUser->getEmail()) {
+        if (! $user ) { //&& $githubUser->getEmail()
             $user = User::where('email', $githubUser->getEmail())->first();
         }
 
         // 3️⃣ Create user if needed
         if (! $user) {
             $user = User::create([
-                'name' => $githubUser->getName() ?? $githubUser->getNickname(),
+                'name' => $githubUser->getName() ,//?? $githubUser->getNickname(),
                 'email' => $githubUser->getEmail(),
                 'password' => bcrypt(Str::random(32)),
+                // 'password_set' => false, // 👈 important
             ]);
         }
 
@@ -54,9 +55,17 @@ class GitHubController extends Controller
     public function unlink()
     {
         $user = Auth::user();
+
+        // Safety check: prevent lockout
+        if (! $user->password) {
+            return back()->withErrors([
+                'github' => 'You must set a password before unlinking GitHub.',
+            ]);
+        }
+
         $user->github_id = null;
         $user->save();
 
-        return redirect()->route('account.index')->with('status', 'GitHub account unlinked successfully.');
+        return redirect()->route('account.profileSettings')->with('success', 'GitHub account unlinked successfully.');
     }
 }

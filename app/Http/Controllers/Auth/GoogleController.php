@@ -37,6 +37,7 @@ class GoogleController extends Controller
                 'name' => $googleUser->getName(),
                 'email' => $googleUser->getEmail(),
                 'password' => bcrypt(Str::random(32)),
+                // 'password_set' => false, // 👈 important
             ]);
         }
 
@@ -57,9 +58,15 @@ class GoogleController extends Controller
         $user = Auth::user();
 
         // Safety check: prevent lockout
+        // if (! $user->password_set) {
+        //     return redirect()
+        //         ->route('account.password.form')
+        //         ->with('warning', 'Please set a password before unlinking your Google account.');
+        // }
+
         if (! $user->password) {
             return back()->withErrors([
-                'google' => 'You must set a password before unlinking Google.',
+                'github' => 'You must set a password before unlinking Google.',
             ]);
         }
 
@@ -70,7 +77,7 @@ class GoogleController extends Controller
         // this return gives better user experience the notification is in the page.
         return redirect()->route('account.profileSettings')->with('success', 'Google account unlinked successfully.');
 
-        //this return tells the user by alert like js.
+        // this return tells the user by alert like js.
         // return back()->with('success', 'Google account unlinked successfully.');
     }
 }
