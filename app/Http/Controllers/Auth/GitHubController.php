@@ -37,7 +37,7 @@ class GitHubController extends Controller
                 'name' => $githubUser->getName() ,//?? $githubUser->getNickname(),
                 'email' => $githubUser->getEmail(),
                 'password' => bcrypt(Str::random(32)),
-                // 'password_set' => false, // 👈 important
+                'password_set' => false, // 👈 important
             ]);
         }
 
@@ -57,13 +57,21 @@ class GitHubController extends Controller
         $user = Auth::user();
 
         // Safety check: prevent lockout
-        if (! $user->password) {
-            return back()->withErrors([
-                'github' => 'You must set a password before unlinking GitHub.',
-            ]);
+        if (! $user->password_set) {
+            return redirect()
+            ->route('account.password.edit')
+            ->with('warning', 'Please set a password before unlinking your Google account.');
         }
 
+        // Safety check: prevent lockout
+        // if (! $user->password) {
+        //     return back()->withErrors([
+        //         'github' => 'You must set a password before unlinking GitHub.',
+        //     ]);
+        // }
+
         $user->github_id = null;
+        $user->avatar = null;
         $user->save();
 
         return redirect()->route('account.profileSettings')->with('success', 'GitHub account unlinked successfully.');

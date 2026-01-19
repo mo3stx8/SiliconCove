@@ -1931,7 +1931,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product query()
-     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereLowStock()
+     * @method static \Illuminate\Database\Eloquent\Builder<Product>|Product whereLowStock() {@see App\Models\Product::scopeWhereLowStock()}
      * @method static mixed select($columns)
      * @method static mixed selectSub($query, $as)
      * @method static mixed selectRaw($expression, array $bindings)
@@ -2227,6 +2227,7 @@ namespace App\Models {
     /**
      * App\Models\User
      *
+     * @property bool $password_set
      * @property string|null $facebook_id
      * @property string|null $github_id
      * @property string|null $avatar
@@ -2262,6 +2263,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereAvatar($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereGithubId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereFacebookId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<User>|User wherePasswordSet($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User query()

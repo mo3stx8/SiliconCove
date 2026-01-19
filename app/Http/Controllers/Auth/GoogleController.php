@@ -37,7 +37,7 @@ class GoogleController extends Controller
                 'name' => $googleUser->getName(),
                 'email' => $googleUser->getEmail(),
                 'password' => bcrypt(Str::random(32)),
-                // 'password_set' => false, // 👈 important
+                'password_set' => false, // 👈 important
             ]);
         }
 
@@ -58,17 +58,17 @@ class GoogleController extends Controller
         $user = Auth::user();
 
         // Safety check: prevent lockout
-        // if (! $user->password_set) {
-        //     return redirect()
-        //         ->route('account.password.form')
-        //         ->with('warning', 'Please set a password before unlinking your Google account.');
-        // }
-
-        if (! $user->password) {
-            return back()->withErrors([
-                'github' => 'You must set a password before unlinking Google.',
-            ]);
+        if (! $user->password_set) {
+            return redirect()
+            ->route('account.password.edit')
+            ->with('warning', 'Please set a password before unlinking your Google account.');
         }
+
+        // if (! $user->password) {
+        //     return back()->withErrors([
+        //         'github' => 'You must set a password before unlinking Google.',
+        //     ]);
+        // }
 
         $user->google_id = null;
         $user->avatar = null;

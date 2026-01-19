@@ -47,6 +47,7 @@ class PasswordController extends Controller
         }
 
         $user->password = $request->new_password;
+        $user->password_set = true;
         $user->save();
 
         return back()->with('status', 'Password updated successfully.');

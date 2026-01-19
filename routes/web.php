@@ -61,6 +61,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/my-account/password', [PasswordController::class, 'update'])
         ->name('account.password.update');
+    // Route::get('/my-account/password/form', function () {
+    //     return view('my-account.change-password');
+    // })->name('account.password.form');
 });
 
 //  🔹 User Authentication
