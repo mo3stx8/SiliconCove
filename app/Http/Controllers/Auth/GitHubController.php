@@ -38,6 +38,9 @@ class GitHubController extends Controller
                 'email' => $githubUser->getEmail(),
                 'password' => bcrypt(Str::random(32)),
                 'password_set' => false, // 👈 important
+                'github_id' => $githubUser->getId(),
+                'avatar' => $githubUser->getAvatar(),
+                'email_verified_at' => now(),
             ]);
         }
 
@@ -45,6 +48,11 @@ class GitHubController extends Controller
         if (! $user->github_id) {
             $user->github_id = $githubUser->getId();
             $user->save();
+        }
+
+        // 5. if exist but not varified, send verification email
+        if (! $user->email_verified_at) {
+            $user->sendEmailVerificationNotification();
         }
 
         Auth::login($user);
