@@ -15,17 +15,10 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\UserAdmin;
-use App\Models\Order;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Auth\FacebookController;
 use App\Http\Controllers\PasswordController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
-
-// 🔹 Home Page
-// Route::get('/', function () {
-//     return view('index');
-// })->name('index');
 
 // 🔹 Other Pages
 Route::get('/product', [ProductController::class, 'index'])->name('product');
@@ -61,10 +54,27 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/my-account/password', [PasswordController::class, 'update'])
         ->name('account.password.update');
-    // Route::get('/my-account/password/form', function () {
-    //     return view('my-account.change-password');
-    // })->name('account.password.form');
 });
+
+// 🔹 Email Verification
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect()->route('account.index');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function () {
+    request()->user()->sendEmailVerificationNotification();
+    return back()->with('status', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/my-account', [AccountController::class, 'index'])->name('account.index');
+});
+
 
 //  🔹 User Authentication
 Route::get('/signup', [AuthController::class, 'showSignup'])->name('signup');

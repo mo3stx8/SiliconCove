@@ -43,7 +43,7 @@ class AuthController extends Controller
         ], [
             'password.regex' => 'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character (@, $, etc.).',
             'phone.regex' => 'The phone number must start with 09 and contain 11 digits.',
-            'phone.size' => 'The phone number must be exactly 11 digits.',
+            'phone.size' => 'The phone number must be exactly 9ww digits.',
         ]);
 
         try {
@@ -55,6 +55,9 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
                 'password_set' => true,
             ]);
+
+            $user = User::where('email', $request->email)->first();
+            $user->sendEmailVerificationNotification();
 
             // Use success session variable to trigger modal in signup page
             // This works with the existing signup.blade.php code that shows the modal

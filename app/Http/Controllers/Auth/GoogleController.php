@@ -38,6 +38,9 @@ class GoogleController extends Controller
                 'email' => $googleUser->getEmail(),
                 'password' => bcrypt(Str::random(32)),
                 'password_set' => false, // 👈 important
+                'google_id' => $googleUser->getId(),
+                'avatar' => $googleUser->getAvatar(),
+                'email_verified_at' => now(),
             ]);
         }
 
@@ -46,6 +49,11 @@ class GoogleController extends Controller
             $user->google_id = $googleUser->getId();
             $user->avatar = $googleUser->getAvatar();
             $user->save();
+        }
+
+        // 5. if exist but not varified, send verification email
+        if (! $user->email_verified_at) {
+            $user->sendEmailVerificationNotification();
         }
 
         Auth::login($user);

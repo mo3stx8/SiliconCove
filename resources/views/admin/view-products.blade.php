@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="editProductPrice" class="form-label">Price</label>
-                                    <input type="number" class="form-control" id="editProductPrice" name="price" required>
+                                    <input type="number" class="form-control" id="editProductPrice" name="price" required> {{-- replace to double --}}
                                 </div>
                                 <div class="mb-3">
                                     <label for="editProductStock" class="form-label">Stock</label>

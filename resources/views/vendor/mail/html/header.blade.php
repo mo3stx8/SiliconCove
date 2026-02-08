@@ -3,7 +3,11 @@
     <td class="header">
         <a href="{{ $url }}" style="display: inline-block;">
             @if (trim($slot) === 'SiliconCove')
-                <img src="https://i.ibb.co/DgYRvJQY/siliconcovelogo.png" alt="SiliconCove Logo" style="width:120px;">
+                <img
+                    src="https://i.ibb.co/qbx0WcP/siliconcovelogo.png"
+                    alt="SiliconCove"
+                    style="height: 40px; width: auto; border: 0; display: block;"
+                >
             @else
                 {{ $slot }}
             @endif

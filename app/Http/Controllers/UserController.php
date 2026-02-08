@@ -35,6 +35,7 @@ class UserController extends Controller
                 'role' => $user->role ?? 'User', // new line
                 'created_at' => $user->created_at, // new line
                 'user_id' => $user->id,
+                'email_verified_at' => $user->email_verified_at, //new line
             ];
         });
 
