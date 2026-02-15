@@ -17,7 +17,7 @@
 <title>
     SiliconCove
 </title>
-
+@extends('layouts.layout')
 @include('includes.navbar')
 @include('includes.introduction')
 
@@ -240,7 +240,7 @@
 
 
 <!-- ✅ Footer -->
-@include('includes.footer')
+{{-- @include('includes.footer') --}}
 
 <!-- Add this new modal -->
 <div class="modal fade" id="checkoutModal" tabindex="-1">
