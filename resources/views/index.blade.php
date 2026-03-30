@@ -134,7 +134,7 @@
                             <div class="product-price">${{ number_format($product->price, 2) }}</div>
                         </div>
                         <button class="btn btn-primary btn-add-cart mt-3 {{ $product->stock <= 0 ? 'disabled' : '' }}"
-                            data-bs-toggle="modal" data-bs-target="#addToCartModal" data-id="{{ $product->id }}"
+                            data-id="{{ $product->id }}"
                             data-name="{{ $product->name }}" data-image="{{ asset('storage/' . $product->image) }}"
                             data-price="{{ $product->price }}" data-stock="{{ $product->stock }}">
                             <i class="fa fa-plus"></i> Add to Cart
@@ -357,6 +357,9 @@
 <script>
     let checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
     let selectedCategory = '';
+    const isUserAuthenticated = @json(auth()->check());
+    const cartAddUrl = @json(route('cart.add'));
+    const cartRemoveProductBaseUrl = @json(url('/cart/remove-product'));
 
     function showCheckoutModal() {
         if (cartItems.length === 0) {
@@ -367,6 +370,12 @@
     }
 
     function handleCheckout(action) {
+        if (action === 'save' && isUserAuthenticated) {
+            checkoutModal.hide();
+            window.location.href = "{{ route('cart.index') }}";
+            return;
+        }
+
         const form = document.getElementById('buyNowForm');
         const productIds = [];
         const quantities = [];
@@ -392,7 +401,7 @@
             const input = document.createElement('input');
             input.type = 'hidden';
             input.name = '_token';
-            input.value = csrfToken;
+            input.value = window.csrfToken;
             form.appendChild(input);
         }
 
@@ -418,45 +427,6 @@
         }
     });
 
-    // Handle add to cart button clicks
-    document.querySelectorAll(".btn-add-cart").forEach(button => {
-        button.addEventListener("click", function(e) {
-            e.preventDefault();
-
-            const stock = parseInt(this.getAttribute("data-stock"));
-            const productId = this.getAttribute("data-id");
-            const productName = this.getAttribute("data-name");
-            const productPrice = parseFloat(this.getAttribute("data-price"));
-            const productImage = this.getAttribute("data-image");
-
-            // Set modal content
-            document.getElementById("modalProductImage").src = productImage;
-            document.getElementById("modalProductName").textContent = productName;
-            document.getElementById("modalProductPrice").textContent = "Price: $" + productPrice
-                .toFixed(2);
-            // document.getElementById("modalProductDescription").textContent = this.getAttribute("data-description") || '';
-            document.getElementById("modalProductStock").textContent = "Stock: " + stock;
-            document.getElementById("modalProductId").value = productId;
-            document.getElementById("modalQuantity").value = "1";
-
-            // Handle stock logic
-            const quantityInput = document.getElementById("modalQuantity");
-            const addToCartButton = document.querySelector("#addToCartForm button[type='submit']");
-
-            if (stock === 0) {
-                quantityInput.disabled = true;
-                addToCartButton.disabled = true;
-                quantityInput.value = 0;
-            } else {
-                quantityInput.disabled = false;
-                addToCartButton.disabled = false;
-            }
-
-            // Show modal
-            addToCartModal.show();
-        });
-    });
-
     // Handle quantity input changes
     document.getElementById("modalQuantity").addEventListener("input", function() {
         const stock = parseInt(document.getElementById("modalProductStock").textContent.split(": ")[1]);
@@ -473,35 +443,85 @@
     });
 
     // Cart management functions
-    let cartItems = [];
+    let cartItems = @json($persistedCartItems ?? []);
+    cartItems = cartItems.map(item => ({
+        id: String(item.id),
+        name: item.name,
+        quantity: parseInt(item.quantity, 10) || 0,
+        price: parseFloat(item.price) || 0,
+        total: parseFloat(item.total) || 0,
+    }));
+
+    async function persistAddToCartBackend(productId, quantity) {
+        const response = await fetch(cartAddUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': window.csrfToken,
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                quantity: quantity,
+            }),
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to add item to cart.');
+        }
+    }
+
+    async function persistRemoveFromCartBackend(productId) {
+        const response = await fetch(`${cartRemoveProductBaseUrl}/${productId}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': window.csrfToken,
+            },
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to remove item from cart.');
+        }
+    }
 
     function addToCart(item) {
+        const productId = String(item.id);
+        const quantity = parseInt(item.quantity, 10);
+
         // Check temporary stock before adding
-        const currentStock = tempStocks.get(item.id) || 0;
-        if (currentStock < item.quantity) {
+        const currentStock = tempStocks.get(productId) || 0;
+        if (currentStock < quantity) {
             alert('Not enough stock available!');
             return false;
         }
 
         // Calculate exact new stock
-        const newStock = currentStock - item.quantity;
+        const newStock = currentStock - quantity;
 
         // Update temporary stock with exact calculation
-        tempStocks.set(item.id, newStock);
+        tempStocks.set(productId, newStock);
 
         // Update display with correct stock number
-        updateProductDisplay(item.id, newStock);
+        updateProductDisplay(productId, newStock);
 
         // Add to cart with exact quantities
-        const existingItem = cartItems.find(i => i.id === item.id);
+        const existingItem = cartItems.find(i => String(i.id) === productId);
         if (existingItem) {
-            existingItem.quantity += item.quantity;
+            existingItem.quantity += quantity;
             existingItem.total = parseFloat((existingItem.quantity * existingItem.price).toFixed(2));
         } else {
             cartItems.push({
                 ...item,
-                quantity: parseInt(item.quantity),
-                total: parseFloat((item.price * item.quantity).toFixed(2))
+                id: productId,
+                quantity: quantity,
+                total: parseFloat((item.price * quantity).toFixed(2))
             });
         }
 
@@ -509,14 +529,25 @@
         return true;
     }
 
-    function removeFromCart(productId) {
+    async function removeFromCart(productId) {
+        const normalizedProductId = String(productId);
+
+        if (isUserAuthenticated) {
+            try {
+                await persistRemoveFromCartBackend(normalizedProductId);
+            } catch (error) {
+                alert(error.message);
+                return;
+            }
+        }
+
         console.log('Removing from cart:', productId);
-        const item = cartItems.find(item => item.id === productId);
+        const item = cartItems.find(item => String(item.id) === normalizedProductId);
         console.log(item);
         if (item) {
-            manageStock(productId, item.quantity, false);
+            manageStock(normalizedProductId, item.quantity, false);
         }
-        cartItems = cartItems.filter(item => item.id !== productId);
+        cartItems = cartItems.filter(item => String(item.id) !== normalizedProductId);
         updateCartUI();
     }
 
@@ -558,8 +589,15 @@
     // Initialize empty cart
     updateCartUI();
 
+    function clearModalBackdrop() {
+        document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    }
+
     // Form submission handler
-    document.getElementById('addToCartForm').addEventListener('submit', function(e) {
+    document.getElementById('addToCartForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const productId = document.getElementById('modalProductId').value;
@@ -571,6 +609,15 @@
 
         // Add to cart only if we have valid numbers
         if (!isNaN(price) && !isNaN(quantity)) {
+            if (isUserAuthenticated) {
+                try {
+                    await persistAddToCartBackend(productId, quantity);
+                } catch (error) {
+                    alert(error.message);
+                    return;
+                }
+            }
+
             addToCart({
                 id: productId,
                 name: name,
@@ -580,28 +627,19 @@
             });
         }
 
-        // Close modal using Bootstrap's hide method
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addToCartModal'));
-        if (modal) {
-            modal.hide();
-        }
+        // Close modal immediately after adding
+        addToCartModal.hide();
 
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) backdrop.remove();
-        document.body.classList.remove('modal-open');
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
-    });
-
-    // Handle modal hidden event to clean up
-    document.getElementById('addToCartModal').addEventListener('hidden.bs.modal', function() {
-        document.body.classList.remove('modal-open');
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-            backdrop.remove();
-        }
+        // Safety fallback: if the modal is still visible due Bootstrap instance mismatch, force-close it.
+        setTimeout(() => {
+            if (modalEl.classList.contains('show')) {
+                modalEl.classList.remove('show');
+                modalEl.style.display = 'none';
+                modalEl.setAttribute('aria-hidden', 'true');
+                modalEl.removeAttribute('aria-modal');
+            }
+            clearModalBackdrop();
+        }, 200);
     });
 
     // Initialize modal once and store the instance
@@ -610,37 +648,9 @@
         backdrop: 'static' // Prevent closing by clicking outside
     });
 
-    // Add click handlers to all add-to-cart buttons
-    document.querySelectorAll('.btn-add-cart').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            // Get product data
-            const data = this.dataset;
-
-            // Update modal content
-            document.getElementById('modalProductImage').src = data.image;
-            document.getElementById('modalProductName').textContent = data.name;
-            document.getElementById('modalProductPrice').textContent =
-                `Price: $${parseFloat(data.price).toFixed(2)}`;
-            // document.getElementById('modalProductDescription').textContent = data.description || '';
-            document.getElementById('modalProductStock').textContent = `Stock: ${data.stock}`;
-            document.getElementById('modalProductId').value = data.id;
-            document.getElementById('modalQuantity').value = "1";
-
-            // Show modal immediately
-            addToCartModal.show();
-        });
-    });
-
     // Handle modal cleanup
     modalEl.addEventListener('hidden.bs.modal', function() {
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) backdrop.remove();
-        document.body.classList.remove('modal-open');
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
+        clearModalBackdrop();
     });
     // Stock management functions
     const productStocks = new Map();
@@ -653,6 +663,16 @@
         productStocks.set(id, stock);
         tempStocks.set(id, stock);
     });
+
+    // Re-apply stock deductions for items already persisted in DB
+    cartItems.forEach(item => {
+        const productId = String(item.id);
+        if (tempStocks.has(productId)) {
+            manageStock(productId, item.quantity, true);
+        }
+    });
+
+    updateCartUI();
 
     function updateProductDisplay(productId, tempStock) {
         const button = document.querySelector(`.btn-add-cart[data-id="${productId}"]`);
@@ -775,27 +795,46 @@
     // Update attachProductCardListeners to not reinitialize stock values
     function attachProductCardListeners() {
         document.querySelectorAll('.btn-add-cart').forEach(button => {
-            // Only attach click handlers, don't reinitialize stock
+            if (button.dataset.modalBound === 'true') {
+                return;
+            }
+
+            button.dataset.modalBound = 'true';
             button.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
 
                 const data = this.dataset;
+                const currentStock = tempStocks.has(data.id) ? tempStocks.get(data.id) : parseInt(data.stock);
+                const quantityInput = document.getElementById('modalQuantity');
+                const addToCartButton = document.querySelector("#addToCartForm button[type='submit']");
+
                 document.getElementById('modalProductImage').src = data.image;
                 document.getElementById('modalProductName').textContent = data.name;
                 document.getElementById('modalProductPrice').textContent =
                     `Price: $${parseFloat(data.price).toFixed(2)}`;
                 // document.getElementById('modalProductDescription').textContent = data.description || '';
                 document.getElementById('modalProductStock').textContent =
-                    `Stock: ${tempStocks.get(data.id) || data.stock}`;
+                    `Stock: ${currentStock}`;
                 document.getElementById('modalProductId').value = data.id;
                 document.getElementById('modalQuantity').value = "1";
 
-                const addToCartModal = new bootstrap.Modal(document.getElementById('addToCartModal'));
+                if (currentStock <= 0) {
+                    quantityInput.disabled = true;
+                    quantityInput.value = 0;
+                    addToCartButton.disabled = true;
+                } else {
+                    quantityInput.disabled = false;
+                    quantityInput.max = currentStock;
+                    addToCartButton.disabled = false;
+                }
+
                 addToCartModal.show();
             });
         });
     }
+
+    attachProductCardListeners();
 
     const handlePaginationClick = function(e) {
         e.preventDefault();
@@ -842,7 +881,9 @@
 </script>
 
 <script>
-    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    if (!window.csrfToken) {
+        window.csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
@@ -989,7 +1030,7 @@
         const tokenInput = document.createElement('input');
         tokenInput.type = 'hidden';
         tokenInput.name = '_token';
-        tokenInput.value = csrfToken;
+        tokenInput.value = window.csrfToken;
         form.appendChild(tokenInput);
         form.submit();
 
@@ -1030,12 +1071,18 @@
         const cartSidebar = document.querySelector('.cart-sidebar');
         const backdrop = document.querySelector('.sidebar-backdrop');
 
+        if (!categorySidebar || !cartSidebar || !backdrop) {
+            return;
+        }
+
         // Category sidebar toggle
-        categoryToggle.addEventListener('click', () => {
-            categorySidebar.classList.toggle('active');
-            backdrop.classList.toggle('active');
-            cartSidebar.classList.remove('active');
-        });
+        if (categoryToggle) {
+            categoryToggle.addEventListener('click', () => {
+                categorySidebar.classList.toggle('active');
+                backdrop.classList.toggle('active');
+                cartSidebar.classList.remove('active');
+            });
+        }
 
         // Cart sidebar toggle
         cartToggles.forEach(toggle => {

@@ -26,7 +26,12 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
+        $expectsJson = $request->expectsJson() || $request->ajax() || $request->wantsJson();
+
         if (!auth()->check()) {
+            if ($expectsJson) {
+                return response()->json(['message' => 'Please log in to add items to cart.'], 401);
+            }
             return redirect()->route('login')->with('error', 'Please log in to add items to cart.');
         }
 
@@ -40,13 +45,16 @@ class CartController extends Controller
                 $quantity = $quantities[$index];
 
                 if ($product->stock < $quantity) {
+                    if ($expectsJson) {
+                        return response()->json(['message' => "Insufficient stock for {$product->name}"], 422);
+                    }
                     return redirect()->back()->with('error', "Insufficient stock for {$product->name}");
                 }
 
                 // Find existing cart item
                 $cartItem = Cart::where('user_id', auth()->id())
-                              ->where('product_id', $productId)
-                              ->first();
+                ->where('product_id', $productId)
+                ->first();
 
                 if ($cartItem) {
                     // Add new quantity to existing quantity
@@ -62,21 +70,30 @@ class CartController extends Controller
                 }
             }
 
+            if ($expectsJson) {
+                return response()->json(['message' => 'Items added to cart successfully!']);
+            }
             return redirect()->route('cart.index')->with('success', 'Items added to cart successfully!');
         }
 
         // Existing single item add logic
         $product = Product::findOrFail($request->product_id);
 
-        $quantityToAdd = $request->quantity ?? 1;
+        $quantityToAdd = max(1, (int) ($request->quantity ?? 1));
 
         // if stock is 0, return error
         if ($product->stock <= 0) {
+            if ($expectsJson) {
+                return response()->json(['message' => "Cannot add {$product->name} to cart. Out of stock."], 422);
+            }
             return redirect()->back()->with('error', "Cannot add {$product->name} to cart. Out of stock.");
         }
         
         // Check if requested quantity exceeds available stock
         if ($quantityToAdd > $product->stock) {
+            if ($expectsJson) {
+                return response()->json(['message' => "Cannot add more than available stock ({$product->stock}) for {$product->name}."], 422);
+            }
             return redirect()->back()->with('error', "Cannot add more than available stock ({$product->stock}) for {$product->name}.");
         }
 
@@ -86,16 +103,33 @@ class CartController extends Controller
             $newQuantity = $cartItem->quantity + $quantityToAdd;
 
             if ($newQuantity > $product->stock) {
+                if ($expectsJson) {
+                    return response()->json(['message' => "Adding this quantity exceeds available stock ({$product->stock}) for {$product->name}."], 422);
+                }
                 return redirect()->back()->with('error', "Adding this quantity exceeds available stock ({$product->stock}) for {$product->name}.");
             }
 
             $cartItem->quantity = $newQuantity;
             $cartItem->save();
         } else {
-            Cart::create([
+            $cartItem = Cart::create([
                 'user_id' => auth()->id(),
                 'product_id' => $product->id,
                 'quantity' => $quantityToAdd
+            ]);
+        }
+
+        if ($expectsJson) {
+            return response()->json([
+                'message' => "{$product->name} added to cart!",
+                'item' => [
+                    'id' => $cartItem->id,
+                    'product_id' => $product->id,
+                    'name' => $product->name,
+                    'price' => (float) $product->price,
+                    'quantity' => (int) $cartItem->quantity,
+                    'total' => (float) ($cartItem->quantity * $product->price),
+                ],
             ]);
         }
 
@@ -117,6 +151,35 @@ class CartController extends Controller
         }
 
         return redirect()->route('cart.index')->with('error', 'Item not found in cart.');
+    }
+
+    public function removeByProduct(Request $request, $productId)
+    {
+        $expectsJson = $request->expectsJson() || $request->ajax() || $request->wantsJson();
+
+        if (!auth()->check()) {
+            if ($expectsJson) {
+                return response()->json(['message' => 'Please log in to remove items.'], 401);
+            }
+            return redirect()->route('login')->with('error', 'Please log in to remove items.');
+        }
+
+        $cartItem = Cart::where('user_id', auth()->id())->where('product_id', $productId)->first();
+
+        if (!$cartItem) {
+            if ($expectsJson) {
+                return response()->json(['message' => 'Item not found in cart.'], 404);
+            }
+            return redirect()->route('cart.index')->with('error', 'Item not found in cart.');
+        }
+
+        $cartItem->delete();
+
+        if ($expectsJson) {
+            return response()->json(['message' => 'Item removed from cart.']);
+        }
+
+        return redirect()->route('cart.index')->with('success', 'Item removed from cart.');
     }
 
     public function clear()
