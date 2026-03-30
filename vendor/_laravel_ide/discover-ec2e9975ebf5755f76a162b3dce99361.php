@@ -295,7 +295,7 @@ $blade = new class ($livewire) {
                 $realPath = $file->getRealPath();
 
                 $components[] = [
-                    "path" => str_replace(base_path(DIRECTORY_SEPARATOR), '', $realPath),
+                    "path" => LaravelVsCode::relativePath($realPath),
                     "isVendor" => str_contains($realPath, base_path("vendor")),
                     "key" =>  str($realPath)
                         ->replace(realpath($path), "")
@@ -329,7 +329,7 @@ $blade = new class ($livewire) {
 
         foreach ($files as $file) {
             $paths[] = [
-                "path" => str_replace(base_path(DIRECTORY_SEPARATOR), '', $file->getRealPath()),
+                "path" => LaravelVsCode::relativePath($file->getRealPath()),
                 "isVendor" => str_contains($file->getRealPath(), base_path("vendor")),
                 "key" => str($file->getRealPath())
                     ->replace(realpath($path), "")
