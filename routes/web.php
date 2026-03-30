@@ -104,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::delete('/cart/remove-product/{productId}', [CartController::class, 'removeByProduct'])->name('cart.remove-product');
     Route::get('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
     Route::post('/order/place', [OrderController::class, 'placeOrder'])->name('order.place');
     Route::post('/orders/request-refund', [OrderController::class, 'requestRefund'])->name('orders.request-refund');
