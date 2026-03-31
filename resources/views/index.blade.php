@@ -1,34 +1,18 @@
-<!-- Bootstrap 5.3.3 -->
-<link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-
-<!-- Bootstrap Icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-
-<!-- Contact Component CSS -->
-<link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/contacts/contact-1/assets/css/contact-1.css">
-
-<!-- Laravel Assets -->
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-<!-- website icon -->
-<link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/png">
-<link rel="shortcut icon" href="{{ asset('images/siliconcovelogo.png') }}">
-
-<title>
-    SiliconCove
-</title>
 @extends('layouts.layout')
-@include('includes.navbar')
+
+@section('title', 'SiliconCove')
+
+@section('content')
 @include('includes.introduction')
 
 <!-- ✅ Breadcrumb -->
-<div class="container d-none">
+{{-- <div class="container d-none">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb mt-3">
             <li class="breadcrumb-item active" aria-current="page">Home</li>
         </ol>
     </nav>
-</div>
+</div> --}}
 
 <!-- POS Layout -->
 <div class="pos-wrapper" style="margin-top:3rem;">
@@ -408,24 +392,6 @@
         checkoutModal.hide();
         form.submit();
     }
-
-    // Toggle cart sidebar on mobile
-    const cartToggles = document.querySelectorAll('.cart-toggle');
-    const cartSidebar = document.querySelector('.cart-sidebar');
-
-    cartToggles.forEach(toggle => {
-        toggle.addEventListener('click', () => {
-            cartSidebar.classList.toggle('active');
-        });
-    });
-
-    // Close cart when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!cartSidebar.contains(e.target) &&
-            !e.target.classList.contains('cart-toggle')) {
-            cartSidebar.classList.remove('active');
-        }
-    });
 
     // Handle quantity input changes
     document.getElementById("modalQuantity").addEventListener("input", function() {
@@ -885,15 +851,6 @@
         window.csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-</script>
 
 <!-- Add this before the closing body tag -->
 <template id="loadingTemplate">
@@ -1079,8 +1036,8 @@
         if (categoryToggle) {
             categoryToggle.addEventListener('click', () => {
                 categorySidebar.classList.toggle('active');
-                backdrop.classList.toggle('active');
                 cartSidebar.classList.remove('active');
+                backdrop.classList.toggle('active', categorySidebar.classList.contains('active'));
             });
         }
 
@@ -1088,8 +1045,8 @@
         cartToggles.forEach(toggle => {
             toggle.addEventListener('click', () => {
                 cartSidebar.classList.toggle('active');
-                backdrop.classList.toggle('active');
                 categorySidebar.classList.remove('active');
+                backdrop.classList.toggle('active', cartSidebar.classList.contains('active'));
             });
         });
 
@@ -1102,10 +1059,13 @@
 
         // Close sidebars when clicking outside
         document.addEventListener('click', (e) => {
+            const clickedCategoryToggle = e.target.closest('#categoryToggle');
+            const clickedCartToggle = e.target.closest('.cart-toggle');
+
             if (!categorySidebar.contains(e.target) &&
                 !cartSidebar.contains(e.target) &&
-                !e.target.matches('#categoryToggle') &&
-                !e.target.matches('.cart-toggle')) {
+                !clickedCategoryToggle &&
+                !clickedCartToggle) {
                 categorySidebar.classList.remove('active');
                 cartSidebar.classList.remove('active');
                 backdrop.classList.remove('active');
@@ -1122,3 +1082,5 @@
         });
     });
 </script>
+
+@endsection

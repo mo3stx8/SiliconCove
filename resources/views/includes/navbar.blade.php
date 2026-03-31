@@ -100,8 +100,6 @@
     </div>
 </div>
 
-<!-- Bootstrap JS (Ensure it's included) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     // Custom JS toggle for mobile navbar
     document.addEventListener('DOMContentLoaded', function() {
