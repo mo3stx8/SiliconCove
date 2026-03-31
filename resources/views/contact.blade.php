@@ -1,3 +1,4 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -12,18 +13,21 @@
 <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 {{-- navbar --}}
 @include('includes.navbar');
-<div class="container">
+
+{{-- @extends('layouts.layout'); --}}
+{{-- <div class="container">
     <div class="row">
         <div class="col">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="product.html">Product</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Contact</li>
                 </ol>
             </nav>
         </div>
     </div>
-</div>
+</div> --}}
 
 <div class="container">
     <!-- Contact 1 - Bootstrap Brain Component -->
@@ -31,7 +35,7 @@
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                    <h2 class="mb-4 display-5 text-center">Contact</h2>
+                    <h2 class="mb-4 display-4 text-center" style="margin-top: 40px">Contact</h2>
                     <p class="text-secondary mb-5 text-center">The best way to contact us is to use our contact form
                         below. Please fill out all of the required fields and we will get back to you as soon as
                         possible.</p>

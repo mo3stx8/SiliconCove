@@ -1,6 +1,4 @@
 @extends('layouts.layout')
-<!-- website icon -->
-<link rel="icon" href="{{ asset('images/siliconcovelogo.png') }}" type="image/x-icon">
 
 @section('title')
     SiliconCove - cart
@@ -91,12 +89,11 @@
     </style>
 @endpush
 
-@include('includes.navbar');
 @section('content')
-    <div class="container">
-        <div class="my-5 d-flex justify-content-between align-items-center">
-            <h2 class="mb-0">Your Cart</h2>
-            <a href="{{ route('account.index') }}" class="text-decoration-none text-dark cart-icon">
+    <div class="container" >
+        <div class="my-5 d-flex justify-content-between align-items-center" >
+            <h2 class="mb-0" style="margin-top: 40px">Your Cart</h2>
+            <a href="{{ route('account.index') }}" class="text-decoration-none text-dark cart-icon" style="margin-top: 40px">
                 <i class="fa fa-shopping-bag fa-2x"></i>
             </a>
         </div>
