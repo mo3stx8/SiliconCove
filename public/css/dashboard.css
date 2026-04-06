@@ -587,13 +587,37 @@ main .btn-send:hover {
 
 
 @media screen and (max-width: 768px) {
+	#sidebar {
+		left: -260px;
+		max-width: 260px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+	}
+	#sidebar.show {
+		left: 0;
+	}
 	#content {
-		position: relative;
-		width: calc(100% - 60px);
-		transition: all .3s ease;
+		width: 100%;
+		left: 0;
+	}
+	nav {
+		padding: 0 12px;
+		grid-gap: 12px;
+	}
+	nav form {
+		min-width: 0;
 	}
 	nav .nav-link,
 	nav .divider {
 		display: none;
 	}
-}   
+}
+
+@media screen and (max-width: 576px) {
+	nav {
+		padding: 0 10px;
+	}
+	nav .form-group input {
+		padding: 10px 32px 10px 12px;
+		font-size: 14px;
+	}
+}

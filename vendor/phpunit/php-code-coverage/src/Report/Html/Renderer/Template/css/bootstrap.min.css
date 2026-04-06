@@ -2345,7 +2345,7 @@ progress {
     border-color: var(--bs-table-border-color)
 }
 
-.table-responsive {
+.table-responsive { /* Make tables responsive by wrapping them in .table-responsive*/
     overflow-x: auto;
     -webkit-overflow-scrolling: touch
 }

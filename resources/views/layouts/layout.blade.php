@@ -46,7 +46,10 @@
     @include('includes.navbar')
 
     <!-- Main Content -->
-    <div class="container mt-4">
+    @php
+        $contentContainerClass = trim($__env->yieldContent('content_container_class'));
+    @endphp
+    <div class="{{ $contentContainerClass !== '' ? $contentContainerClass : 'container mt-4' }}">
         @yield('content')
     </div>
 

@@ -103,7 +103,7 @@
                             class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                             <div>
                                 <h5 class="card-title mb-3">Sales Report</h5>
-                                <div class="btn-group btn-group-sm mt-2 mt-md-0">
+                                <div class="d-flex flex-wrap gap-2 mt-2 mt-md-0">
                                     <button class="btn btn-outline-primary"
                                         onclick="updateChart('daily')">Daily</button>
                                     <button class="btn btn-outline-primary"
@@ -130,8 +130,8 @@
                             <canvas id="profitChart"></canvas>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center mb-3">
-                        <a href="{{ route('admin.analytics') }}" class="btn btn-outline-primary btn-lg w-80">
+                    <div class="d-grid d-md-flex justify-content-center mb-3">
+                        <a href="{{ route('admin.analytics') }}" class="btn btn-outline-primary btn-lg w-100">
                             <i class="fa fa-chart-line me-2"></i>
                             View Sales Analytics
                         </a>

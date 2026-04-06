@@ -24,6 +24,7 @@ allDropdown.forEach((item) => {
 // SIDEBAR COLLAPSE
 const toggleSidebar = document.querySelector("nav .toggle-sidebar");
 const allSideDivider = document.querySelectorAll("#sidebar .divider");
+const isMobileViewport = () => window.innerWidth <= 768;
 
 if (sidebar.classList.contains("hide")) {
   allSideDivider.forEach((item) => {
@@ -41,6 +42,11 @@ if (sidebar.classList.contains("hide")) {
 }
 
 toggleSidebar.addEventListener("click", function () {
+  if (isMobileViewport()) {
+    sidebar.classList.toggle("show");
+    return;
+  }
+
   sidebar.classList.toggle("hide");
 
   if (sidebar.classList.contains("hide")) {
@@ -61,6 +67,9 @@ toggleSidebar.addEventListener("click", function () {
 });
 
 sidebar.addEventListener("mouseleave", function () {
+  if (isMobileViewport()) {
+    return;
+  }
   if (this.classList.contains("hide")) {
     allDropdown.forEach((item) => {
       const a = item.parentElement.querySelector("a:first-child");
@@ -74,6 +83,9 @@ sidebar.addEventListener("mouseleave", function () {
 });
 
 sidebar.addEventListener("mouseenter", function () {
+  if (isMobileViewport()) {
+    return;
+  }
   if (this.classList.contains("hide")) {
     allDropdown.forEach((item) => {
       const a = item.parentElement.querySelector("a:first-child");
@@ -108,6 +120,15 @@ allMenu.forEach((item) => {
 });
 
 window.addEventListener("click", function (e) {
+  if (
+    isMobileViewport() &&
+    sidebar.classList.contains("show") &&
+    !sidebar.contains(e.target) &&
+    !toggleSidebar.contains(e.target)
+  ) {
+    sidebar.classList.remove("show");
+  }
+
   if (e.target !== imgProfile) {
     if (e.target !== dropdownProfile) {
       if (dropdownProfile.classList.contains("show")) {
@@ -128,6 +149,12 @@ window.addEventListener("click", function (e) {
       }
     }
   });
+});
+
+window.addEventListener("resize", function () {
+  if (!isMobileViewport()) {
+    sidebar.classList.remove("show");
+  }
 });
 
 // PROGRESSBAR
