@@ -3,7 +3,7 @@
 
     {{-- Back to Home Button  --}}
     <div class="mb-3">
-        <a href="{{ route('index') }}" class="btn btn-outline-primary w-100">
+        <a href="{{ route('index') }}" class="btn btn-outline-primary w-100" style="margin-top: 5px">
             <i class="fa fa-arrow-left"></i> Back to Home
         </a>
     </div>

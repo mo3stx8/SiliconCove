@@ -1,6 +1,7 @@
 @extends('layouts.layout')
 
 @section('title', 'SiliconCove')
+@section('content_container_class', 'container-fluid mt-4 px-0')
 
 @section('content')
 @include('includes.introduction')
@@ -49,7 +50,7 @@
                 </div>
                 {{-- site name --}}
                 <div class="col-md-4 d-none d-md-block text-center">
-                    <h4 class="mb-0">SiliconCove</h4>
+                    <h2 class="mb-0">SiliconCove</h2>
                 </div>
                 {{-- cart button --}}
                 <div class="col-md-4 col-6 text-end">
@@ -97,9 +98,9 @@
                 <button class="category-item" onclick="performSearch('Mod Zone')">
                     <i class="fas fa-tools"></i> Mod Zone
                 </button>
-                {{-- @foreach ($latestProducts as $latest) --}}
-                {{-- <button class="category-item">{{ $latest->name }}</button> --}}
-                {{-- @endforeach --}}
+                {{-- @foreach ($latestProducts as $latest)
+                <button class="category-item">{{ $latest->name }}</button>
+                @endforeach --}}
             </div>
         </div>
         <!-- Products Grid -->
@@ -120,7 +121,8 @@
                         <button class="btn btn-primary btn-add-cart mt-3 {{ $product->stock <= 0 ? 'disabled' : '' }}"
                             data-id="{{ $product->id }}"
                             data-name="{{ $product->name }}" data-image="{{ asset('storage/' . $product->image) }}"
-                            data-price="{{ $product->price }}" data-stock="{{ $product->stock }}">
+                            data-price="{{ $product->price }}" data-stock="{{ $product->stock }}"
+                            data-description="{{ $product->description }}">
                             <i class="fa fa-plus"></i> Add to Cart
                         </button>
                     </div>
@@ -202,7 +204,7 @@
                 </div>
                 <h5 id="modalProductName"></h5>
                 <p id="modalProductPrice" class="text-muted"></p>
-                {{-- <p id="modalProductDescription" class="text-muted"></p> --}}
+                <p id="modalProductDescription" class="text-muted"></p>
                 <p id="modalProductStock" class="text-muted"></p> <!-- ✅ Added stock display -->
 
                 <form id="addToCartForm" method="POST" action="{{ route('cart.add') }}">
@@ -569,6 +571,7 @@
         const productId = document.getElementById('modalProductId').value;
         const quantity = parseInt(document.getElementById('modalQuantity').value);
         const name = document.getElementById('modalProductName').textContent;
+        const description = document.getElementById('modalProductDescription').textContent;
         // Get price from the data attribute instead of text content
         const button = document.querySelector(`[data-id="${productId}"]`);
         const price = parseFloat(button.getAttribute('data-price'));
@@ -587,6 +590,7 @@
             addToCart({
                 id: productId,
                 name: name,
+                description: description,
                 quantity: quantity,
                 price: price,
                 total: price * quantity
@@ -779,7 +783,7 @@
                 document.getElementById('modalProductName').textContent = data.name;
                 document.getElementById('modalProductPrice').textContent =
                     `Price: $${parseFloat(data.price).toFixed(2)}`;
-                // document.getElementById('modalProductDescription').textContent = data.description || '';
+                document.getElementById('modalProductDescription').textContent = data.description || '';
                 document.getElementById('modalProductStock').textContent =
                     `Stock: ${currentStock}`;
                 document.getElementById('modalProductId').value = data.id;
