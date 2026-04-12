@@ -52,6 +52,7 @@
             @endif
 
             <!-- Order Status Summary -->
+            {{-- mod the cards in phone view --}}
             <div class="row mb-4">
                 <div class="col-md-3">
                     <div class="card bg-warning text-dark">
@@ -127,7 +128,7 @@
                                     $orderId = $row['order_id'];
 
                                     $viewBtn =
-                                        '<button class="btn btn-primary btn-sm me-1" onclick="showProductInfoModal(' .
+                                        '<button type="button" class="btn btn-primary btn-sm" onclick="showProductInfoModal(' .
                                         htmlspecialchars(json_encode($row)) .
                                         ')">
                                         <i class="fa fa-eye"></i> View
@@ -136,13 +137,13 @@
                                     $approveBtn = '';
                                     if ($status === 'pending') {
                                         $approveBtn =
-                                            '<button class="btn btn-warning btn-sm me-1" data-bs-toggle="modal" data-bs-target="#approveOrderModal" onclick="setApproveOrder(\'' .
+                                            '<button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#approveOrderModal" onclick="setApproveOrder(\'' .
                                             $orderId .
                                             '\')">
                                             <i class="fa fa-check-circle"></i> Approve
                                         </button>';
                                     } else {
-                                        $approveBtn = '<button class="btn btn-secondary btn-sm me-1 text-muted opacity-50" disabled>
+                                        $approveBtn = '<button type="button" class="btn btn-secondary btn-sm text-muted opacity-50" disabled>
                                             <i class="fa fa-check-circle"></i> Approve
                                         </button>';
                                     }
@@ -151,13 +152,13 @@
                                     if ($status === 'approved') {
                                         $processBtn =
                                             '
-                                            <button class="btn btn-info btn-sm me-1" data-bs-toggle="modal" data-bs-target="#processOrderModal" onclick="setProcessOrder(\'' .
+                                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#processOrderModal" onclick="setProcessOrder(\'' .
                                             $orderId .
                                             '\')">
                                             <i class="fa-solid fa-gear"></i> Process
                                         </button>';
                                     } else {
-                                        $processBtn = '<button class="btn btn-secondary btn-sm me-1 text-muted opacity-50" disabled>
+                                        $processBtn = '<button type="button" class="btn btn-secondary btn-sm text-muted opacity-50" disabled>
                                             <i class="fa-solid fa-gear"></i> Process
                                         </button>';
                                     }
@@ -166,13 +167,13 @@
                                     if ($status === 'pending') {
                                         $rejectBtn =
                                             '
-                                            <button class="btn btn-danger btn-sm me-1" data-bs-toggle="modal" data-bs-target="#rejectOrderModal" onclick="setRejectOrder(\'' .
+                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectOrderModal" onclick="setRejectOrder(\'' .
                                             $orderId .
                                             '\')">
                                             <i class="fa-solid fa-xmark-circle"></i> Reject
                                         </button>';
                                     } else {
-                                        $rejectBtn = '<button class="btn btn-secondary btn-sm me-1 text-muted opacity-50" disabled>
+                                        $rejectBtn = '<button type="button" class="btn btn-secondary btn-sm text-muted opacity-50" disabled>
                                             <i class="fa-solid fa-xmark-circle"></i> Reject
                                         </button>';
                                     }
@@ -180,18 +181,18 @@
                                     $completeBtn = '';
                                     if ($status === 'in progress') {
                                         $completeBtn =
-                                            '<button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#completeOrderModal" onclick="setCompleteOrder(\'' .
+                                            '<button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#completeOrderModal" onclick="setCompleteOrder(\'' .
                                             $orderId .
                                             '\')">
                                             <i class="fa fa-check"></i> Complete
                                         </button>';
                                     } else {
-                                        $completeBtn = '<button class="btn btn-secondary btn-sm text-muted opacity-50" disabled>
+                                        $completeBtn = '<button type="button" class="btn btn-secondary btn-sm text-muted opacity-50" disabled>
                                             <i class="fa fa-check"></i> Complete
                                         </button>';
                                     }
 
-                                    return '<div class="btn-group">' .
+                                    return '<div class="order-action-buttons">' .
                                         $viewBtn .
                                         $approveBtn .
                                         $rejectBtn .
@@ -247,7 +248,7 @@
     <!-- Approve Order Modal -->
     <div class="modal fade" id="approveOrderModal" tabindex="-1" aria-labelledby="approveOrderModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-warning text-white">
                     <h5 class="modal-title" id="approveOrderModalLabel">Approve Order</h5>
@@ -270,7 +271,7 @@
 
     <!-- Reject Order Modal -->
     <div class="modal fade" id="rejectOrderModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title">Reject Order</h5>
@@ -281,8 +282,8 @@
                     <textarea id="rejectReason" class="form-control" placeholder="Optional reason for rejection"></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button class="btn btn-danger" onclick="submitRejectForm()">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="submitRejectForm()">
                         Reject Order
                     </button>
                 </div>
@@ -294,7 +295,7 @@
     <!-- Process Order Modal -->
     <div class="modal fade" id="processOrderModal" tabindex="-1" aria-labelledby="processOrderModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-info text-dark">
                     <h5 class="modal-title" id="processOrderModalLabel">Process Order</h5>
@@ -320,7 +321,7 @@
     <!-- Complete Order Modal -->
     <div class="modal fade" id="completeOrderModal" tabindex="-1" aria-labelledby="completeOrderModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
                     <h5 class="modal-title" id="completeOrderModalLabel">Mark as Complete</h5>

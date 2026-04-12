@@ -578,6 +578,46 @@ main .btn-send {
 main .btn-send:hover {
 	background: var(--dark-blue);
 }
+
+.data-table-wrapper {
+	width: 100%;
+	-webkit-overflow-scrolling: touch;
+}
+
+.data-table-toolbar {
+	gap: 12px;
+}
+
+.data-table-search-form {
+	min-width: 260px;
+}
+
+.data-table-actions {
+	min-width: 320px;
+}
+
+.order-action-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	min-width: 18rem;
+}
+
+.order-action-buttons .btn {
+	border-radius: 4px !important;
+	flex: 0 0 auto;
+	white-space: nowrap;
+}
+
+#productInfoModal .modal-body {
+	overflow-wrap: anywhere;
+}
+
+#modalProductImage,
+#gcashProofImage {
+	max-width: 100%;
+	object-fit: contain;
+}
 /* MAIN */
 /* CONTENT */
 
@@ -610,6 +650,34 @@ main .btn-send:hover {
 	nav .divider {
 		display: none;
 	}
+	.data-table-toolbar {
+		align-items: stretch !important;
+		flex-direction: column;
+	}
+	.data-table-toolbar form {
+		flex-wrap: wrap;
+		gap: 8px;
+		width: 100%;
+	}
+	.data-table-search-form {
+		min-width: 0;
+	}
+	.data-table-search-form .form-control {
+		flex: 1 1 12rem;
+		margin-right: 0 !important;
+		min-width: 0;
+	}
+	.data-table-actions {
+		min-width: 240px;
+	}
+	.order-action-buttons {
+		max-width: 260px;
+		min-width: 0;
+		width: 100%;
+	}
+	.order-action-buttons .btn {
+		flex: 1 1 calc(50% - 6px);
+	}
 }
 
 @media screen and (max-width: 576px) {
@@ -619,5 +687,21 @@ main .btn-send:hover {
 	nav .form-group input {
 		padding: 10px 32px 10px 12px;
 		font-size: 14px;
+	}
+	.pending-orders .card-body {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+	.data-table-search-form .btn {
+		width: 100%;
+	}
+	.data-table-actions {
+		min-width: 220px;
+	}
+	.order-action-buttons {
+		max-width: 220px;
+	}
+	.order-action-buttons .btn {
+		flex-basis: 100%;
 	}
 }
