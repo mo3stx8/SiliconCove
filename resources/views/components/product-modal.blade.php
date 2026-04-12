@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-md-8">
                         <h4>{{ $product->product?->name }}</h4>
-                        <p class="text-muted">- {{ $product->product?->description }}</p>
+                        {{-- <p class="text-muted">- {{ $product->product?->description }}</p> --}}
                         <div class="row mt-3">
                             <div class="col-6">
                                 <h6>Price:</h6>

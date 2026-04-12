@@ -1,0 +1,1 @@
+document.getElementById("imageInput").addEventListener("change",function(n){const[e]=n.target.files;if(e){const t=new FileReader;t.onload=function(a){document.getElementById("imagePreview").src=a.target.result,document.getElementById("imagePreview").style.display="block"},t.readAsDataURL(e)}});

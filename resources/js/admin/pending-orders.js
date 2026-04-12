@@ -58,7 +58,7 @@ window.submitRejectForm = function () {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                $("#rejectOrderModal").modal("hide");
+                hideModal("#rejectOrderModal");
                 showAlert(data.message, "success");
                 setTimeout(() => window.location.reload(), 1000);
             } else {
@@ -94,7 +94,7 @@ window.submitProcessForm = function () {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                $("#processOrderModal").modal("hide");
+                hideModal("#processOrderModal");
                 showAlert(data.message, "success");
                 setTimeout(() => window.location.reload(), 1000);
             } else {
@@ -150,12 +150,22 @@ window.submitCompleteForm = function () {
 -------------------------- */
 function handleResponse(data, modalId) {
     if (data.success) {
-        $(modalId).modal("hide");
+        hideModal(modalId);
         showAlert(data.message, "success");
         setTimeout(() => window.location.reload(), 1000);
     } else {
         showAlert(data.message, "danger");
     }
+}
+
+function hideModal(modalId) {
+    const modalElement = document.querySelector(modalId);
+
+    if (!modalElement || !window.bootstrap?.Modal) {
+        return;
+    }
+
+    window.bootstrap.Modal.getOrCreateInstance(modalElement).hide();
 }
 
 function restoreCompleteButton(btn) {
@@ -188,10 +198,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 2000);
     }
 
-    $(".data-table").DataTable({
-        paging: false,
-        searching: false,
-        ordering: true,
-        info: false,
-    });
+    if (window.jQuery?.fn?.DataTable) {
+        $(".data-table").DataTable({
+            paging: false,
+            searching: false,
+            ordering: true,
+            info: false,
+            autoWidth: false,
+        });
+    }
 });

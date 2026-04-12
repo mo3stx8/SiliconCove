@@ -130,7 +130,7 @@
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
     <!-- Initialize DataTable -->
-    @vite('resources/js/admin/completed-orders.js')
+    @vite('resources/js/admin/complete-orders.js')
 
     <!-- ApexCharts JS -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

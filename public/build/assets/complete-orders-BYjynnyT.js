@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#completedOrdersTable").DataTable({paging:!0,searching:!0,ordering:!0,info:!0,lengthMenu:[5,10,25,50]})});document.addEventListener("DOMContentLoaded",function(){let e=document.getElementById("successMessage");e&&setTimeout(function(){e.style.transition="opacity 1s ease-out",e.style.opacity="0",setTimeout(()=>e.remove(),1e3)},2e3)});

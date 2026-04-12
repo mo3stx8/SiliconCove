@@ -45,6 +45,7 @@
             @endif
 
             <!-- Sales Summary -->
+            {{-- mod in phone view --}}
             <div class="row mb-4">
                 <div class="col-md-3">
                     <div class="card bg-primary text-white">

@@ -4,10 +4,10 @@
     $pageKey = $pageKey ?? 'page';
 @endphp
 
-<div class="table-responsive">
+<div class="table-responsive data-table-wrapper">
     <!-- Filter and Search -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <form method="GET" action="{{ $route }}" class="d-flex align-items-center">
+    <div class="data-table-toolbar d-flex justify-content-between align-items-center mb-3">
+        <form method="GET" action="{{ $route }}" class="data-table-entries-form d-flex align-items-center">
             <label for="{{ $entriesKey }}" class="me-2">Show</label>
             <select name="{{ $entriesKey }}" id="{{ $entriesKey }}" class="form-select w-auto me-2" onchange="this.form.submit()">
                 @foreach([5, 10, 25, 50] as $size)
@@ -21,7 +21,7 @@
             @endforeach
         </form>
 
-        <form method="GET" action="{{ $route }}" class="d-flex align-items-center">
+        <form method="GET" action="{{ $route }}" class="data-table-search-form d-flex align-items-center">
             <input type="text" name="{{ $searchKey }}" class="form-control me-2" placeholder="Search..." value="{{ request($searchKey) }}">
             <!-- Preserve other table's parameters -->
             @foreach(request()->except([$searchKey, $pageKey]) as $key => $value)
@@ -31,7 +31,7 @@
         </form>
     </div>
 
-    <table class="data-table table table-striped table-hover">
+    <table class="data-table table table-striped table-hover align-middle">
         <thead class="table-dark">
             <tr>
                 @foreach ($headers as $label)
@@ -49,7 +49,7 @@
                 <td>{!! data_get($row, $key) !!}</td>
                 @endforeach
                 @if ($actions)
-                <td>
+                <td class="data-table-actions">
                     @foreach ($actions as $action)
                         @if (isset($action['inline']) && is_callable($action['inline']))
                             {!! $action['inline']($row) !!}

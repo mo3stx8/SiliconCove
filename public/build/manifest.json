@@ -1,0 +1,68 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-l0sNRNKZ.js",
+    "name": "app",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/admin/add-product.js": {
+    "file": "assets/add-product-YzXO-8A_.js",
+    "name": "add-product",
+    "src": "resources/js/admin/add-product.js",
+    "isEntry": true
+  },
+  "resources/js/admin/analytics.js": {
+    "file": "assets/analytics-ENOBiycR.js",
+    "name": "analytics",
+    "src": "resources/js/admin/analytics.js",
+    "isEntry": true
+  },
+  "resources/js/admin/complete-orders.js": {
+    "file": "assets/complete-orders-BYjynnyT.js",
+    "name": "complete-orders",
+    "src": "resources/js/admin/complete-orders.js",
+    "isEntry": true
+  },
+  "resources/js/admin/completed-orders-chart.js": {
+    "file": "assets/completed-orders-chart-C3ysmx3d.js",
+    "name": "completed-orders-chart",
+    "src": "resources/js/admin/completed-orders-chart.js",
+    "isEntry": true
+  },
+  "resources/js/admin/completed-orders-invoice.js": {
+    "file": "assets/completed-orders-invoice-D-SQ8GC5.js",
+    "name": "completed-orders-invoice",
+    "src": "resources/js/admin/completed-orders-invoice.js",
+    "isEntry": true
+  },
+  "resources/js/admin/pending-orders.js": {
+    "file": "assets/pending-orders-2rgyRzuK.js",
+    "name": "pending-orders",
+    "src": "resources/js/admin/pending-orders.js",
+    "isEntry": true
+  },
+  "resources/js/admin/process-refunds.js": {
+    "file": "assets/process-refunds-BpFRy0_5.js",
+    "name": "process-refunds",
+    "src": "resources/js/admin/process-refunds.js",
+    "isEntry": true
+  },
+  "resources/js/admin/profile.js": {
+    "file": "assets/profile-Bh6w_1lo.js",
+    "name": "profile",
+    "src": "resources/js/admin/profile.js",
+    "isEntry": true
+  },
+  "resources/js/admin/view-orders.js": {
+    "file": "assets/view-orders-Dr0d3H6V.js",
+    "name": "view-orders",
+    "src": "resources/js/admin/view-orders.js",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-T1DpEqax.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
