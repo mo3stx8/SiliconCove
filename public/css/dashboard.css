@@ -596,6 +596,42 @@ main .btn-send:hover {
 	min-width: 320px;
 }
 
+.pending-orders-page-heading {
+	gap: 10px 16px;
+}
+
+.card.pending-orders-summary-card {
+	border: 0;
+	border-radius: 8px;
+	box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+}
+
+.pending-orders-summary-card .card-body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	justify-content: center;
+	min-height: 132px;
+	padding: 18px;
+}
+
+.pending-orders-summary-card .card-title {
+	font-size: 17px;
+	font-weight: 600;
+	line-height: 1.25;
+	margin-bottom: 0;
+}
+
+.pending-orders-summary-card h2 {
+	font-size: 30px;
+	line-height: 1;
+}
+
+.pending-orders-summary-card small {
+	font-size: 14px;
+	line-height: 1.25;
+}
+
 .order-action-buttons {
 	display: flex;
 	flex-wrap: wrap;
@@ -687,6 +723,28 @@ main .btn-send:hover {
 	nav .form-group input {
 		padding: 10px 32px 10px 12px;
 		font-size: 14px;
+	}
+	.pending-orders-page-heading .breadcrumb {
+		font-size: 14px;
+		row-gap: 4px;
+	}
+	.row.pending-orders-summary {
+		--bs-gutter-x: 10px;
+		--bs-gutter-y: 10px;
+	}
+	.pending-orders-summary-card .card-body {
+		gap: 6px;
+		min-height: 118px;
+		padding: 14px 12px;
+	}
+	.pending-orders-summary-card .card-title {
+		font-size: 15px;
+	}
+	.pending-orders-summary-card h2 {
+		font-size: 26px;
+	}
+	.pending-orders-summary-card small {
+		font-size: 12px;
 	}
 	.pending-orders .card-body {
 		padding-left: 12px;

@@ -31,9 +31,10 @@
 
         <div class="container mt-4">
             <!-- Title & Breadcrumb -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h1 class="h3">Pending Orders</h1>
-                <ol class="breadcrumb">
+            <div
+                class="pending-orders-page-heading d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+                <h1 class="h3 mb-0">Pending Orders</h1>
+                <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                     <li class="breadcrumb-item">Manage Orders</li>
                     <li class="breadcrumb-item active">Pending Orders</li>
@@ -52,10 +53,9 @@
             @endif
 
             <!-- Order Status Summary -->
-            {{-- mod the cards in phone view --}}
-            <div class="row mb-4">
-                <div class="col-md-3">
-                    <div class="card bg-warning text-dark">
+            <div class="row g-3 mb-4 pending-orders-summary">
+                <div class="col-6 col-md-3">
+                    <div class="card bg-warning text-dark h-100 pending-orders-summary-card">
                         <div class="card-body">
                             <h5 class="card-title">New Orders</h5>
                             <h2 class="mb-0">{{ $newOrdersCount }}</h2>
@@ -63,8 +63,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card bg-primary text-white">
+                <div class="col-6 col-md-3">
+                    <div class="card bg-primary text-white h-100 pending-orders-summary-card">
                         <div class="card-body">
                             <h5 class="card-title">Approved Orders</h5>
                             <h2 class="mb-0">{{ $aprovedOrdersCount }}</h2>
@@ -72,8 +72,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card bg-info text-dark">
+                <div class="col-6 col-md-3">
+                    <div class="card bg-info text-dark h-100 pending-orders-summary-card">
                         <div class="card-body">
                             <h5 class="card-title">Ready to Ship</h5>
                             <h2 class="mb-0">{{ $readyToShipOrdersCount }}</h2>
@@ -81,8 +81,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card bg-success text-white">
+                <div class="col-6 col-md-3">
+                    <div class="card bg-success text-white h-100 pending-orders-summary-card">
                         <div class="card-body">
                             <h5 class="card-title">Shipped</h5>
                             <h2 class="mb-0">{{ $shippedOrdersCount }}</h2>
@@ -125,7 +125,7 @@
                                 'inline' => function ($row) {
                                     $orderNo = $row['order_no'];
                                     $status = $row['raw_status'];
-                                    $orderId = $row['order_id'];
+                                    $orderId = e($row['order_id']);
 
                                     $viewBtn =
                                         '<button type="button" class="btn btn-primary btn-sm" onclick="showProductInfoModal(' .
@@ -137,9 +137,9 @@
                                     $approveBtn = '';
                                     if ($status === 'pending') {
                                         $approveBtn =
-                                            '<button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#approveOrderModal" onclick="setApproveOrder(\'' .
+                                            '<button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#approveOrderModal" data-order-action="approve" data-order-id="' .
                                             $orderId .
-                                            '\')">
+                                            '" onclick="setApproveOrder(this.dataset.orderId)">
                                             <i class="fa fa-check-circle"></i> Approve
                                         </button>';
                                     } else {
@@ -152,9 +152,9 @@
                                     if ($status === 'approved') {
                                         $processBtn =
                                             '
-                                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#processOrderModal" onclick="setProcessOrder(\'' .
+                                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#processOrderModal" data-order-action="process" data-order-id="' .
                                             $orderId .
-                                            '\')">
+                                            '" onclick="setProcessOrder(this.dataset.orderId)">
                                             <i class="fa-solid fa-gear"></i> Process
                                         </button>';
                                     } else {
@@ -167,9 +167,9 @@
                                     if ($status === 'pending') {
                                         $rejectBtn =
                                             '
-                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectOrderModal" onclick="setRejectOrder(\'' .
+                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectOrderModal" data-order-action="reject" data-order-id="' .
                                             $orderId .
-                                            '\')">
+                                            '" onclick="setRejectOrder(this.dataset.orderId)">
                                             <i class="fa-solid fa-xmark-circle"></i> Reject
                                         </button>';
                                     } else {
@@ -181,9 +181,9 @@
                                     $completeBtn = '';
                                     if ($status === 'in progress') {
                                         $completeBtn =
-                                            '<button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#completeOrderModal" onclick="setCompleteOrder(\'' .
+                                            '<button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#completeOrderModal" data-order-action="complete" data-order-id="' .
                                             $orderId .
-                                            '\')">
+                                            '" onclick="setCompleteOrder(this.dataset.orderId)">
                                             <i class="fa fa-check"></i> Complete
                                         </button>';
                                     } else {
@@ -256,7 +256,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to approve this order? This will move it to the processing stage.</p>
-                    <form id="approveOrderForm">
+                    <form id="approveOrderForm" method="POST">
                         @csrf
                         <input type="hidden" name="_method" value="PUT">
                     </form>
@@ -278,8 +278,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to reject this order?</p>
-                    <textarea id="rejectReason" class="form-control" placeholder="Optional reason for rejection"></textarea>
+                    <form id="rejectOrderForm" method="POST">
+                        @csrf
+                        <input type="hidden" name="_method" value="PUT">
+                        <p>Are you sure you want to reject this order?</p>
+                        <textarea id="rejectReason" name="reason" class="form-control" placeholder="Optional reason for rejection"></textarea>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -303,7 +307,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to process this order? This will move it to the in progress stage.</p>
-                    <form id="processOrderForm">
+                    <form id="processOrderForm" method="POST">
                         @csrf
                         <input type="hidden" name="_method" value="PUT">
                     </form>
@@ -329,7 +333,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to mark this order as complete?</p>
-                    <form id="completeOrderForm">
+                    <form id="completeOrderForm" method="POST">
                         @csrf
                         <input type="hidden" name="_method" value="PUT">
                     </form>
@@ -348,6 +352,128 @@
     <!-- JavaScript to Set Form Action -->
     <script>
         window.csrfToken = "{{ csrf_token() }}";
+        window.pendingOrderActionUrls = {
+            approve: @json(route('admin.orders.approve', ['id' => '__ORDER_ID__'])),
+            reject: @json(route('admin.orders.reject', ['id' => '__ORDER_ID__'])),
+            process: @json(route('admin.orders.process', ['id' => '__ORDER_ID__'])),
+            complete: @json(route('admin.orders.complete', ['id' => '__ORDER_ID__'])),
+        };
+
+        (function () {
+            const config = {
+                approve: {
+                    formId: 'approveOrderForm',
+                    modalId: 'approveOrderModal',
+                },
+                reject: {
+                    formId: 'rejectOrderForm',
+                    modalId: 'rejectOrderModal',
+                },
+                process: {
+                    formId: 'processOrderForm',
+                    modalId: 'processOrderModal',
+                },
+                complete: {
+                    formId: 'completeOrderForm',
+                    modalId: 'completeOrderModal',
+                },
+            };
+
+            function buildOrderActionUrl(action, orderId) {
+                return window.pendingOrderActionUrls[action].replace('__ORDER_ID__', encodeURIComponent(orderId));
+            }
+
+            function storeOrderAction(action, orderId) {
+                if (!config[action] || !orderId) return;
+
+                const form = document.getElementById(config[action].formId);
+                const modal = document.getElementById(config[action].modalId);
+                const actionUrl = buildOrderActionUrl(action, orderId);
+
+                if (form) {
+                    form.action = actionUrl;
+                    form.dataset.orderId = orderId;
+                }
+
+                if (modal) {
+                    modal.dataset.orderId = orderId;
+                }
+            }
+
+            function submitOrderAction(action) {
+                const actionConfig = config[action];
+                const form = actionConfig ? document.getElementById(actionConfig.formId) : null;
+                const modal = actionConfig ? document.getElementById(actionConfig.modalId) : null;
+                const orderId = form?.dataset.orderId || modal?.dataset.orderId;
+
+                if (!form || !orderId) {
+                    alert('Please select an order first.');
+                    return;
+                }
+
+                form.action = buildOrderActionUrl(action, orderId);
+
+                if (!window.fetch) {
+                    form.submit();
+                    return;
+                }
+
+                fetch(form.action, {
+                    method: 'PUT',
+                    headers: {
+                        'X-CSRF-TOKEN': window.csrfToken,
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: JSON.stringify(Object.fromEntries(new FormData(form))),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success) {
+                            window.location.reload();
+                            return;
+                        }
+
+                        alert(data.message || 'Unable to update order.');
+                    })
+                    .catch(() => {
+                        alert('Unable to update order.');
+                    });
+            }
+
+            window.setApproveOrder = function (orderId) {
+                storeOrderAction('approve', orderId);
+            };
+            window.setRejectOrder = function (orderId) {
+                storeOrderAction('reject', orderId);
+            };
+            window.setProcessOrder = function (orderId) {
+                storeOrderAction('process', orderId);
+            };
+            window.setCompleteOrder = function (orderId) {
+                storeOrderAction('complete', orderId);
+            };
+
+            window.submitApproveForm = function () {
+                submitOrderAction('approve');
+            };
+            window.submitRejectForm = function () {
+                submitOrderAction('reject');
+            };
+            window.submitProcessForm = function () {
+                submitOrderAction('process');
+            };
+            window.submitCompleteForm = function () {
+                submitOrderAction('complete');
+            };
+
+            document.addEventListener('show.bs.modal', function (event) {
+                const action = event.relatedTarget?.dataset?.orderAction;
+                const orderId = event.relatedTarget?.dataset?.orderId;
+                storeOrderAction(action, orderId);
+            });
+        })();
     </script>
 
     <!-- Include jQuery & DataTables JS -->
