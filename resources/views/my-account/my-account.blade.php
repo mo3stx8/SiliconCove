@@ -63,7 +63,7 @@
 
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered text-center">
-                            <thead class="table-dark">
+                            <thead class="table-dark"p>
                                 <tr>
                                     <th>Order #</th>
                                     <th>Refund No</th>
