@@ -1,2 +1,14 @@
 node_modules
 .env
+.DS_Store
+Thumbs.db
+*.log
+.phpunit.result.cache
+storage/app/public/*
+storage/debugbar
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+vendor
+.vite
